@@ -1,6 +1,6 @@
 # run
 
-Conveniently runs activities in several automation systems.
+Runs tasks in Makefiles, package.json, etc.
 
 ```
 Usage: 
