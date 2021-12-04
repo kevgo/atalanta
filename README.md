@@ -14,4 +14,4 @@ runp <task name>   # shortcut for run -p
 
 ### Options
 
-- **p:** run things in parallel: all lines in a Make recipe
+- **p:** run things in parallel, for example runs all lines in a Make recipe concurrently
