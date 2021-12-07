@@ -11,6 +11,7 @@ runp <task name>   # shortcut for run -p
 - a `Makefile` with a recipe of the given name exists --> run it and exit
 - a `package.json` file with a script of the given name exists --> run it
 - a `Cargo.toml` file exists --> run the respective Cargo command
+- a matching Cargo command exists --> run it 
 
 
 ### Options
