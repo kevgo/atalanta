@@ -5,7 +5,6 @@ Runs tasks in common automation systems like Makefiles, package.json, Cargo, Bun
 ```
 Usage: 
 run [options] <task name>
-runp <task name>   # shortcut for run -p
 ```
 
 - a `Makefile` with a recipe of the given name exists --> run it and exit
