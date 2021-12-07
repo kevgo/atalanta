@@ -1,6 +1,6 @@
 # run
 
-Runs tasks in Makefiles, package.json, etc.
+Runs tasks in common automation systems like Makefiles, package.json, Cargo, Bundler, etc.
 
 ```
 Usage: 
