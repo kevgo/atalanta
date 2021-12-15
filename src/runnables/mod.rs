@@ -12,8 +12,8 @@ pub trait Runnable {
 
 pub fn find() -> Result<Vec<Box<dyn Runnable>>, UserError> {
     let mut result: Vec<Box<dyn Runnable>> = Vec::new();
-    if let Some(makefile) = makefile::detect() {
-        result.push(makefile);
+    if let Some(runnable) = makefile::detect() {
+        result.push(runnable);
     }
     Ok(result)
 }
