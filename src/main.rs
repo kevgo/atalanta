@@ -5,7 +5,6 @@ mod runnables;
 
 fn main() {
     if let Some(command) = get_command(env::args()) {
-        println!("running make");
         let code = run(command).code().unwrap();
         std::process::exit(code);
     } else {
