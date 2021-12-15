@@ -7,7 +7,9 @@ use std::process::{Command, ExitStatus};
 
 fn main() {
     if let Some(command) = get_command(env::args()) {
-        std::process::exit(run(command).code().unwrap());
+        println!("running make");
+        let code = run(command).code().unwrap();
+        std::process::exit(code);
     } else {
         println!("No command to execute found");
         std::process::exit(1);

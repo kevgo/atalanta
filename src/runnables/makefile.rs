@@ -4,9 +4,9 @@ use std::process::Command;
 
 /// detects a Makefile in the current or a parent directory
 pub fn detect() -> Option<PathBuf> {
-    let dir = env::current_dir().expect("Cannot get current directory");
+    let mut path = env::current_dir().expect("Cannot get current directory");
     loop {
-        let mut path = dir.join("Makefile");
+        path = path.join("Makefile");
         if path.is_file() {
             path.pop();
             return Some(path);
