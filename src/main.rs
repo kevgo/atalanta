@@ -1,7 +1,5 @@
-mod errors;
 mod runnables;
 
-pub use errors::UserError;
 use std::env;
 use std::process::{Command, ExitStatus};
 
