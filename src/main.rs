@@ -1,7 +1,7 @@
-mod runnables;
-
 use std::env;
 use std::process::{Command, ExitStatus};
+
+mod runnables;
 
 fn main() {
     if let Some(command) = get_command(env::args()) {
