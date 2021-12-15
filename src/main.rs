@@ -2,33 +2,26 @@ mod errors;
 mod runnables;
 
 pub use errors::UserError;
-use runnables::Runnable;
 use std::env;
+use std::process::{Command, ExitStatus};
 
 fn main() {
-    if let Err(err) = main_with_result() {
-        println!("{}", err);
+    if let Some(command) = get_command(env::args()) {
+        std::process::exit(run(command).code().unwrap());
+    } else {
+        println!("No command to execute found");
+        std::process::exit(1);
     }
 }
 
-fn main_with_result() -> Result<(), UserError> {
-    let runnables = runnables::find()?;
-    if runnables.is_empty() {
-        return Err(UserError::NoRunnableFound);
+fn get_command(args: env::Args) -> Option<Command> {
+    if let Some(dir) = runnables::makefile::detect() {
+        return Some(runnables::makefile::command(args, dir));
     }
-    let highest_runnable = runnables.first().unwrap();
-    run(highest_runnable, env::args())
+    None
 }
 
 /// executes the given Runnable with the given args
-fn run(runnable: &Box<dyn Runnable>, args: env::Args) -> Result<(), UserError> {
-    let mut command = runnable.command(args);
-    let status = command.status().unwrap();
-    if status.success() {
-        Ok(())
-    } else {
-        Err(UserError::RunnableFailed {
-            exit_code: status.code().unwrap(),
-        })
-    }
+fn run(mut command: Command) -> ExitStatus {
+    command.status().unwrap()
 }
