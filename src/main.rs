@@ -5,8 +5,8 @@ mod runnables;
 
 fn main() {
     if let Some(command) = get_command(env::args()) {
-        let code = run(command).code().unwrap();
-        std::process::exit(code);
+        let status = run(command);
+        std::process::exit(status.code().unwrap());
     } else {
         println!("No command to execute found");
         std::process::exit(1);
