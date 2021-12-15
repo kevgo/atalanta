@@ -3,6 +3,7 @@ mod runnables;
 
 pub use errors::UserError;
 use runnables::Runnable;
+use std::env;
 
 fn main() {
     if let Err(err) = main_with_result() {
@@ -16,9 +17,18 @@ fn main_with_result() -> Result<(), UserError> {
         return Err(UserError::NoRunnableFound);
     }
     let highest_runnable = runnables.first().unwrap();
-    run(highest_runnable)
+    run(highest_runnable, env::args())
 }
 
-fn run(runnable: &Box<dyn Runnable>) -> Result<(), UserError> {
-    Ok(())
+/// executes the given Runnable with the given args
+fn run(runnable: &Box<dyn Runnable>, args: env::Args) -> Result<(), UserError> {
+    let mut command = runnable.command(args);
+    let status = command.status().unwrap();
+    if status.success() {
+        Ok(())
+    } else {
+        Err(UserError::RunnableFailed {
+            exit_code: status.code().unwrap(),
+        })
+    }
 }
