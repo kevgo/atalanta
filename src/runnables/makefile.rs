@@ -2,7 +2,7 @@ use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
-/// detects a Makefile in the current or a parent directory
+/// provides the current or parent directory that contains a Makefile
 pub fn detect() -> Option<PathBuf> {
     let mut path = env::current_dir().expect("Cannot get current directory");
     loop {
