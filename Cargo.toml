@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+camino = "1.0.9"
 fs-err = "2.7.0"
 
 [dev-dependencies]
