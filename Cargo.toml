@@ -4,3 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+
+[dev-dependencies]
+async-trait = "0.1"
+cucumber = "0.13"
+futures = "0.3"
+
+[[test]]
+name = "cucumber" # this should be the same as the filename of your test target
+harness = false  # allows Cucumber to print output instead of libtest
