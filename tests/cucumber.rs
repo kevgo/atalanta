@@ -1,35 +1,47 @@
-use std::convert::Infallible;
 use async_trait::async_trait;
 use cucumber::{given, World, WorldInit};
+use fs_err as fs;
+use rand::Rng;
+use std::convert::Infallible;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, WorldInit)]
 pub struct RunWorld {
-    i: i64,
+    pub dir: String,
 }
 
-// `World` needs to be implemented, so Cucumber knows how to construct it
-// for each scenario.
 #[async_trait(?Send)]
 impl World for RunWorld {
     type Error = Infallible;
 
     async fn new() -> Result<Self, Infallible> {
-        Ok(Self {
-            i: 0,
-        })
+        Ok(Self { dir: tmp_dir() })
     }
 }
 
-// Steps are defined with `given`, `when` and `then` attributes.
-#[given("scenario name")]
-fn hungry_cat(world: &mut RunWorld) {
-    world.i = 1;
+#[given("a Makefile with content:")]
+fn create_makefile(_world: &mut RunWorld) {
+    fs::write("Makefile", "one").unwrap();
 }
 
-// This runs before everything else, so you can setup things here.
 fn main() {
     // You may choose any executor you like (`tokio`, `async-std`, etc.).
-    // You may even have an `async` main, it doesn't matter. The point is that
-    // Cucumber is composable. :)
+    // You may even have an `async` main. Cucumber is composable.
     futures::executor::block_on(RunWorld::run("features"));
+}
+
+/// creates a temporary directory
+pub fn tmp_dir() -> String {
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_millis();
+    let rand: String = rand::thread_rng()
+        .sample_iter(&rand::distributions::Alphanumeric)
+        .take(3)
+        .map(char::from)
+        .collect();
+    let dir = format!("./tmp/{}-{}", timestamp, rand);
+    fs::create_dir_all(&dir).unwrap();
+    dir
 }

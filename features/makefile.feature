@@ -14,6 +14,7 @@ Feature: Makefiles
         exit 2
       """
 
+  @this
   Scenario: list available tasks
     When executing "run -a"
     Then it prints:

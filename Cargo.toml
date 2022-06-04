@@ -4,11 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+fs-err = "2.7.0"
 
 [dev-dependencies]
 async-trait = "0.1"
 cucumber = "0.13"
 futures = "0.3"
+rand = "0.8.5"
 
 [[test]]
 name = "cucumber" # this should be the same as the filename of your test target
