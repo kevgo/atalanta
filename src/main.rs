@@ -14,17 +14,6 @@ fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command
     }
 }
 
-// fn execute(command: Command) -> u8 {
-//     0
-//     // if let Some(mut command) = runnables::find(env::args()) {
-//     //     let status = command.status().unwrap();
-//     //     std::process::exit(status.code().unwrap());
-//     // } else {
-//     //     println!("No command to execute found");
-//     //     std::process::exit(1);
-//     // }
-// }
-
 /// end result of an Atalanta run
 pub enum Outcome {
     /// successfully executed the requested command
@@ -55,8 +44,7 @@ fn main() -> Outcome {
         Some(stack) => stack,
         None => return Outcome::UnknownStack,
     };
-    let commands = stack.commands();
     match parse_cli_args(std::env::args()) {
-        Command::List => commands::list(stack, &commands),
+        Command::List => commands::list(stack),
     }
 }

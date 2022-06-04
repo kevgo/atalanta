@@ -65,8 +65,6 @@ fn executing(world: &mut RunWorld, command: String) {
 
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
-    println!("111111111111");
-    println!("{:?}", world.output);
     let want = step.docstring.as_ref().unwrap().trim();
     pretty::assert_eq!(world.output(), want);
 }

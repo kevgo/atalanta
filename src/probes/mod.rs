@@ -2,24 +2,9 @@ use std::fmt::Display;
 
 mod makefile;
 
-/// a stack that Run knows about
-pub enum Stack {
-    /// a Makefile
-    Makefile,
-}
-
-impl Display for Stack {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(match self {
-            Stack::Makefile => "Makefile",
-        })
-    }
-}
-
-impl Stack {
-    pub fn commands(&self) -> Vec<Task> {
-        vec![]
-    }
+/// a stack that Atalanta knows about
+pub trait Stack {
+    fn tasks(&self) -> Vec<Task>;
 }
 
 /// a task that can be executed
@@ -29,7 +14,7 @@ pub struct Task {
 }
 
 /// tries to determine the stack used in the current directory
-pub fn scan() -> Option<Stack> {
+pub fn scan() -> Option<impl Stack + Display> {
     let make = makefile::scan();
     if make.is_some() {
         return make;
