@@ -6,6 +6,7 @@ use fs_err as fs;
 use fs_err::File;
 use rand::Rng;
 use std::convert::Infallible;
+use std::env::Args;
 use std::io::prelude::*;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -33,6 +34,12 @@ fn create_makefile(world: &mut RunWorld, step: &Step) {
 
 #[when(regex = r#"^executing "(.*)"$"#)]
 fn executing(world: &mut RunWorld, command: String) {
+    let mut argv = command.split_ascii_whitespace();
+    match argv.next() {
+        Some("run") => {}
+        _ => panic!("The end-to-end tests can only run the 'run' command for now"),
+    }
+    let command = run::parse_cli_args(argv);
     println!("1111111");
 }
 

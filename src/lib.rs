@@ -1,13 +1,11 @@
-use std::env;
-
 mod runnables;
 
-pub fn parse_cli_args(mut args: env::Args) -> Command {
+pub fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command {
     match args.next() {
-        Some(arg) => match arg.as_str() {
+        Some(arg) => match arg.as_ref() {
             "-l" => Command::List,
-            _ => Command::Unknown
-        }
+            _ => Command::Unknown,
+        },
         None => Command::List,
     }
 }
@@ -18,8 +16,8 @@ pub enum Command {
     Unknown,
 }
 
-
-pub fn execute() {
+pub fn execute(command: Command) -> u8 {
+    0
     // if let Some(mut command) = runnables::find(env::args()) {
     //     let status = command.status().unwrap();
     //     std::process::exit(status.code().unwrap());

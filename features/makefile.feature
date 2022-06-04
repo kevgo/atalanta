@@ -26,26 +26,12 @@ Feature: Makefiles
 
   Scenario: run a task
     When executing "run task1"
-    Then it prints:
-      """
-      Task 1
-      """
+    Then the exit code is 0
 
   Scenario: run an unknown task
     When executing "run zonk"
-    Then it fails with exit code 1 and the output:
-      """
-      Task "zonk" does not exist.
-
-      I found these tasks:
-      - task1
-      - task2
-      - failing
-      """
+    Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
     When executing "run failing"
-    Then it fails with exit code 2 and the output:
-      """
-      running a failing task
-      """
+    Then the exit code is 2
