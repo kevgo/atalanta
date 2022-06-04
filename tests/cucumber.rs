@@ -1,19 +1,23 @@
 use async_trait::async_trait;
 use camino::Utf8Path;
 use cucumber::gherkin::Step;
-use cucumber::{given, when, World, WorldInit};
+use cucumber::{given, then, when, World, WorldInit};
 use fs_err as fs;
 use fs_err::File;
 use rand::Rng;
+use std::borrow::Cow;
 use std::convert::Infallible;
-use std::env::Args;
 use std::io::prelude::*;
+use std::process::{Command, Output};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, WorldInit)]
 pub struct RunWorld {
     /// the directory containing the test files of the current scenario
     pub dir: String,
+
+    /// the exit code of the run
+    pub output: Option<Output>,
 }
 
 #[async_trait(?Send)]
@@ -21,7 +25,19 @@ impl World for RunWorld {
     type Error = Infallible;
 
     async fn new() -> Result<Self, Infallible> {
-        Ok(Self { dir: tmp_dir() })
+        Ok(Self {
+            dir: tmp_dir(),
+            output: None,
+        })
+    }
+}
+
+impl RunWorld {
+    fn output(&self) -> Cow<str> {
+        match &self.output {
+            Some(output) => String::from_utf8_lossy(&output.stdout),
+            None => Default::default(),
+        }
     }
 }
 
@@ -39,8 +55,18 @@ fn executing(world: &mut RunWorld, command: String) {
         Some("run") => {}
         _ => panic!("The end-to-end tests can only run the 'run' command for now"),
     }
-    let command = run::parse_cli_args(argv);
-    println!("1111111");
+    world.output = Some(
+        Command::new("target/debug/run")
+            .args(argv)
+            .output()
+            .unwrap(),
+    );
+}
+
+#[then("it prints:")]
+fn verify_output(world: &mut RunWorld, step: &Step) {
+    let want = step.docstring.as_ref().unwrap().trim();
+    pretty::assert_eq!(world.output(), want);
 }
 
 fn main() {
