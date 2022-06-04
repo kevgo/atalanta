@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use camino::Utf8Path;
 use cucumber::gherkin::Step;
-use cucumber::{given, World, WorldInit};
+use cucumber::{given, when, World, WorldInit};
 use fs_err as fs;
 use fs_err::File;
 use rand::Rng;
@@ -29,6 +29,11 @@ fn create_makefile(world: &mut RunWorld, step: &Step) {
     let content = step.docstring.as_ref().unwrap().trim();
     let tabulized = convert_to_makefile_format(content);
     create_file("Makefile", &tabulized, &world.dir)
+}
+
+#[when(regex = r#"^executing "(.*)"$"#)]
+fn executing(world: &mut RunWorld, command: String) {
+    println!("1111111");
 }
 
 fn main() {
