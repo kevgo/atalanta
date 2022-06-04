@@ -3,7 +3,7 @@ use std::fmt::Display;
 mod makefile;
 
 /// a stack that Atalanta knows about
-pub trait Stack {
+pub trait Stack: Display {
     fn tasks(&self) -> Vec<Task>;
 }
 
@@ -14,7 +14,7 @@ pub struct Task {
 }
 
 /// tries to determine the stack used in the current directory
-pub fn scan() -> Option<impl Stack + Display> {
+pub fn scan() -> Option<impl Stack> {
     let make = makefile::scan();
     if make.is_some() {
         return make;

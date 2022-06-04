@@ -1,6 +1,5 @@
-use std::fmt::Display;
-
 use super::{Stack, Task};
+use std::fmt::Display;
 
 pub struct MakefileStack {}
 

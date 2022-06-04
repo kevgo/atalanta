@@ -1,13 +1,10 @@
-use std::fmt::Display;
-use std::io::Write;
-
-use tabwriter::TabWriter;
-
 use crate::probes::Stack;
 use crate::Outcome;
+use std::io::Write;
+use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list<S: Stack + Display>(stack: S) -> Outcome {
+pub fn list(stack: impl Stack) -> Outcome {
     println!("Available commands ({}):", stack);
     let mut tw = TabWriter::new(vec![]);
     for task in stack.tasks() {
