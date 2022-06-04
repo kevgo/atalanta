@@ -27,7 +27,8 @@ impl World for RunWorld {
 #[given("a Makefile with content:")]
 fn create_makefile(world: &mut RunWorld, step: &Step) {
     let content = step.docstring.as_ref().unwrap().trim();
-    create_file("Makefile", content, &world.dir)
+    let tabulized = convert_to_makefile_format(content);
+    create_file("Makefile", &tabulized, &world.dir)
 }
 
 fn main() {
@@ -60,4 +61,20 @@ fn create_file<P1: AsRef<Utf8Path>, P2: AsRef<Utf8Path>>(filename: P1, content: 
     }
     let mut file = File::create(&dir.join(filename)).unwrap();
     file.write_all(content.as_bytes()).unwrap();
+}
+
+/// this codebase uses 2 spaces for indentation but Makefiles require tabs
+fn convert_to_makefile_format(text: &str) -> String {
+    let mut result = String::new();
+    for line in text.lines() {
+        if line.starts_with("  ") {
+            result.push('\t');
+            result.push_str(&line[2..]);
+            result.push('\n');
+        } else {
+            result.push_str(line);
+            result.push('\n');
+        }
+    }
+    result
 }

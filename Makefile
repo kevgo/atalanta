@@ -1,7 +1,9 @@
 cuke:  # runs all end-to-end tests
+	rm -rf tmp
 	cargo test --test=cucumber
 
 cukethis:  # runs only end-to-end tests with a @this tag
+	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 
 help:  # shows all available Make commands
