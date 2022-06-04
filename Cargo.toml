@@ -1,18 +1,21 @@
 [package]
-name = "run"
-version = "0.1.0"
+name = "atalanta"
+version = "0.0.0"
 edition = "2021"
+rust-version = "1.61"
+
 
 [dependencies]
-camino = "1.0.9"
 fs-err = "2.7.0"
+tabwriter = "1.2.1"
 
 [dev-dependencies]
 async-trait = "0.1"
+camino = "1.0.9"
 cucumber = "0.13"
 futures = "0.3"
-rand = "0.8.5"
 pretty = { package = "pretty_assertions", version = "1.2.1" }
+rand = "0.8.5"
 
 [[test]]
 name = "cucumber" # this should be the same as the filename of your test target

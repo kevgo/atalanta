@@ -52,11 +52,11 @@ fn create_makefile(world: &mut RunWorld, step: &Step) {
 fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
-        Some("run") => {}
-        _ => panic!("The end-to-end tests can only run the 'run' command for now"),
+        Some("atalanta") => {}
+        _ => panic!("The end-to-end tests can only run the 'atalanta' command for now"),
     }
     world.output = Some(
-        Command::new("target/debug/run")
+        Command::new("target/debug/atalanta")
             .args(argv)
             .output()
             .unwrap(),
@@ -65,6 +65,8 @@ fn executing(world: &mut RunWorld, command: String) {
 
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
+    println!("111111111111");
+    println!("{:?}", world.output);
     let want = step.docstring.as_ref().unwrap().trim();
     pretty::assert_eq!(world.output(), want);
 }

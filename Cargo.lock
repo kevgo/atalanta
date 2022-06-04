@@ -32,6 +32,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "atalanta"
+version = "0.0.0"
+dependencies = [
+ "async-trait",
+ "camino",
+ "cucumber",
+ "fs-err",
+ "futures",
+ "pretty_assertions",
+ "rand",
+ "tabwriter",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -745,19 +759,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49b3de9ec5dc0a3417da371aab17d729997c15010e7fd24ff707773a33bddb64"
 
 [[package]]
-name = "run"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "camino",
- "cucumber",
- "fs-err",
- "futures",
- "pretty_assertions",
- "rand",
-]
-
-[[package]]
 name = "ryu"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -887,6 +888,15 @@ dependencies = [
  "quote",
  "sealed 0.3.0",
  "syn",
+]
+
+[[package]]
+name = "tabwriter"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36205cfc997faadcc4b0b87aaef3fbedafe20d38d4959a7ca6ff803564051111"
+dependencies = [
+ "unicode-width",
 ]
 
 [[package]]

@@ -16,22 +16,23 @@ Feature: Makefiles
 
   @this
   Scenario: list available tasks
-    When executing "run -a"
+    When executing "atalanta"
     Then it prints:
       """
+      Available commands (Makefile):
       task1
       task2
       failing
       """
 
   Scenario: run a task
-    When executing "run task1"
+    When executing "atalanta task1"
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "run zonk"
+    When executing "atalanta zonk"
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "run failing"
+    When executing "atalanta failing"
     Then the exit code is 2
