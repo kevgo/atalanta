@@ -7,7 +7,7 @@ Feature: Node.JS with npm
         "name": "demo",
         "scripts": {
           "task1": "echo one",
-          "task2": "echo two"
+          "task2": "echo two",
           "failing": "echo 'running a failing task' && exit 2"
         }
       }
@@ -19,11 +19,11 @@ Feature: Node.JS with npm
     When executing "atalanta"
     Then it prints:
       """
-      Node.JS with npm:
+      Node.JS (npm):
 
+      failing  echo 'running a failing task' && exit 2
       task1    echo one
       task2    echo two
-      failing  echo failing && exit 2
       """
 
   Scenario: run a task
@@ -40,11 +40,11 @@ Feature: Node.JS with npm
       """
       Error: task "zonk" doesn't exist
 
-      Node.JS with npm:
+      Node.JS (npm):
 
+      failing  echo 'running a failing task' && exit 2
       task1    echo one
       task2    echo two
-      failing  echo failing && exit 2
       """
     Then the exit code is 1
 

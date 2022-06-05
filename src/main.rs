@@ -48,7 +48,7 @@ impl Workspace {
 }
 
 /// a task that can be executed
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Task {
     /// name of this task, for running it
     pub name: String,

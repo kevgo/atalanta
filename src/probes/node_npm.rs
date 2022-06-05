@@ -55,6 +55,13 @@ pub fn scan(stacks: &mut Stacks) {
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
     let mut result = vec![];
-    for (x, y) in package_json.scripts {}
+    for (key, value) in package_json.scripts {
+        result.push(Task {
+            name: key,
+            cmd: value,
+            desc: None,
+        });
+    }
+    result.sort();
     result
 }
