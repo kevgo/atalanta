@@ -26,6 +26,10 @@ Feature: Makefiles
 
   Scenario: run a task
     When executing "atalanta task1"
+    Then it prints:
+      """
+      task 1 is running
+      """
     Then the exit code is 0
 
   @this
