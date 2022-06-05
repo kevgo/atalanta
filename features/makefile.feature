@@ -18,7 +18,8 @@ Feature: Makefiles
     When executing "atalanta"
     Then it prints:
       """
-      Available commands (Makefile):
+      Commands (Makefile):
+
       task1    first task
       task2    second task
       failing  this task returns a non-zero exit code

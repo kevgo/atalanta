@@ -6,7 +6,7 @@ use tabwriter::TabWriter;
 /// lists all available commands
 pub fn list(stacks: Stacks) -> Outcome {
     for stack in stacks {
-        println!("Available commands ({}):", stack);
+        println!("Commands ({}):\n", stack);
         let mut tw = TabWriter::new(vec![]);
         let tasks = match stack.tasks() {
             Ok(tasks) => tasks,
