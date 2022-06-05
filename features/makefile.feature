@@ -35,14 +35,19 @@ Feature: Makefiles
       """
     Then the exit code is 0
 
-# @this
-# Scenario: run an unknown task
-#   When executing "atalanta zonk"
-# Then it prints:
-#   """
-# task 1 is running
-#   """
-#   Then the exit code is 1
+  Scenario: run an unknown task
+    When executing "atalanta zonk"
+    Then it prints:
+      """
+      Error: task "zonk" doesn't exist
+
+      Makefile:
+
+      task1    first task
+      task2    second task
+      failing  this task returns a non-zero exit code
+      """
+    Then the exit code is 1
 
 # Scenario: a task returns a non-zero exit code
 #   When executing "atalanta failing"
