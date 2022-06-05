@@ -1,6 +1,24 @@
 [package]
-name = "run"
-version = "0.1.0"
+name = "atalanta"
+version = "0.0.0"
 edition = "2021"
+rust-version = "1.61"
+
 
 [dependencies]
+once_cell = "1.12.0"
+regex = "1.5.6"
+tabwriter = "1.2.1"
+
+[dev-dependencies]
+async-trait = "0.1"
+cucumber = "0.13"
+futures = "0.3"
+itertools = "0.10.3"
+pretty = { package = "pretty_assertions", version = "1.2.1" }
+rand = "0.8.5"
+
+[[test]]
+name = "cucumber" # this should be the same as the filename of your test target
+harness = false  # allows Cucumber to print output instead of libtest
+test = false  # don't run this as part of "cargo test"
