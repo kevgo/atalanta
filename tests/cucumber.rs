@@ -3,6 +3,7 @@ use cucumber::gherkin::Step;
 use cucumber::{given, then, when, World, WorldInit};
 use fs_err as fs;
 use fs_err::File;
+use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::convert::Infallible;
@@ -68,7 +69,13 @@ fn executing(world: &mut RunWorld, command: String) {
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    pretty::assert_eq!(world.output().trim(), want);
+    let have: String = world
+        .output()
+        .trim()
+        .lines()
+        .map(|line| line.trim())
+        .join("\n");
+    assert_eq!(have, want);
 }
 
 fn main() {

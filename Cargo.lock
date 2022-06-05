@@ -40,6 +40,7 @@ dependencies = [
  "cucumber",
  "fs-err",
  "futures",
+ "itertools",
  "once_cell",
  "pretty_assertions",
  "rand",
