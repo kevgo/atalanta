@@ -18,7 +18,7 @@ pub struct RunWorld {
     /// the directory containing the test files of the current scenario
     pub dir: PathBuf,
 
-    /// the exit code of the run
+    /// the result of the subshell operation
     pub output: Option<Output>,
 }
 
