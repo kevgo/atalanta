@@ -87,7 +87,7 @@ fn executing(world: &mut RunWorld, command: String) {
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    let have: String = world.output_trimmed();
+    let have = world.output_trimmed();
     assert_eq!(have, want);
 }
 
