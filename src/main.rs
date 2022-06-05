@@ -74,6 +74,9 @@ pub enum Outcome {
         path: String,
         error: String,
     },
+    CannotRunExecutable {
+        err: String,
+    },
     MismatchedQuotesInCmd {
         stack: String,
         task: String,
@@ -97,6 +100,10 @@ impl Termination for Outcome {
             }
             Outcome::CannotReadFile { path, error } => {
                 println!("Error: cannot read file {}: {}", path, error);
+                ExitCode::FAILURE
+            }
+            Outcome::CannotRunExecutable { err } => {
+                println!("Error: cannot run executable: {}", err);
                 ExitCode::FAILURE
             }
             Outcome::MismatchedQuotesInCmd { stack, task, cmd } => {

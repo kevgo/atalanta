@@ -41,12 +41,14 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         }
     };
     let (cmd, args) = argv.split_at(1);
-    Command::new(&cmd[0])
+    let output = Command::new(&cmd[0])
         .args(args)
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
-        .output()
-        .expect("cannot find executable");
-    Outcome::Ok
+        .output();
+    match output {
+        Ok(_) => Outcome::Ok,
+        Err(e) => Outcome::CannotRunExecutable { err: e.to_string() },
+    }
 }
