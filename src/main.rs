@@ -3,7 +3,7 @@ use std::env::Args;
 
 mod commands;
 mod domain;
-mod probes;
+mod stacks;
 
 /// all commands that could be run
 enum Command {
@@ -23,7 +23,7 @@ fn parse_cli_args(mut args: Args) -> Command {
 }
 
 fn main() -> Outcome {
-    let stacks = probes::scan();
+    let stacks = stacks::identify();
     if stacks.len() == 0 {
         return Outcome::UnknownStack;
     };

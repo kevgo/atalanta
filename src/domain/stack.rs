@@ -3,7 +3,7 @@ use std::fmt::Display;
 
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
-    //
+    /// provides the command to set up this stack (binary, argv)
     fn setup(&self) -> Option<(String, Vec<String>)>;
 
     /// provides all executable tasks for the codebase in the current directory

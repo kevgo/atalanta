@@ -4,8 +4,8 @@ mod makefile;
 mod node_npm;
 mod node_yarn;
 
-/// determines the stacks in the current directory
-pub fn scan() -> Stacks {
+/// determines the stacks in the current workspace
+pub fn identify() -> Stacks {
     let mut result = vec![];
     makefile::scan(&mut result);
     node_npm::scan(&mut result);
