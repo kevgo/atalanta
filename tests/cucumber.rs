@@ -93,8 +93,7 @@ fn verify_output(world: &mut RunWorld, step: &Step) {
 
 #[then(regex = "^the exit code is (\\d)$")]
 fn exit_code(world: &mut RunWorld, want: i32) {
-    let have = world.exit_code();
-    assert_eq!(have, want);
+    assert_eq!(world.exit_code(), want);
 }
 
 fn main() {
