@@ -39,6 +39,7 @@ impl Stack for MakefileStack {
     }
 }
 
+/// provides a task for the Makefile target defined on the given line, if one exists
 fn parse_line(line: &str) -> Option<Task> {
     let capture = match RE.captures(line) {
         Some(capture) => capture,
