@@ -1,10 +1,7 @@
+use super::node_npm::{load_package_json, PackageJson};
 use crate::{Stack, Stacks, Task};
 use std::fmt::Display;
-use std::fs::File;
-use std::io::{BufReader, ErrorKind};
 use std::path::Path;
-
-use super::node_npm::PackageJson;
 
 pub struct NodeYarnStack {
     tasks: Vec<Task>,
@@ -26,26 +23,9 @@ pub fn scan(stacks: &mut Stacks) {
     if !Path::new("yarn.lock").exists() {
         return;
     }
-    let file = match File::open("package.json") {
-        Ok(file) => file,
-        Err(e) => match e.kind() {
-            ErrorKind::NotFound => return,
-            e => {
-                println!("Warning: Cannot read file \"package.json\": {}", e);
-                return;
-            }
-        },
-    };
-    let reader = BufReader::new(file);
-    let package_json: PackageJson = match serde_json::from_reader(reader) {
-        Ok(content) => content,
-        Err(e) => {
-            println!(
-                "Warning: file \"package.json\" has an invalid structure: {}",
-                e
-            );
-            return;
-        }
+    let package_json = match load_package_json() {
+        Some(file) => file,
+        None => return,
     };
     stacks.push(Box::new(NodeYarnStack {
         tasks: parse_scripts(package_json),

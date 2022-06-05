@@ -31,13 +31,23 @@ pub fn scan(stacks: &mut Stacks) {
     if !Path::new("package-lock.json").exists() {
         return;
     }
+    let package_json = match load_package_json() {
+        Some(file) => file,
+        None => return,
+    };
+    stacks.push(Box::new(NodeNpmStack {
+        tasks: parse_scripts(package_json),
+    }));
+}
+
+pub fn load_package_json() -> Option<PackageJson> {
     let file = match File::open("package.json") {
         Ok(file) => file,
         Err(e) => match e.kind() {
-            ErrorKind::NotFound => return,
+            ErrorKind::NotFound => return None,
             e => {
                 println!("Warning: Cannot read file \"package.json\": {}", e);
-                return;
+                return None;
             }
         },
     };
@@ -49,12 +59,10 @@ pub fn scan(stacks: &mut Stacks) {
                 "Warning: file \"package.json\" has an invalid structure: {}",
                 e
             );
-            return;
+            return None;
         }
     };
-    stacks.push(Box::new(NodeNpmStack {
-        tasks: parse_scripts(package_json),
-    }));
+    Some(package_json)
 }
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
