@@ -25,7 +25,6 @@ Feature: Node.JS with npm
       task2    echo two
       """
 
-  @this
   Scenario: run a task
     When executing "atalanta task1"
     Then it prints:
