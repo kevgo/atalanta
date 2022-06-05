@@ -15,6 +15,8 @@ help:  # shows all available Make commands
 run:  # runs in the local directory
 	cargo run --quiet
 
+test: unit cuke  # run all tests
+
 unit:  # runs the unit tests
 	cargo test
 

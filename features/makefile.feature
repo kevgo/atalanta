@@ -3,26 +3,25 @@ Feature: Makefiles
   Background:
     Given a Makefile with content:
       """
-      task1:
+      task1:  # first task
         echo "task 1 is running"
 
-      task2:
+      task2: task1  # second task
         echo "task 2 is running"
 
-      failing:
+      failing:  # this task returns a non-zero exit code
         echo "running a failing task"
         exit 2
       """
 
-  @this
   Scenario: list available tasks
     When executing "atalanta"
     Then it prints:
       """
       Available commands (Makefile):
-      task1
-      task2
-      failing
+      task1    first task
+      task2    second task
+      failing  this task returns a non-zero exit code
       """
 
   Scenario: run a task
