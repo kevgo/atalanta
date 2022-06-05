@@ -27,7 +27,6 @@ Feature: Makefiles
       failing  this task returns a non-zero exit code
       """
 
-  @this
   Scenario: run a task
     When executing "atalanta task1"
     Then it prints:
