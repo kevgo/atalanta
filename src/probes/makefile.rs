@@ -1,4 +1,4 @@
-use crate::{Outcome, Stack, Stacks, Task};
+use crate::{Stack, Stacks, Task};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
@@ -6,8 +6,7 @@ use std::fs;
 use std::io::ErrorKind;
 
 pub struct MakefileStack {
-    /// the text of the Makefile
-    text: String,
+    tasks: Vec<Task>,
 }
 
 pub fn scan(stacks: &mut Stacks) {
@@ -15,10 +14,15 @@ pub fn scan(stacks: &mut Stacks) {
         Ok(text) => text,
         Err(e) => match e.kind() {
             ErrorKind::NotFound => return,
-            e => panic!("Cannot read file \"Makefile\": {}", e),
+            e => {
+                println!("Warning: Cannot read file \"Makefile\": {}", e);
+                return;
+            }
         },
     };
-    stacks.push(Box::new(MakefileStack { text }))
+    stacks.push(Box::new(MakefileStack {
+        tasks: parse_text(&text),
+    }))
 }
 
 impl Display for MakefileStack {
@@ -28,15 +32,20 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
-    fn tasks(&self) -> Result<Vec<Task>, Outcome> {
-        let mut tasks = vec![];
-        for line in self.text.lines() {
-            if let Some(task) = parse_line(line) {
-                tasks.push(task);
-            }
-        }
-        Ok(tasks)
+    fn tasks(&self) -> &Vec<Task> {
+        &self.tasks
     }
+}
+
+/// provides the tasks in the given Makefile content
+fn parse_text(text: &str) -> Vec<Task> {
+    let mut result = vec![];
+    for line in text.lines() {
+        if let Some(task) = parse_line(line) {
+            result.push(task);
+        }
+    }
+    result
 }
 
 /// provides a task for the Makefile target defined on the given line, if one exists
@@ -52,7 +61,7 @@ fn parse_line(line: &str) -> Option<Task> {
     };
     Some(Task {
         name: name.into(),
-        cmd: format!("make {}", name),
+        cmd: format!("make --no-print-directory {}", name),
         desc: Some(desc),
     })
 }
@@ -77,7 +86,7 @@ mod tests {
             let give = "cuke:";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -89,7 +98,7 @@ mod tests {
             let give = "cuke: build, lint";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -101,7 +110,7 @@ mod tests {
             let give = "cuke: # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
@@ -113,7 +122,7 @@ mod tests {
             let give = "cuke: build, lint # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
