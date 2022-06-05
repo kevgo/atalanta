@@ -54,3 +54,9 @@ Feature: Node.JS with Yarn
       running a failing task
       """
     And the exit code is 2
+
+  Scenario: setup
+    When executing "atalanta -s"
+    Then the output contains "yarn install"
+    And the exit code is 0
+    And the workspace contains a folder "node_modules"
