@@ -61,8 +61,19 @@ impl RunWorld {
     }
 }
 
+#[given(regex = r#"^a file "(.+)" with content:$"#)]
+fn a_file_with_content(world: &mut RunWorld, step: &Step, filename: String) {
+    let content = step.docstring.as_ref().unwrap().trim();
+    create_file(filename, content, &world.dir)
+}
+
+#[given(regex = r#"^a file "(.+)"$"#)]
+fn a_file(world: &mut RunWorld, filename: String) {
+    create_file(filename, "", &world.dir)
+}
+
 #[given("a Makefile with content:")]
-fn create_makefile(world: &mut RunWorld, step: &Step) {
+fn a_makefile(world: &mut RunWorld, step: &Step) {
     let content = step.docstring.as_ref().unwrap().trim();
     let tabulized = convert_to_makefile_format(content);
     create_file("Makefile", &tabulized, &world.dir)

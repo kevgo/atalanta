@@ -9,6 +9,18 @@ pub struct MakefileStack {
     tasks: Vec<Task>,
 }
 
+impl Display for MakefileStack {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("Makefile")
+    }
+}
+
+impl Stack for MakefileStack {
+    fn tasks(&self) -> &Vec<Task> {
+        &self.tasks
+    }
+}
+
 pub fn scan(stacks: &mut Stacks) {
     let text = match fs::read_to_string("Makefile") {
         Ok(text) => text,
@@ -23,18 +35,6 @@ pub fn scan(stacks: &mut Stacks) {
     stacks.push(Box::new(MakefileStack {
         tasks: parse_text(&text),
     }))
-}
-
-impl Display for MakefileStack {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Makefile")
-    }
-}
-
-impl Stack for MakefileStack {
-    fn tasks(&self) -> &Vec<Task> {
-        &self.tasks
-    }
 }
 
 /// provides the tasks in the given Makefile content
@@ -61,7 +61,8 @@ fn parse_line(line: &str) -> Option<Task> {
     };
     Some(Task {
         name: name.into(),
-        cmd: format!("make --no-print-directory {}", name),
+        cmd: "make".into(),
+        argv: vec!["--no-print-directory".into(), name.into()],
         desc: Some(desc),
     })
 }
@@ -86,7 +87,8 @@ mod tests {
             let give = "cuke:";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make --no-print-directory cuke".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "cuke".into()],
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -98,7 +100,8 @@ mod tests {
             let give = "cuke: build, lint";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make --no-print-directory cuke".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "cuke".into()],
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -110,7 +113,8 @@ mod tests {
             let give = "cuke: # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make --no-print-directory cuke".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "cuke".into()],
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
@@ -122,7 +126,8 @@ mod tests {
             let give = "cuke: build, lint # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make --no-print-directory cuke".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "cuke".into()],
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);

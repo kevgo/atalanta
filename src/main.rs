@@ -37,10 +37,10 @@ pub struct Workspace {
 }
 
 impl Workspace {
-    fn task_with_name(&self, name: &str) -> Option<(&Box<dyn Stack>, &Task)> {
+    fn task_with_name(&self, name: &str) -> Option<&Task> {
         for stack in &self.stacks {
             if let Some(task) = stack.task_with_name(name) {
-                return Some((&stack, task));
+                return Some(task);
             }
         }
         None
@@ -48,12 +48,14 @@ impl Workspace {
 }
 
 /// a task that can be executed
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Task {
     /// name of this task, for running it
     pub name: String,
-    /// the command to run
+    /// the binary to run
     pub cmd: String,
+    /// command-line arguments for the binary
+    pub argv: Vec<String>,
     /// optional description
     pub desc: Option<String>,
 }

@@ -26,23 +26,12 @@ pub fn list(workspace: Workspace) -> Outcome {
 }
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
-    let (stack, task) = match workspace.task_with_name(&name) {
+    let task = match workspace.task_with_name(&name) {
         Some(task) => task,
         None => return Outcome::UnknownTask(name, workspace),
     };
-    let argv = match shellwords::split(&task.cmd) {
-        Ok(argv) => argv,
-        Err(_) => {
-            return Outcome::MismatchedQuotesInCmd {
-                stack: stack.to_string(),
-                task: task.name.clone(),
-                cmd: task.cmd.clone(),
-            }
-        }
-    };
-    let (cmd, args) = argv.split_at(1);
-    let output = Command::new(&cmd[0])
-        .args(args)
+    let output = Command::new(&task.cmd)
+        .args(&task.argv)
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
