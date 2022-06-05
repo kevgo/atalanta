@@ -1,8 +1,11 @@
-cuke:  # runs all end-to-end tests
+build:  # builds the test binary
+	cargo build
+
+cuke: build  # runs all end-to-end tests
 	rm -rf tmp
 	cargo test --test=cucumber
 
-cukethis:  # runs only end-to-end tests with a @this tag
+cukethis: build  # runs only end-to-end tests with a @this tag
 	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 

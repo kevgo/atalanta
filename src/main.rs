@@ -30,8 +30,8 @@ pub struct Task {
     pub name: String,
     /// the command to run
     pub cmd: String,
-    /// description
-    pub desc: String,
+    /// optional description
+    pub desc: Option<String>,
 }
 
 /// end result of an Atalanta run

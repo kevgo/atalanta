@@ -52,7 +52,7 @@ fn parse_line(line: &str) -> Option<Task> {
     Some(Task {
         name: name.into(),
         cmd: format!("make {}", name),
-        desc,
+        desc: Some(desc),
     })
 }
 static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#).unwrap());
@@ -77,7 +77,7 @@ mod tests {
             let want = Some(Task {
                 name: "cuke".into(),
                 cmd: "make cuke".into(),
-                desc: "".into(),
+                desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -89,7 +89,7 @@ mod tests {
             let want = Some(Task {
                 name: "cuke".into(),
                 cmd: "make cuke".into(),
-                desc: "".into(),
+                desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -101,7 +101,7 @@ mod tests {
             let want = Some(Task {
                 name: "cuke".into(),
                 cmd: "make cuke".into(),
-                desc: "run cucumber".into(),
+                desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -113,7 +113,7 @@ mod tests {
             let want = Some(Task {
                 name: "cuke".into(),
                 cmd: "make cuke".into(),
-                desc: "run cucumber".into(),
+                desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);

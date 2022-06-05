@@ -1,5 +1,4 @@
 use async_trait::async_trait;
-use camino::Utf8Path;
 use cucumber::gherkin::Step;
 use cucumber::{given, then, when, World, WorldInit};
 use fs_err as fs;
@@ -7,14 +6,16 @@ use fs_err::File;
 use rand::Rng;
 use std::borrow::Cow;
 use std::convert::Infallible;
+use std::env;
 use std::io::prelude::*;
+use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, WorldInit)]
 pub struct RunWorld {
     /// the directory containing the test files of the current scenario
-    pub dir: String,
+    pub dir: PathBuf,
 
     /// the exit code of the run
     pub output: Option<Output>,
@@ -56,18 +57,18 @@ fn executing(world: &mut RunWorld, command: String) {
         _ => panic!("The end-to-end tests can only run the 'atalanta' command for now"),
     }
     world.output = Some(
-        Command::new("target/debug/atalanta")
+        Command::new("../../target/debug/atalanta")
             .args(argv)
             .current_dir(&world.dir)
             .output()
-            .unwrap(),
+            .expect("cannot find atalanta executable"),
     );
 }
 
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    pretty::assert_eq!(world.output(), want);
+    pretty::assert_eq!(world.output().trim(), want);
 }
 
 fn main() {
@@ -77,7 +78,7 @@ fn main() {
 }
 
 /// creates a temporary directory
-fn tmp_dir() -> String {
+fn tmp_dir() -> PathBuf {
     let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
@@ -87,12 +88,13 @@ fn tmp_dir() -> String {
         .take(3)
         .map(char::from)
         .collect();
-    let dir = format!("./tmp/{}-{}", timestamp, rand);
+    let cwd = env::current_dir().expect("cannot determine the current directory");
+    let dir = cwd.join("tmp").join(format!("{}-{}", timestamp, rand));
     fs::create_dir_all(&dir).unwrap();
     dir
 }
 
-fn create_file<P1: AsRef<Utf8Path>, P2: AsRef<Utf8Path>>(filename: P1, content: &str, dir: P2) {
+fn create_file<P1: AsRef<Path>, P2: AsRef<Path>>(filename: P1, content: &str, dir: P2) {
     let filename = filename.as_ref();
     let dir = dir.as_ref();
     if let Some(parent) = filename.parent() {

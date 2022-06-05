@@ -13,7 +13,11 @@ pub fn list(stacks: Stacks) -> Outcome {
             Err(outcome) => return outcome,
         };
         for task in tasks {
-            let text = format!("{}\t{}", task.cmd, task.desc);
+            let desc = match task.desc {
+                Some(desc) => desc,
+                None => task.cmd,
+            };
+            let text = format!("{}\t{}", task.name, desc);
             tw.write(text.as_bytes()).unwrap();
         }
         let bytes = tw.into_inner().unwrap();
