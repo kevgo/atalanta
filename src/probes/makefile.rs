@@ -61,7 +61,7 @@ fn parse_line(line: &str) -> Option<Task> {
     };
     Some(Task {
         name: name.into(),
-        cmd: format!("make {}", name),
+        cmd: format!("make --no-print-directory {}", name),
         desc: Some(desc),
     })
 }
