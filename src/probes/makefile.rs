@@ -86,7 +86,7 @@ mod tests {
             let give = "cuke:";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -98,7 +98,7 @@ mod tests {
             let give = "cuke: build, lint";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("".into()),
             });
             let have = super::super::parse_line(give);
@@ -110,7 +110,7 @@ mod tests {
             let give = "cuke: # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);
@@ -122,7 +122,7 @@ mod tests {
             let give = "cuke: build, lint # run cucumber";
             let want = Some(Task {
                 name: "cuke".into(),
-                cmd: "make cuke".into(),
+                cmd: "make --no-print-directory cuke".into(),
                 desc: Some("run cucumber".into()),
             });
             let have = super::super::parse_line(give);

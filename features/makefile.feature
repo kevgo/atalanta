@@ -12,6 +12,8 @@ Feature: Makefiles
       failing:  # this task returns a non-zero exit code
         echo "running a failing task"
         exit 2
+
+      .SILENT:
       """
 
   Scenario: list available tasks
