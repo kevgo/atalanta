@@ -57,4 +57,5 @@ Feature: Node.JS with npm
 
   Scenario: setup
     When executing "atalanta -s"
-    Then the exit code is 0
+    Then the output contains "up to date"
+    And the exit code is 0

@@ -107,6 +107,16 @@ fn exit_code(world: &mut RunWorld, want: i32) {
     assert_eq!(world.exit_code(), want);
 }
 
+#[then(regex = "^the output contains \"(.*)\"$")]
+fn output_contains(world: &mut RunWorld, text: String) {
+    assert!(world.output().contains(&text));
+}
+
+#[then(regex = "^the workspace contains a folder \"(.*)\"$")]
+fn contains_folder(world: &mut RunWorld, folder: String) {
+    assert!(world.dir.join(folder).is_dir())
+}
+
 fn main() {
     // You may choose any executor you like (`tokio`, `async-std`, etc.).
     // You may even have an `async` main. Cucumber is composable.
