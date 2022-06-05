@@ -48,7 +48,9 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         .stderr(Stdio::inherit())
         .output();
     match output {
-        Ok(_) => Outcome::Ok,
+        Ok(output) => Outcome::CommandExecuted {
+            exit_code: output.status.code().unwrap() as u8,
+        },
         Err(e) => Outcome::CannotRunExecutable { err: e.to_string() },
     }
 }

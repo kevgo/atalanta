@@ -31,7 +31,7 @@ Feature: Makefiles
     When executing "atalanta task1"
     Then it prints:
       """
-    task 1 is running
+      task 1 is running
       """
     Then the exit code is 0
 
@@ -49,6 +49,10 @@ Feature: Makefiles
       """
     Then the exit code is 1
 
-# Scenario: a task returns a non-zero exit code
-#   When executing "atalanta failing"
-#   Then the exit code is 2
+  Scenario: a task returns a non-zero exit code
+    When executing "atalanta failing"
+    Then it prints:
+      """
+      running a failing task
+      """
+    And the exit code is 2
