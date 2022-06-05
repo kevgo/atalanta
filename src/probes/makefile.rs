@@ -1,4 +1,4 @@
-use crate::{Outcome, Stack, Stacks, Task};
+use crate::{Stack, Stacks, Task};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
@@ -15,7 +15,10 @@ pub fn scan(stacks: &mut Stacks) {
         Ok(text) => text,
         Err(e) => match e.kind() {
             ErrorKind::NotFound => return,
-            e => panic!("Cannot read file \"Makefile\": {}", e),
+            e => {
+                println!("Warning: Cannot read file \"Makefile\": {}", e);
+                return;
+            }
         },
     };
     stacks.push(Box::new(MakefileStack { text }))
@@ -28,14 +31,14 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
-    fn tasks(&self) -> Result<Vec<Task>, Outcome> {
+    fn tasks(&self) -> Vec<Task> {
         let mut tasks = vec![];
         for line in self.text.lines() {
             if let Some(task) = parse_line(line) {
                 tasks.push(task);
             }
         }
-        Ok(tasks)
+        tasks
     }
 }
 

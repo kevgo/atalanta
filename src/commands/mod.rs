@@ -1,18 +1,14 @@
-use crate::{Outcome, Stacks};
+use crate::{Outcome, Workspace};
 use std::io::Write;
 use std::str;
 use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list(stacks: Stacks) -> Outcome {
-    for stack in stacks {
+pub fn list(workspace: Workspace) -> Outcome {
+    for stack in workspace.stacks {
         println!("{}:\n", stack);
         let mut tw = TabWriter::new(vec![]);
-        let tasks = match stack.tasks() {
-            Ok(tasks) => tasks,
-            Err(outcome) => return outcome,
-        };
-        for task in tasks {
+        for task in stack.tasks() {
             let desc = match task.desc {
                 Some(desc) => desc,
                 None => task.cmd,
@@ -25,5 +21,14 @@ pub fn list(stacks: Stacks) -> Outcome {
             println!("{}", str::from_utf8_unchecked(&bytes));
         }
     }
+    Outcome::Ok
+}
+
+pub fn run(workspace: Workspace, name: String) -> Outcome {
+    let task = match workspace.task_with_name(&name) {
+        Some(task) => task,
+        None => return Outcome::UnknownTask(name, workspace),
+    };
+    println!("running {:?}", task);
     Outcome::Ok
 }
