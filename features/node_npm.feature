@@ -27,7 +27,7 @@ Feature: Node.JS with npm
 
   @this
   Scenario: run a task
-    When executing "atalanta one"
+    When executing "atalanta task1"
     Then it prints:
       """
       one
