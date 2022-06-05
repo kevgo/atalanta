@@ -1,5 +1,6 @@
 use crate::{Outcome, Workspace};
 use std::io::Write;
+use std::process::{Command, Stdio};
 use std::str;
 use tabwriter::TabWriter;
 
@@ -9,9 +10,9 @@ pub fn list(workspace: Workspace) -> Outcome {
         println!("{}:\n", stack);
         let mut tw = TabWriter::new(vec![]);
         for task in stack.tasks() {
-            let desc = match task.desc {
+            let desc = match &task.desc {
                 Some(desc) => desc,
-                None => task.cmd,
+                None => &task.cmd,
             };
             let text = format!("{}\t{}\n", task.name, desc);
             tw.write(text.as_bytes()).unwrap();
@@ -25,10 +26,27 @@ pub fn list(workspace: Workspace) -> Outcome {
 }
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
-    let task = match workspace.task_with_name(&name) {
+    let (stack, task) = match workspace.task_with_name(&name) {
         Some(task) => task,
         None => return Outcome::UnknownTask(name, workspace),
     };
-    println!("running {:?}", task);
+    let argv = match shellwords::split(&task.cmd) {
+        Ok(argv) => argv,
+        Err(_) => {
+            return Outcome::MismatchedQuotesInCmd {
+                stack: stack.to_string(),
+                task: task.name.clone(),
+                cmd: task.cmd.clone(),
+            }
+        }
+    };
+    let (cmd, args) = argv.split_at(1);
+    Command::new(&cmd[0])
+        .args(args)
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .output()
+        .expect("cannot find executable");
     Outcome::Ok
 }

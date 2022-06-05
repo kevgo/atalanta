@@ -11,6 +11,7 @@ enum Command {
 }
 
 fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command {
+    args.next();
     match args.next() {
         Some(cmd) => Command::Run(cmd.as_ref().into()),
         None => Command::List,
@@ -20,11 +21,11 @@ fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
     /// provides all executable tasks for the codebase in the current directory
-    fn tasks(&self) -> Vec<Task>;
+    fn tasks(&self) -> &Vec<Task>;
 
     /// provides the task with the given name
-    fn task_with_name(&self, name: &str) -> Option<Task> {
-        self.tasks().into_iter().find(|task| task.name == name)
+    fn task_with_name(&self, name: &str) -> Option<&Task> {
+        self.tasks().iter().find(|task| task.name == name)
     }
 }
 
@@ -35,10 +36,10 @@ pub struct Workspace {
 }
 
 impl Workspace {
-    fn task_with_name(&self, name: &str) -> Option<Task> {
+    fn task_with_name(&self, name: &str) -> Option<(&Box<dyn Stack>, &Task)> {
         for stack in &self.stacks {
             if let Some(task) = stack.task_with_name(name) {
-                return Some(task);
+                return Some((&stack, task));
             }
         }
         None
@@ -73,6 +74,11 @@ pub enum Outcome {
         path: String,
         error: String,
     },
+    MismatchedQuotesInCmd {
+        stack: String,
+        task: String,
+        cmd: String,
+    },
 }
 
 impl Termination for Outcome {
@@ -85,12 +91,19 @@ impl Termination for Outcome {
                 ExitCode::FAILURE
             }
             Outcome::UnknownTask(name, workspace) => {
-                println!("Error: task \"{}\" doesn't exist", name);
+                println!("Error: task \"{}\" doesn't exist\n", name);
                 commands::list(workspace);
                 ExitCode::FAILURE
             }
             Outcome::CannotReadFile { path, error } => {
                 println!("Error: cannot read file {}: {}", path, error);
+                ExitCode::FAILURE
+            }
+            Outcome::MismatchedQuotesInCmd { stack, task, cmd } => {
+                println!(
+                    "Error: mismatched quotes in task \"{}\" ({}):\n{}",
+                    task, stack, cmd
+                );
                 ExitCode::FAILURE
             }
         }

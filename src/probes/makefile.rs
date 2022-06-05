@@ -6,8 +6,7 @@ use std::fs;
 use std::io::ErrorKind;
 
 pub struct MakefileStack {
-    /// the text of the Makefile
-    text: String,
+    tasks: Vec<Task>,
 }
 
 pub fn scan(stacks: &mut Stacks) {
@@ -21,7 +20,9 @@ pub fn scan(stacks: &mut Stacks) {
             }
         },
     };
-    stacks.push(Box::new(MakefileStack { text }))
+    stacks.push(Box::new(MakefileStack {
+        tasks: parse_text(&text),
+    }))
 }
 
 impl Display for MakefileStack {
@@ -31,15 +32,20 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
-    fn tasks(&self) -> Vec<Task> {
-        let mut tasks = vec![];
-        for line in self.text.lines() {
-            if let Some(task) = parse_line(line) {
-                tasks.push(task);
-            }
-        }
-        tasks
+    fn tasks(&self) -> &Vec<Task> {
+        &self.tasks
     }
+}
+
+/// provides the tasks in the given Makefile content
+fn parse_text(text: &str) -> Vec<Task> {
+    let mut result = vec![];
+    for line in text.lines() {
+        if let Some(task) = parse_line(line) {
+            result.push(task);
+        }
+    }
+    result
 }
 
 /// provides a task for the Makefile target defined on the given line, if one exists
