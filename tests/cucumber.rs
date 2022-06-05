@@ -35,6 +35,13 @@ impl World for RunWorld {
 }
 
 impl RunWorld {
+    fn exit_code(&self) -> i32 {
+        match &self.output {
+            Some(output) => output.status.code().unwrap(),
+            None => panic!(),
+        }
+    }
+
     fn output(&self) -> Cow<str> {
         match &self.output {
             Some(output) => String::from_utf8_lossy(&output.stdout),
@@ -75,6 +82,12 @@ fn verify_output(world: &mut RunWorld, step: &Step) {
         .lines()
         .map(|line| line.trim())
         .join("\n");
+    assert_eq!(have, want);
+}
+
+#[then(regex = "^the exit code is (\\d)$")]
+fn exit_code(world: &mut RunWorld, want: i32) {
+    let have = world.exit_code();
     assert_eq!(have, want);
 }
 

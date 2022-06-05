@@ -28,6 +28,7 @@ Feature: Makefiles
     When executing "atalanta task1"
     Then the exit code is 0
 
+  @this
   Scenario: run an unknown task
     When executing "atalanta zonk"
     Then the exit code is 1
