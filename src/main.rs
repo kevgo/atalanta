@@ -24,13 +24,14 @@ pub trait Stack: Display {
 type Stacks = Vec<Box<dyn Stack>>;
 
 /// a task that can be executed
+#[derive(Debug, PartialEq)]
 pub struct Task {
     /// name of this task, for running it
     pub name: String,
     /// the command to run
     pub cmd: String,
-    /// optional description
-    pub desc: Option<String>,
+    /// description
+    pub desc: String,
 }
 
 /// end result of an Atalanta run

@@ -40,8 +40,10 @@ dependencies = [
  "cucumber",
  "fs-err",
  "futures",
+ "once_cell",
  "pretty_assertions",
  "rand",
+ "regex",
  "tabwriter",
 ]
 

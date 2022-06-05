@@ -2,7 +2,7 @@ use crate::Stacks;
 
 mod makefile;
 
-/// tries to determine the stacks in the current directory
+/// determines the stacks in the current directory
 pub fn scan() -> Stacks {
     let mut result = vec![];
     makefile::scan(&mut result);

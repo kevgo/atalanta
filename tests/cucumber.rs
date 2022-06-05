@@ -58,6 +58,7 @@ fn executing(world: &mut RunWorld, command: String) {
     world.output = Some(
         Command::new("target/debug/atalanta")
             .args(argv)
+            .current_dir(&world.dir)
             .output()
             .unwrap(),
     );
