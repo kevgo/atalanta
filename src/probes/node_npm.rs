@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::fmt::Display;
 use std::fs::File;
 use std::io::{BufReader, ErrorKind};
+use std::path::Path;
 
 pub struct NodeNpmStack {
     tasks: Vec<Task>,
@@ -27,6 +28,9 @@ struct PackageJson {
 }
 
 pub fn scan(stacks: &mut Stacks) {
+    if !Path::new("package-lock.json").exists() {
+        return;
+    }
     let file = match File::open("package.json") {
         Ok(file) => file,
         Err(e) => match e.kind() {
