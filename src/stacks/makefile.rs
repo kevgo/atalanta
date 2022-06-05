@@ -17,7 +17,7 @@ impl Display for MakefileStack {
 
 impl Stack for MakefileStack {
     fn setup(&self) -> Option<(String, Vec<String>)> {
-        Some(("yarn".into(), vec!["install".into()]))
+        None
     }
 
     fn tasks(&self) -> &Vec<Task> {
