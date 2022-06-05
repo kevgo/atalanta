@@ -23,8 +23,8 @@ impl Stack for NodeNpmStack {
 }
 
 #[derive(Deserialize)]
-struct PackageJson {
-    scripts: HashMap<String, String>,
+pub struct PackageJson {
+    pub scripts: HashMap<String, String>,
 }
 
 pub fn scan(stacks: &mut Stacks) {

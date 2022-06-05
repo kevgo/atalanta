@@ -1,10 +1,10 @@
 use crate::{Stack, Stacks, Task};
-use serde::Deserialize;
-use std::collections::HashMap;
 use std::fmt::Display;
 use std::fs::File;
 use std::io::{BufReader, ErrorKind};
 use std::path::Path;
+
+use super::node_npm::PackageJson;
 
 pub struct NodeYarnStack {
     tasks: Vec<Task>,
@@ -20,11 +20,6 @@ impl Stack for NodeYarnStack {
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
-}
-
-#[derive(Deserialize)]
-struct PackageJson {
-    scripts: HashMap<String, String>,
 }
 
 pub fn scan(stacks: &mut Stacks) {
