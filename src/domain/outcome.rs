@@ -4,8 +4,10 @@ use std::process::{ExitCode, Termination};
 
 /// end result of an Atalanta run
 pub enum Outcome {
-    /// Atalanta has been able to do its thing
-    Success {
+    /// Atalanta has been able to do its thing.
+    Success,
+    /// A user-provided script didn't succeed
+    ScriptFailed {
         /// the exit code to signal when quitting
         exit_code: u8,
     },
@@ -27,7 +29,8 @@ pub enum Outcome {
 impl Termination for Outcome {
     fn report(self) -> ExitCode {
         match self {
-            Outcome::Success { exit_code } => ExitCode::from(exit_code),
+            Outcome::Success => ExitCode::SUCCESS,
+            Outcome::ScriptFailed { exit_code } => ExitCode::from(exit_code),
             Outcome::UnknownStack => {
                 println!("Error: cannot determine stack");
                 ExitCode::FAILURE

@@ -18,8 +18,11 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         .stderr(Stdio::inherit())
         .output();
     match output {
-        Ok(output) => Outcome::Success {
-            exit_code: output.status.code().unwrap() as u8,
+        Ok(output) => match output.status.code().unwrap() {
+            0 => Outcome::Success,
+            exit_code => Outcome::ScriptFailed {
+                exit_code: exit_code as u8,
+            },
         },
         Err(e) => Outcome::CannotRunExecutable { err: e.to_string() },
     }

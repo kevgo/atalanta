@@ -21,5 +21,5 @@ pub fn list(workspace: Workspace) -> Outcome {
             println!("{}", str::from_utf8_unchecked(&bytes));
         }
     }
-    Outcome::Success { exit_code: 0 }
+    Outcome::Success
 }

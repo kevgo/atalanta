@@ -19,7 +19,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
             Ok(output) => {
                 if let Some(exit_code) = output.status.code() {
                     if exit_code != 0 {
-                        return Outcome::Success {
+                        return Outcome::ScriptFailed {
                             exit_code: exit_code as u8,
                         };
                     }
@@ -29,7 +29,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
         };
     }
     if executed {
-        Outcome::Success { exit_code: 0 }
+        Outcome::Success
     } else {
         Outcome::UnknownSetup
     }
