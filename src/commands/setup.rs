@@ -8,6 +8,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
             Some(setup) => setup,
             None => continue,
         };
+        executed = true;
         let output = Command::new(cmd)
             .args(args)
             .stdin(Stdio::inherit())
@@ -16,7 +17,6 @@ pub fn setup(workspace: Workspace) -> Outcome {
             .output();
         match output {
             Ok(output) => {
-                executed = true;
                 if let Some(exit_code) = output.status.code() {
                     if exit_code != 0 {
                         return Outcome::Success {
