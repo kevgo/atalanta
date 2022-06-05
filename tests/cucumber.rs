@@ -18,7 +18,7 @@ pub struct RunWorld {
     /// the directory containing the test files of the current scenario
     pub dir: PathBuf,
 
-    /// the result of the subshell operation
+    /// the result of running Atlanta
     pub output: Option<Output>,
 }
 
@@ -35,6 +35,7 @@ impl World for RunWorld {
 }
 
 impl RunWorld {
+    /// provides the exit code of the Atlanta run
     fn exit_code(&self) -> i32 {
         match &self.output {
             Some(output) => output.status.code().unwrap(),
@@ -42,6 +43,7 @@ impl RunWorld {
         }
     }
 
+    /// provides the textual output of the Atlanta run
     fn output(&self) -> Cow<str> {
         match &self.output {
             Some(output) => String::from_utf8_lossy(&output.stdout),
