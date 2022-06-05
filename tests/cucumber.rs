@@ -1,13 +1,13 @@
 use async_trait::async_trait;
 use cucumber::gherkin::Step;
 use cucumber::{given, then, when, World, WorldInit};
-use fs_err as fs;
-use fs_err::File;
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::convert::Infallible;
 use std::env;
+use std::fs;
+use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};

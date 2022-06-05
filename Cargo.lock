@@ -36,7 +36,6 @@ name = "atalanta"
 version = "0.0.0"
 dependencies = [
  "async-trait",
- "camino",
  "cucumber",
  "futures",
  "itertools",
@@ -84,12 +83,6 @@ name = "bytecount"
 version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2c676a478f63e9fa2dd5368a42f28bba0d6c560b775f38583c8bbaa7fcd67c9c"
-
-[[package]]
-name = "camino"
-version = "1.0.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "869119e97797867fd90f5e22af7d0bd274bd4635ebb9eb68c04f3f513ae6c412"
 
 [[package]]
 name = "cfg-if"
