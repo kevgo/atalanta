@@ -11,6 +11,7 @@ enum Command {
 }
 
 fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command {
+    // skip the binary name
     args.next();
     match args.next() {
         Some(cmd) => Command::Run(cmd.as_ref().into()),
