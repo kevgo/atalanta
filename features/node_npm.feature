@@ -14,7 +14,6 @@ Feature: Node.JS with npm
       """
     And a file "package-lock.json"
 
-  @this
   Scenario: list available tasks
     When executing "atalanta"
     Then it prints:
@@ -26,6 +25,7 @@ Feature: Node.JS with npm
       task2    echo two
       """
 
+  @this
   Scenario: run a task
     When executing "atalanta one"
     Then it prints:
