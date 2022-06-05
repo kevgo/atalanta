@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::process::{ExitCode, Termination};
 
 mod commands;
@@ -14,6 +15,24 @@ fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command
     }
 }
 
+/// a stack that Atalanta knows about
+pub trait Stack: Display {
+    /// provides all executable tasks for the codebase in the current directory
+    fn tasks(&self) -> Result<Vec<Task>, Outcome>;
+}
+
+type Stacks = Vec<Box<dyn Stack>>;
+
+/// a task that can be executed
+pub struct Task {
+    /// name of this task, for running it
+    pub name: String,
+    /// the command to run
+    pub cmd: String,
+    /// optional description
+    pub desc: Option<String>,
+}
+
 /// end result of an Atalanta run
 pub enum Outcome {
     /// successfully executed the requested command
@@ -23,7 +42,12 @@ pub enum Outcome {
     },
     /// Atalanta command ran successfully
     Ok,
+    /// couldn't determine a stack
     UnknownStack,
+    CannotReadFile {
+        path: String,
+        error: String,
+    },
 }
 
 impl Termination for Outcome {
@@ -35,16 +59,20 @@ impl Termination for Outcome {
                 println!("Error: cannot determine stack");
                 ExitCode::FAILURE
             }
+            Outcome::CannotReadFile { path, error } => {
+                println!("Error: cannot read file {}: {}", path, error);
+                ExitCode::FAILURE
+            }
         }
     }
 }
 
 fn main() -> Outcome {
-    let stack = match probes::scan() {
-        Some(stack) => stack,
-        None => return Outcome::UnknownStack,
+    let stacks = probes::scan();
+    if stacks.len() == 0 {
+        return Outcome::UnknownStack;
     };
     match parse_cli_args(std::env::args()) {
-        Command::List => commands::list(stack),
+        Command::List => commands::list(stacks),
     }
 }
