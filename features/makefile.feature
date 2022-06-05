@@ -24,19 +24,19 @@ Feature: Makefiles
       failing  this task returns a non-zero exit code
       """
 
-  Scenario: run a task
-    When executing "atalanta task1"
-    Then it prints:
-      """
-      task 1 is running
-      """
-    Then the exit code is 0
+# Scenario: run a task
+#   When executing "atalanta task1"
+#   Then it prints:
+#     """
+#     task 1 is running
+#     """
+#   Then the exit code is 0
 
-  @this
-  Scenario: run an unknown task
-    When executing "atalanta zonk"
-    Then the exit code is 1
+# @this
+# Scenario: run an unknown task
+#   When executing "atalanta zonk"
+#   Then the exit code is 1
 
-  Scenario: a task returns a non-zero exit code
-    When executing "atalanta failing"
-    Then the exit code is 2
+# Scenario: a task returns a non-zero exit code
+#   When executing "atalanta failing"
+#   Then the exit code is 2

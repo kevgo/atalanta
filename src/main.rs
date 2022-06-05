@@ -15,7 +15,7 @@ fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command
     }
 }
 
-/// a stack that Atalanta knows about
+/// a technology stack that Atalanta knows about
 pub trait Stack: Display {
     /// provides all executable tasks for the codebase in the current directory
     fn tasks(&self) -> Result<Vec<Task>, Outcome>;
