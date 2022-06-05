@@ -54,3 +54,11 @@ Feature: Node.JS with npm
       running a failing task
       """
     And the exit code is 2
+
+  Scenario: setup
+    When executing "atalanta -s"
+    Then it prints:
+      """
+      npm install
+      """
+    And the exit code is 0

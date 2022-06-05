@@ -1,4 +1,4 @@
-use crate::Stacks;
+use crate::domain::Stacks;
 
 mod makefile;
 mod node_npm;

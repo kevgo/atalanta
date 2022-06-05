@@ -1,4 +1,4 @@
-use crate::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
@@ -16,6 +16,10 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
+    fn setup(&self) -> Option<(String, Vec<String>)> {
+        Some(("yarn".into(), vec!["install".into()]))
+    }
+
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
@@ -72,7 +76,7 @@ static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#
 mod tests {
 
     mod parse_line {
-        use crate::Task;
+        use crate::domain::Task;
 
         #[test]
         fn no_task() {

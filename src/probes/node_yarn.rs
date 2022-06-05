@@ -1,5 +1,5 @@
 use super::node_npm::{load_package_json, PackageJson};
-use crate::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task};
 use std::fmt::Display;
 use std::path::Path;
 
@@ -14,6 +14,10 @@ impl Display for NodeYarnStack {
 }
 
 impl Stack for NodeYarnStack {
+    fn setup(&self) -> Option<(String, Vec<String>)> {
+        Some(("yarn".into(), vec!["install".into()]))
+    }
+
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
