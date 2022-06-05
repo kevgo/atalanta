@@ -57,8 +57,4 @@ Feature: Node.JS with npm
 
   Scenario: setup
     When executing "atalanta -s"
-    Then it prints:
-      """
-      npm install
-      """
-    And the exit code is 0
+    Then the exit code is 0
