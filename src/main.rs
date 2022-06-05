@@ -21,6 +21,7 @@ pub trait Stack: Display {
     fn tasks(&self) -> Result<Vec<Task>, Outcome>;
 }
 
+/// collection of several different stacks
 type Stacks = Vec<Box<dyn Stack>>;
 
 /// a task that can be executed
