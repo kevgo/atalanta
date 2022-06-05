@@ -9,6 +9,8 @@ pub enum Outcome {
         /// the exit code to signal when quitting
         exit_code: u8,
     },
+    /// Atalanta doesn't know how to set up this workspace
+    UnknownSetup,
     /// couldn't determine a stack
     UnknownStack,
     /// there is no task with the given name
@@ -37,6 +39,10 @@ impl Termination for Outcome {
             }
             Outcome::CannotRunExecutable { err } => {
                 println!("Error: cannot run executable: {}", err);
+                ExitCode::FAILURE
+            }
+            Outcome::UnknownSetup => {
+                println!("Warning: I don't know how to set up this workspace");
                 ExitCode::FAILURE
             }
         }

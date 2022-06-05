@@ -63,4 +63,4 @@ Feature: Makefiles
       """
       Warning: I don't know how to set up this workspace
       """
-    And the exit code is 0
+    And the exit code is 1

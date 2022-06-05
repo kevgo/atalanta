@@ -28,8 +28,9 @@ pub fn setup(workspace: Workspace) -> Outcome {
             Err(e) => return Outcome::CannotRunExecutable { err: e.to_string() },
         };
     }
-    if !executed {
-        println!("Warning: I don't know how to set up this workspace");
+    if executed {
+        Outcome::Success { exit_code: 0 }
+    } else {
+        Outcome::UnknownSetup
     }
-    Outcome::Success { exit_code: 0 }
 }
