@@ -21,4 +21,4 @@ rand = "0.8.5"
 [[test]]
 name = "cucumber" # this should be the same as the filename of your test target
 harness = false  # allows Cucumber to print output instead of libtest
-test = false
+test = false  # don't run this as part of "cargo test"
