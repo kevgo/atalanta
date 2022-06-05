@@ -18,7 +18,7 @@ Feature: Makefiles
     When executing "atalanta"
     Then it prints:
       """
-      Commands (Makefile):
+      Makefile:
 
       task1    first task
       task2    second task
