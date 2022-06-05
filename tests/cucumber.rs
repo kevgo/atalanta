@@ -50,6 +50,15 @@ impl RunWorld {
             None => Default::default(),
         }
     }
+
+    /// provides the textual output of the Atlanta run with whitespace trimmed from every line
+    fn output_trimmed(&self) -> String {
+        self.output()
+            .trim()
+            .lines()
+            .map(|line| line.trim())
+            .join("\n")
+    }
 }
 
 #[given("a Makefile with content:")]
@@ -78,12 +87,7 @@ fn executing(world: &mut RunWorld, command: String) {
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    let have: String = world
-        .output()
-        .trim()
-        .lines()
-        .map(|line| line.trim())
-        .join("\n");
+    let have: String = world.output_trimmed();
     assert_eq!(have, want);
 }
 
