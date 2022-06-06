@@ -12,7 +12,7 @@ pub enum Outcome {
         exit_code: u8,
     },
     /// Atalanta doesn't know how to set up this workspace
-    UnknownSetup,
+    NoSetup,
     /// couldn't determine a stack
     UnknownStack,
     /// there is no task with the given name
@@ -44,7 +44,7 @@ impl Termination for Outcome {
                 println!("Error: cannot run executable: {}", err);
                 ExitCode::FAILURE
             }
-            Outcome::UnknownSetup => {
+            Outcome::NoSetup => {
                 println!("Warning: I don't know how to set up this workspace");
                 ExitCode::FAILURE
             }

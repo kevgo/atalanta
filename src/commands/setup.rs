@@ -31,6 +31,6 @@ pub fn setup(workspace: Workspace) -> Outcome {
     if executed {
         Outcome::Success
     } else {
-        Outcome::UnknownSetup
+        Outcome::NoSetup
     }
 }
