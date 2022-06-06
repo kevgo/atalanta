@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::process::Command;
 
 /// a task that can be executed
@@ -19,5 +20,61 @@ impl Task {
         let mut cmd = Command::new(&self.cmd);
         cmd.args(&self.argv);
         cmd
+    }
+
+    pub fn sort(a: &Task, b: &Task) -> Ordering {
+        a.name.cmp(&b.name)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use crate::domain::Task;
+
+    #[test]
+    fn sort() {
+        let mut have = vec![
+            Task {
+                name: "task 3 name".into(),
+                cmd: "task 3 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+            Task {
+                name: "task 2 name".into(),
+                cmd: "task 2 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+            Task {
+                name: "task 1 name".into(),
+                cmd: "task 1 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+        ];
+        let want = vec![
+            Task {
+                name: "task 1 name".into(),
+                cmd: "task 1 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+            Task {
+                name: "task 2 name".into(),
+                cmd: "task 2 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+            Task {
+                name: "task 3 name".into(),
+                cmd: "task 3 cmd".into(),
+                argv: vec![],
+                desc: "".into(),
+            },
+        ];
+        have.sort_unstable_by(Task::sort);
+        assert_eq!(have, want);
     }
 }
