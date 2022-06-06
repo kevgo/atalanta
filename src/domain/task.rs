@@ -30,7 +30,6 @@ impl Task {
 
 #[cfg(test)]
 mod tests {
-
     use crate::domain::Task;
 
     #[test]
