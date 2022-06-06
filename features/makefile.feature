@@ -17,7 +17,7 @@ Feature: Makefiles
       """
 
   Scenario: list available tasks
-    When executing "atalanta"
+    When executing "a"
     Then it prints:
       """
       Makefile:
@@ -28,7 +28,7 @@ Feature: Makefiles
       """
 
   Scenario: run a task
-    When executing "atalanta task1"
+    When executing "a task1"
     Then it prints:
       """
       task 1 is running
@@ -36,7 +36,7 @@ Feature: Makefiles
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "atalanta zonk"
+    When executing "a zonk"
     Then it prints:
       """
       Error: task "zonk" doesn't exist
@@ -50,7 +50,7 @@ Feature: Makefiles
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "atalanta failing"
+    When executing "a failing"
     Then it prints:
       """
       running a failing task
@@ -58,7 +58,7 @@ Feature: Makefiles
     And the exit code is 2
 
   Scenario: setup
-    When executing "atalanta -s"
+    When executing "a -s"
     Then it prints:
       """
       Warning: I don't know how to set up this workspace

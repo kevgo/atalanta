@@ -83,15 +83,15 @@ fn a_makefile(world: &mut RunWorld, step: &Step) {
 fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
-        Some("atalanta") => {}
-        _ => panic!("The end-to-end tests can only run the 'atalanta' command for now"),
+        Some("a") => {}
+        _ => panic!("The end-to-end tests can only run the 'a' command for now"),
     }
     world.output = Some(
-        Command::new("../../target/debug/atalanta")
+        Command::new("../../target/debug/a")
             .args(argv)
             .current_dir(&world.dir)
             .output()
-            .expect("cannot find atalanta executable"),
+            .expect("cannot find the 'a' executable"),
     );
 }
 

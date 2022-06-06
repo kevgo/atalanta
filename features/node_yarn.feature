@@ -15,7 +15,7 @@ Feature: Node.JS with Yarn
     And a file "yarn.lock"
 
   Scenario: list available tasks
-    When executing "atalanta"
+    When executing "a"
     Then it prints:
       """
       Node.JS (yarn):
@@ -26,7 +26,7 @@ Feature: Node.JS with Yarn
       """
 
   Scenario: run a task
-    When executing "atalanta task1"
+    When executing "a task1"
     Then it prints:
       """
       one
@@ -34,7 +34,7 @@ Feature: Node.JS with Yarn
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "atalanta zonk"
+    When executing "a zonk"
     Then it prints:
       """
       Error: task "zonk" doesn't exist
@@ -48,7 +48,7 @@ Feature: Node.JS with Yarn
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "atalanta failing"
+    When executing "a failing"
     Then it prints:
       """
       running a failing task
@@ -56,7 +56,7 @@ Feature: Node.JS with Yarn
     And the exit code is 2
 
   Scenario: setup
-    When executing "atalanta -s"
+    When executing "a -s"
     Then the output contains "yarn install"
     And the exit code is 0
     And the workspace contains a folder "node_modules"

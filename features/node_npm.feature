@@ -15,7 +15,7 @@ Feature: Node.JS with npm
     And a file "package-lock.json"
 
   Scenario: list available tasks
-    When executing "atalanta"
+    When executing "a"
     Then it prints:
       """
       Node.JS (npm):
@@ -26,7 +26,7 @@ Feature: Node.JS with npm
       """
 
   Scenario: run a task
-    When executing "atalanta task1"
+    When executing "a task1"
     Then it prints:
       """
       one
@@ -34,7 +34,7 @@ Feature: Node.JS with npm
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "atalanta zonk"
+    When executing "a zonk"
     Then it prints:
       """
       Error: task "zonk" doesn't exist
@@ -48,7 +48,7 @@ Feature: Node.JS with npm
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "atalanta failing"
+    When executing "a failing"
     Then it prints:
       """
       running a failing task
@@ -56,6 +56,6 @@ Feature: Node.JS with npm
     And the exit code is 2
 
   Scenario: setup
-    When executing "atalanta -s"
+    When executing "a -s"
     Then the output contains "up to date"
     And the exit code is 0
