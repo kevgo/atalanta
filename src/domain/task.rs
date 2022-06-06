@@ -14,6 +14,7 @@ pub struct Task {
 }
 
 impl Task {
+    /// provides a fully configured `Command` that executes this `Task`
     pub fn command(&self) -> Command {
         let mut cmd = Command::new(&self.cmd);
         cmd.args(&self.argv);
