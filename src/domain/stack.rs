@@ -1,10 +1,11 @@
 use super::Task;
 use std::fmt::Display;
+use std::process::Command;
 
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
     /// provides the command to set up this stack (binary, argv)
-    fn setup(&self) -> Option<Task>;
+    fn setup(&self) -> Option<Command>;
 
     /// Provides all executable tasks for the codebase in the current directory.
     /// This only emits read references. The stack instance should own the task data.

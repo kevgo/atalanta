@@ -1,16 +1,15 @@
 use crate::domain::{Outcome, Workspace};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 pub fn setup(workspace: Workspace) -> Outcome {
     let mut executed = false;
     for stack in workspace.stacks {
-        let setup_task = match stack.setup() {
+        let mut cmd = match stack.setup() {
             Some(task) => task,
             None => continue,
         };
         executed = true;
-        let output = Command::new(setup_task.cmd)
-            .args(setup_task.argv)
+        let output = cmd
             .stdin(Stdio::inherit())
             .stdout(Stdio::inherit())
             .stderr(Stdio::inherit())

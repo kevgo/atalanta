@@ -4,6 +4,7 @@ use regex::Regex;
 use std::fmt::Display;
 use std::fs;
 use std::io::ErrorKind;
+use std::process::Command;
 
 pub struct MakefileStack {
     tasks: Vec<Task>,
@@ -16,7 +17,7 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
-    fn setup(&self) -> Option<Task> {
+    fn setup(&self) -> Option<Command> {
         None
     }
 

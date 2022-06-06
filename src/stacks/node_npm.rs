@@ -5,6 +5,7 @@ use std::fmt::Display;
 use std::fs::File;
 use std::io::{BufReader, ErrorKind};
 use std::path::Path;
+use std::process::Command;
 
 pub struct NodeNpmStack {
     tasks: Vec<Task>,
@@ -17,12 +18,10 @@ impl Display for NodeNpmStack {
 }
 
 impl Stack for NodeNpmStack {
-    fn setup(&self) -> Option<Task> {
-        Some(Task {
-            cmd: "npm".into(),
-            argv: vec!["install".into()],
-            ..Task::default()
-        })
+    fn setup(&self) -> Option<Command> {
+        let mut command = Command::new("npm");
+        command.arg("install");
+        Some(command)
     }
 
     fn tasks(&self) -> &Vec<Task> {
