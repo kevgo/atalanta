@@ -1,19 +1,38 @@
-# run
+# Atalanta
 
-Runs tasks in common automation systems like Makefiles, package.json, Cargo, Bundler, etc.
+Atalanta, named after the Greek godess of running, performs typical software
+development tasks like installing dependencies and running scripts for a wide
+range of software stacks. This is useful if you work on a large variety of
+codebases, package managers, and developer tooling.
+
+### installation
+
+You need [Rust](https://www.rust-lang.org). The recommended (and super easy) way
+to install it is via [RustUp](https://rustup.rs). To install Atalanta:
 
 ```
-Usage:
-run [options] [<task name>]
+cargo install https://github.com/kevgo/atalanta
 ```
 
-- a `Makefile` with a recipe of the given name exists --> run it and exit
-- a `package.json` file with a script of the given name exists --> run it
-- a `Cargo.toml` file exists --> run the respective Cargo command
-- a matching Cargo command exists --> run it
-- called without a task name: show available tasks
+This installs a binary called `a` into the `~/.cargo/bin` folder. Please add it
+to your `$PATH`.
 
+### usage
 
-### Options
+Install dependencies for your codebase (`-s` stands for "setup"):
 
-- **p:** run things in parallel, for example runs all lines in a Make recipe concurrently
+```
+a -s
+```
+
+Running Atalanta without any parameters shows all available tasks:
+
+```
+a
+```
+
+Run the `test` script defined in `package.json`:
+
+```
+a test
+```
