@@ -17,13 +17,15 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
         .output();
-    match output {
-        Ok(output) => match output.status.code().unwrap() {
-            0 => Outcome::Success,
-            exit_code => Outcome::ScriptFailed {
-                exit_code: exit_code as u8,
-            },
+    let output = match output {
+        Ok(output) => output,
+        Err(e) => return Outcome::CannotFindExecutable { err: e.to_string() },
+    };
+    match output.status.code() {
+        Some(0) => Outcome::Success,
+        Some(exit_code) => Outcome::ScriptFailed {
+            exit_code: exit_code as u8,
         },
-        Err(e) => Outcome::CannotFindExecutable { err: e.to_string() },
+        None => Outcome::ScriptFailed { exit_code: 255 },
     }
 }
