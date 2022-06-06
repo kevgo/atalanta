@@ -49,6 +49,6 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
             desc: Some(value),
         });
     }
-    result.sort();
+    result.sort_unstable_by(|a, b| a.name.cmp(&b.name));
     result
 }

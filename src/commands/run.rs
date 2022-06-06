@@ -1,5 +1,5 @@
 use crate::domain::{Outcome, Workspace};
-use std::process::{Command, Stdio};
+use std::process::Stdio;
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
     let task = match workspace.task_with_name(&name) {
@@ -11,8 +11,8 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
             }
         }
     };
-    let output = Command::new(&task.cmd)
-        .args(&task.argv)
+    let output = task
+        .command()
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
