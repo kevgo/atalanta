@@ -1,9 +1,10 @@
-use crate::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
 use std::fs;
 use std::io::ErrorKind;
+use std::process::Command;
 
 pub struct MakefileStack {
     tasks: Vec<Task>,
@@ -16,6 +17,10 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
+    fn setup(&self) -> Option<Command> {
+        None
+    }
+
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
@@ -63,7 +68,7 @@ fn parse_line(line: &str) -> Option<Task> {
         name: name.into(),
         cmd: "make".into(),
         argv: vec!["--no-print-directory".into(), name.into()],
-        desc: Some(desc),
+        desc: desc,
     })
 }
 static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#).unwrap());
@@ -72,7 +77,7 @@ static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#
 mod tests {
 
     mod parse_line {
-        use crate::Task;
+        use crate::domain::Task;
 
         #[test]
         fn no_task() {
@@ -89,7 +94,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("".into()),
+                desc: "".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -102,7 +107,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("".into()),
+                desc: "".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -115,7 +120,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("run cucumber".into()),
+                desc: "run cucumber".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -128,7 +133,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("run cucumber".into()),
+                desc: "run cucumber".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);

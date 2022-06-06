@@ -1,127 +1,29 @@
-use std::fmt::Display;
-use std::process::{ExitCode, Termination};
+use domain::{Outcome, Workspace};
+use std::env::Args;
 
 mod commands;
-mod probes;
+mod domain;
+mod stacks;
 
 /// all commands that could be run
 enum Command {
     List,
     Run(String),
+    Setup,
 }
 
-fn parse_cli_args<AS: AsRef<str>>(mut args: impl Iterator<Item = AS>) -> Command {
+fn parse_cli_args(mut args: Args) -> Command {
     // skip the binary name
     args.next();
     match args.next() {
-        Some(cmd) => Command::Run(cmd.as_ref().into()),
+        Some(cmd) if cmd == "-s" => Command::Setup,
+        Some(cmd) => Command::Run(cmd),
         None => Command::List,
     }
 }
 
-/// a technology stack that Atalanta knows about
-pub trait Stack: Display {
-    /// provides all executable tasks for the codebase in the current directory
-    fn tasks(&self) -> &Vec<Task>;
-
-    /// provides the task with the given name
-    fn task_with_name(&self, name: &str) -> Option<&Task> {
-        self.tasks().iter().find(|task| task.name == name)
-    }
-}
-
-type Stacks = Vec<Box<dyn Stack>>;
-
-pub struct Workspace {
-    stacks: Stacks,
-}
-
-impl Workspace {
-    fn task_with_name(&self, name: &str) -> Option<&Task> {
-        for stack in &self.stacks {
-            if let Some(task) = stack.task_with_name(name) {
-                return Some(task);
-            }
-        }
-        None
-    }
-}
-
-/// a task that can be executed
-#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
-pub struct Task {
-    /// name of this task, for running it
-    pub name: String,
-    /// the binary to run
-    pub cmd: String,
-    /// command-line arguments for the binary
-    pub argv: Vec<String>,
-    /// optional description
-    pub desc: Option<String>,
-}
-
-/// end result of an Atalanta run
-pub enum Outcome {
-    /// successfully executed the requested command
-    CommandExecuted {
-        /// the exit code of the executed command
-        exit_code: u8,
-    },
-    /// Atalanta command ran successfully
-    Ok,
-    /// couldn't determine a stack
-    UnknownStack,
-    /// the task with the given name is unknown
-    UnknownTask(String, Workspace),
-    CannotReadFile {
-        path: String,
-        error: String,
-    },
-    CannotRunExecutable {
-        err: String,
-    },
-    MismatchedQuotesInCmd {
-        stack: String,
-        task: String,
-        cmd: String,
-    },
-}
-
-impl Termination for Outcome {
-    fn report(self) -> ExitCode {
-        match self {
-            Outcome::CommandExecuted { exit_code } => ExitCode::from(exit_code),
-            Outcome::Ok => ExitCode::SUCCESS,
-            Outcome::UnknownStack => {
-                println!("Error: cannot determine stack");
-                ExitCode::FAILURE
-            }
-            Outcome::UnknownTask(name, workspace) => {
-                println!("Error: task \"{}\" doesn't exist\n", name);
-                commands::list(workspace);
-                ExitCode::FAILURE
-            }
-            Outcome::CannotReadFile { path, error } => {
-                println!("Error: cannot read file {}: {}", path, error);
-                ExitCode::FAILURE
-            }
-            Outcome::CannotRunExecutable { err } => {
-                println!("Error: cannot run executable: {}", err);
-                ExitCode::FAILURE
-            }
-            Outcome::MismatchedQuotesInCmd { stack, task, cmd } => {
-                println!(
-                    "Error: mismatched quotes in task \"{}\" ({}):\n{}",
-                    task, stack, cmd
-                );
-                ExitCode::FAILURE
-            }
-        }
-    }
-}
-
 fn main() -> Outcome {
-    let stacks = probes::scan();
+    let stacks = stacks::identify();
     if stacks.len() == 0 {
         return Outcome::UnknownStack;
     };
@@ -129,5 +31,6 @@ fn main() -> Outcome {
     match parse_cli_args(std::env::args()) {
         Command::List => commands::list(workspace),
         Command::Run(name) => commands::run(workspace, name),
+        Command::Setup => commands::setup(workspace),
     }
 }

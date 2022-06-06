@@ -1,7 +1,8 @@
 use super::node_npm::{load_package_json, PackageJson};
-use crate::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task};
 use std::fmt::Display;
 use std::path::Path;
+use std::process::Command;
 
 pub struct NodeYarnStack {
     tasks: Vec<Task>,
@@ -14,6 +15,12 @@ impl Display for NodeYarnStack {
 }
 
 impl Stack for NodeYarnStack {
+    fn setup(&self) -> Option<Command> {
+        let mut cmd = Command::new("yarn");
+        cmd.arg("install");
+        Some(cmd)
+    }
+
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
@@ -39,9 +46,9 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
             name: key.clone(),
             cmd: "yarn".into(),
             argv: vec!["--silent".into(), "run".into(), key],
-            desc: Some(value),
+            desc: value,
         });
     }
-    result.sort();
+    result.sort_unstable_by(Task::sort);
     result
 }

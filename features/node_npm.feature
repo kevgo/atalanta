@@ -54,3 +54,8 @@ Feature: Node.JS with npm
       running a failing task
       """
     And the exit code is 2
+
+  Scenario: setup
+    When executing "atalanta -s"
+    Then the output contains "up to date"
+    And the exit code is 0

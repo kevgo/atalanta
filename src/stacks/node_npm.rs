@@ -1,10 +1,11 @@
-use crate::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task};
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fmt::Display;
 use std::fs::File;
 use std::io::{BufReader, ErrorKind};
 use std::path::Path;
+use std::process::Command;
 
 pub struct NodeNpmStack {
     tasks: Vec<Task>,
@@ -17,6 +18,12 @@ impl Display for NodeNpmStack {
 }
 
 impl Stack for NodeNpmStack {
+    fn setup(&self) -> Option<Command> {
+        let mut command = Command::new("npm");
+        command.arg("install");
+        Some(command)
+    }
+
     fn tasks(&self) -> &Vec<Task> {
         &self.tasks
     }
@@ -72,9 +79,9 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
             name: key.clone(),
             cmd: "npm".into(),
             argv: vec!["run".into(), key, "--silent".into()],
-            desc: Some(value),
+            desc: value,
         });
     }
-    result.sort();
+    result.sort_unstable_by(Task::sort);
     result
 }

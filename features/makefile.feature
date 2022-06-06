@@ -56,3 +56,11 @@ Feature: Makefiles
       running a failing task
       """
     And the exit code is 2
+
+  Scenario: setup
+    When executing "atalanta -s"
+    Then it prints:
+      """
+      Warning: I don't know how to set up this workspace
+      """
+    And the exit code is 1
