@@ -27,8 +27,16 @@ Feature: Makefiles
       failing  this task returns a non-zero exit code
       """
 
-  Scenario: run a task
+  Scenario: run a task (full name)
     When executing "atalanta task1"
+    Then it prints:
+      """
+      task 1 is running
+      """
+    Then the exit code is 0
+
+  Scenario: run a task (short name)
+    When executing "atalanta 1"
     Then it prints:
       """
       task 1 is running
