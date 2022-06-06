@@ -24,6 +24,6 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
                 exit_code: exit_code as u8,
             },
         },
-        Err(e) => Outcome::CannotRunExecutable { err: e.to_string() },
+        Err(e) => Outcome::CannotFindExecutable { err: e.to_string() },
     }
 }

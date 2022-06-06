@@ -23,7 +23,7 @@ pub enum Outcome {
         workspace: Workspace,
     },
     /// Atalanta couldn't run an executable defined in a task
-    CannotRunExecutable { err: String },
+    CannotFindExecutable { err: String },
 }
 
 impl Termination for Outcome {
@@ -40,8 +40,8 @@ impl Termination for Outcome {
                 commands::list(workspace);
                 ExitCode::FAILURE
             }
-            Outcome::CannotRunExecutable { err } => {
-                println!("Error: cannot run executable: {}", err);
+            Outcome::CannotFindExecutable { err } => {
+                println!("Error: cannot find executable: {}", err);
                 ExitCode::FAILURE
             }
             Outcome::NoSetup => {

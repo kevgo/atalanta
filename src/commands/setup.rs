@@ -25,7 +25,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
                     }
                 };
             }
-            Err(e) => return Outcome::CannotRunExecutable { err: e.to_string() },
+            Err(e) => return Outcome::CannotFindExecutable { err: e.to_string() },
         };
     }
     if executed {
