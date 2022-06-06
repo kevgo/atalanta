@@ -20,6 +20,10 @@ itertools = "0.10.3"
 pretty = { package = "pretty_assertions", version = "1.2.1" }
 rand = "0.8.5"
 
+[[bin]]
+name = "a"
+path = "src/main.rs"
+
 [[test]]
 name = "cucumber" # this should be the same as the filename of your test target
 harness = false  # allows Cucumber to print output instead of libtest
