@@ -5,7 +5,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
     let mut executed = false;
     for stack in workspace.stacks {
         let mut cmd = match stack.setup() {
-            Some(task) => task,
+            Some(cmd) => cmd,
             None => continue,
         };
         executed = true;
