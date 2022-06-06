@@ -16,7 +16,7 @@ impl Display for MakefileStack {
 }
 
 impl Stack for MakefileStack {
-    fn setup(&self) -> Option<(String, Vec<String>)> {
+    fn setup(&self) -> Option<Task> {
         None
     }
 

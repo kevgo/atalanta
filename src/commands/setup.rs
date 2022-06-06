@@ -4,13 +4,13 @@ use std::process::{Command, Stdio};
 pub fn setup(workspace: Workspace) -> Outcome {
     let mut executed = false;
     for stack in workspace.stacks {
-        let (cmd, args) = match stack.setup() {
-            Some(setup) => setup,
+        let setup_task = match stack.setup() {
+            Some(task) => task,
             None => continue,
         };
         executed = true;
-        let output = Command::new(cmd)
-            .args(args)
+        let output = Command::new(setup_task.cmd)
+            .args(setup_task.argv)
             .stdin(Stdio::inherit())
             .stdout(Stdio::inherit())
             .stderr(Stdio::inherit())

@@ -17,8 +17,12 @@ impl Display for NodeNpmStack {
 }
 
 impl Stack for NodeNpmStack {
-    fn setup(&self) -> Option<(String, Vec<String>)> {
-        Some(("npm".into(), vec!["install".into()]))
+    fn setup(&self) -> Option<Task> {
+        Some(Task {
+            cmd: "npm".into(),
+            argv: vec!["install".into()],
+            ..Task::default()
+        })
     }
 
     fn tasks(&self) -> &Vec<Task> {

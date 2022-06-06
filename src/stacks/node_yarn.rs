@@ -14,8 +14,12 @@ impl Display for NodeYarnStack {
 }
 
 impl Stack for NodeYarnStack {
-    fn setup(&self) -> Option<(String, Vec<String>)> {
-        Some(("yarn".into(), vec!["install".into()]))
+    fn setup(&self) -> Option<Task> {
+        Some(Task {
+            cmd: "yarn".into(),
+            argv: vec!["install".into()],
+            ..Task::default()
+        })
     }
 
     fn tasks(&self) -> &Vec<Task> {

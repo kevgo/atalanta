@@ -1,5 +1,5 @@
 /// a task that can be executed
-#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Task {
     /// name of this task, for identifying it via the CLI
     pub name: String,
