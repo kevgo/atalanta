@@ -6,7 +6,8 @@ pub trait Stack: Display {
     /// provides the command to set up this stack (binary, argv)
     fn setup(&self) -> Option<(String, Vec<String>)>;
 
-    /// provides all executable tasks for the codebase in the current directory
+    /// Provides all executable tasks for the codebase in the current directory.
+    /// This only emits read references. The stack instance should own the task data.
     fn tasks(&self) -> &Vec<Task>;
 
     /// provides the task with the given name
