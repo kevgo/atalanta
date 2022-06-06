@@ -22,6 +22,7 @@ impl Task {
         cmd
     }
 
+    /// sort function for sorting by name
     pub fn sort(a: &Task, b: &Task) -> Ordering {
         a.name.cmp(&b.name)
     }
