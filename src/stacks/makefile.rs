@@ -68,7 +68,7 @@ fn parse_line(line: &str) -> Option<Task> {
         name: name.into(),
         cmd: "make".into(),
         argv: vec!["--no-print-directory".into(), name.into()],
-        desc: Some(desc),
+        desc: desc,
     })
 }
 static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#).unwrap());
@@ -94,7 +94,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("".into()),
+                desc: "".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -107,7 +107,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("".into()),
+                desc: "".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -120,7 +120,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("run cucumber".into()),
+                desc: "run cucumber".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -133,7 +133,7 @@ mod tests {
                 name: "cuke".into(),
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: Some("run cucumber".into()),
+                desc: "run cucumber".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);

@@ -79,7 +79,7 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
             name: key.clone(),
             cmd: "npm".into(),
             argv: vec!["run".into(), key, "--silent".into()],
-            desc: Some(value),
+            desc: value,
         });
     }
     result.sort_unstable_by(|a, b| a.name.cmp(&b.name));

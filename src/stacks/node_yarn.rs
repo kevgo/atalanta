@@ -46,7 +46,7 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
             name: key.clone(),
             cmd: "yarn".into(),
             argv: vec!["--silent".into(), "run".into(), key],
-            desc: Some(value),
+            desc: value,
         });
     }
     result.sort_unstable_by(|a, b| a.name.cmp(&b.name));

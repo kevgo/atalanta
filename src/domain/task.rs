@@ -10,7 +10,7 @@ pub struct Task {
     /// command-line arguments for the binary
     pub argv: Vec<String>,
     /// optional description
-    pub desc: Option<String>,
+    pub desc: String,
 }
 
 impl Task {

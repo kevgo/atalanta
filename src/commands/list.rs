@@ -9,11 +9,7 @@ pub fn list(workspace: Workspace) -> Outcome {
         println!("{}:\n", stack);
         let mut tw = TabWriter::new(vec![]);
         for task in stack.tasks() {
-            let desc = match &task.desc {
-                Some(desc) => desc,
-                None => &task.cmd,
-            };
-            let text = format!("{}\t{}\n", task.name, desc);
+            let text = format!("{}\t{}\n", task.name, task.desc);
             tw.write(text.as_bytes()).unwrap();
         }
         let bytes = tw.into_inner().unwrap();
