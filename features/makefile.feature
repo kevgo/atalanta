@@ -3,10 +3,10 @@ Feature: Makefiles
   Background:
     Given a Makefile with content:
       """
-      task1:  # first task
+      task-1:  # first task
         echo "task 1 is running"
 
-      task2: task1  # second task
+      task-2: task-1  # second task
         echo "task 2 is running"
 
       failing:  # this task returns a non-zero exit code
@@ -17,18 +17,18 @@ Feature: Makefiles
       """
 
   Scenario: list available tasks
-    When executing "atalanta"
+    When executing "a"
     Then it prints:
       """
-      Makefile:
+      Makefile
 
-      task1    first task
-      task2    second task
-      failing  this task returns a non-zero exit code
+        task-1   first task
+        task-2   second task
+        failing  this task returns a non-zero exit code
       """
 
   Scenario: run a task (full name)
-    When executing "atalanta task1"
+    When executing "a task-1"
     Then it prints:
       """
       task 1 is running
@@ -44,21 +44,21 @@ Feature: Makefiles
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "atalanta zonk"
+    When executing "a zonk"
     Then it prints:
       """
       Error: task "zonk" doesn't exist
 
-      Makefile:
+      Makefile
 
-      task1    first task
-      task2    second task
-      failing  this task returns a non-zero exit code
+        task-1   first task
+        task-2   second task
+        failing  this task returns a non-zero exit code
       """
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "atalanta failing"
+    When executing "a failing"
     Then it prints:
       """
       running a failing task
@@ -66,7 +66,7 @@ Feature: Makefiles
     And the exit code is 2
 
   Scenario: setup
-    When executing "atalanta -s"
+    When executing "a -s"
     Then it prints:
       """
       Warning: I don't know how to set up this workspace

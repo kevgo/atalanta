@@ -11,6 +11,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
+use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, WorldInit)]
@@ -56,7 +57,7 @@ impl RunWorld {
         self.output()
             .trim()
             .lines()
-            .map(|line| line.trim())
+            .map(|line| line.trim_end())
             .join("\n")
     }
 }
@@ -83,22 +84,23 @@ fn a_makefile(world: &mut RunWorld, step: &Step) {
 fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
-        Some("atalanta") => {}
-        _ => panic!("The end-to-end tests can only run the 'atalanta' command for now"),
+        Some("a") => {}
+        _ => panic!("The end-to-end tests can only run the 'a' command for now"),
     }
     world.output = Some(
-        Command::new("../../target/debug/atalanta")
+        Command::new("../../target/debug/a")
             .args(argv)
             .current_dir(&world.dir)
             .output()
-            .expect("cannot find atalanta executable"),
+            .expect("cannot find the 'a' executable"),
     );
 }
 
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    let have = world.output_trimmed();
+    let stripped = strip_ansi_escapes::strip(world.output_trimmed()).unwrap();
+    let have = str::from_utf8(&stripped).unwrap();
     assert_eq!(have, want);
 }
 
