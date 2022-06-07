@@ -18,7 +18,7 @@ Feature: Node.JS with npm
     When executing "a"
     Then it prints:
       """
-      Node.JS (npm):
+      Node.JS (npm)
 
         failing  echo 'running a failing task' && exit 2
         task-1   echo one
@@ -39,7 +39,7 @@ Feature: Node.JS with npm
       """
       Error: task "zonk" doesn't exist
 
-      Node.JS (npm):
+      Node.JS (npm)
 
         failing  echo 'running a failing task' && exit 2
         task-1   echo one

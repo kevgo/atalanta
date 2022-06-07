@@ -11,6 +11,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
+use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, WorldInit)]
@@ -98,7 +99,8 @@ fn executing(world: &mut RunWorld, command: String) {
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    let have = world.output_trimmed();
+    let stripped = strip_ansi_escapes::strip(world.output_trimmed()).unwrap();
+    let have = str::from_utf8(&stripped).unwrap();
     assert_eq!(have, want);
 }
 

@@ -20,7 +20,7 @@ Feature: Makefiles
     When executing "a"
     Then it prints:
       """
-      Makefile:
+      Makefile
 
         task-1   first task
         task-2   second task
@@ -41,7 +41,7 @@ Feature: Makefiles
       """
       Error: task "zonk" doesn't exist
 
-      Makefile:
+      Makefile
 
         task-1   first task
         task-2   second task

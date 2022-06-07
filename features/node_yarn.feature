@@ -18,7 +18,7 @@ Feature: Node.JS with Yarn
     When executing "a"
     Then it prints:
       """
-      Node.JS (yarn):
+      Node.JS (yarn)
 
         failing  echo 'running a failing task' && exit 2
         task-1   echo one
@@ -39,7 +39,7 @@ Feature: Node.JS with Yarn
       """
       Error: task "zonk" doesn't exist
 
-      Node.JS (yarn):
+      Node.JS (yarn)
 
         failing  echo 'running a failing task' && exit 2
         task-1   echo one
