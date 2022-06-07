@@ -1,9 +1,9 @@
 use crate::domain::{Stack, Stacks, Task};
-use serde::Deserialize;
+use nanoserde::DeJson;
 use std::collections::HashMap;
 use std::fmt::Display;
-use std::fs::File;
-use std::io::{BufReader, ErrorKind};
+use std::fs::{self};
+use std::io::ErrorKind;
 use std::path::Path;
 use std::process::Command;
 
@@ -29,7 +29,7 @@ impl Stack for NodeNpmStack {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(DeJson)]
 pub struct PackageJson {
     pub scripts: HashMap<String, String>,
 }
@@ -48,8 +48,8 @@ pub fn scan(stacks: &mut Stacks) {
 }
 
 pub fn load_package_json() -> Option<PackageJson> {
-    let file = match File::open("package.json") {
-        Ok(file) => file,
+    let file = match fs::read_to_string("package.json") {
+        Ok(text) => text,
         Err(e) => match e.kind() {
             ErrorKind::NotFound => return None,
             e => {
@@ -58,8 +58,7 @@ pub fn load_package_json() -> Option<PackageJson> {
             }
         },
     };
-    let reader = BufReader::new(file);
-    let package_json: PackageJson = match serde_json::from_reader(reader) {
+    let package_json: PackageJson = match DeJson::deserialize_json(&file) {
         Ok(content) => content,
         Err(e) => {
             println!(
