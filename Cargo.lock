@@ -35,6 +35,7 @@ dependencies = [
 name = "atalanta"
 version = "0.0.0"
 dependencies = [
+ "ansi_term",
  "async-trait",
  "cucumber",
  "futures",
