@@ -22,9 +22,9 @@ Feature: Makefiles
       """
       Makefile:
 
-      task-1   first task
-      task-2   second task
-      failing  this task returns a non-zero exit code
+        task-1   first task
+        task-2   second task
+        failing  this task returns a non-zero exit code
       """
 
   Scenario: run a task
@@ -43,9 +43,9 @@ Feature: Makefiles
 
       Makefile:
 
-      task-1   first task
-      task-2   second task
-      failing  this task returns a non-zero exit code
+        task-1   first task
+        task-2   second task
+        failing  this task returns a non-zero exit code
       """
     Then the exit code is 1
 

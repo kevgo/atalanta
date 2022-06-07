@@ -20,9 +20,9 @@ Feature: Node.JS with Yarn
       """
       Node.JS (yarn):
 
-      failing  echo 'running a failing task' && exit 2
-      task-1   echo one
-      task-2   echo two
+        failing  echo 'running a failing task' && exit 2
+        task-1   echo one
+        task-2   echo two
       """
 
   Scenario: run a task
@@ -41,9 +41,9 @@ Feature: Node.JS with Yarn
 
       Node.JS (yarn):
 
-      failing  echo 'running a failing task' && exit 2
-      task-1   echo one
-      task-2   echo two
+        failing  echo 'running a failing task' && exit 2
+        task-1   echo one
+        task-2   echo two
       """
     Then the exit code is 1
 

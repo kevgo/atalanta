@@ -56,7 +56,7 @@ impl RunWorld {
         self.output()
             .trim()
             .lines()
-            .map(|line| line.trim())
+            .map(|line| line.trim_end())
             .join("\n")
     }
 }
