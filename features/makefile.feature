@@ -3,10 +3,10 @@ Feature: Makefiles
   Background:
     Given a Makefile with content:
       """
-      task1:  # first task
+      task-1:  # first task
         echo "task 1 is running"
 
-      task2: task1  # second task
+      task-2: task-1  # second task
         echo "task 2 is running"
 
       failing:  # this task returns a non-zero exit code
@@ -16,19 +16,20 @@ Feature: Makefiles
       .SILENT:
       """
 
+  @this
   Scenario: list available tasks
     When executing "a"
     Then it prints:
       """
       Makefile:
 
-      task1    first task
-      task2    second task
+      task-1   first task
+      task-2   second task
       failing  this task returns a non-zero exit code
       """
 
   Scenario: run a task
-    When executing "a task1"
+    When executing "a task-1"
     Then it prints:
       """
       task 1 is running
@@ -43,8 +44,8 @@ Feature: Makefiles
 
       Makefile:
 
-      task1    first task
-      task2    second task
+      task-1   first task
+      task-2   second task
       failing  this task returns a non-zero exit code
       """
     Then the exit code is 1

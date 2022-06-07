@@ -71,7 +71,7 @@ fn parse_line(line: &str) -> Option<Task> {
         desc: desc,
     })
 }
-static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^(\w+):([^#]*)?(#\s*(.*))?"#).unwrap());
+static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^([\w-]+):([^#]*)?(#\s*(.*))?"#).unwrap());
 
 #[cfg(test)]
 mod tests {
@@ -134,6 +134,19 @@ mod tests {
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke".into()],
                 desc: "run cucumber".into(),
+            });
+            let have = super::super::parse_line(give);
+            pretty::assert_eq!(have, want);
+        }
+
+        #[test]
+        fn name_with_dash() {
+            let give = "cuke-this:  # run only the tagged Cucumber scenario";
+            let want = Some(Task {
+                name: "cuke-this".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "cuke-this".into()],
+                desc: "run only the tagged Cucumber scenario".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
