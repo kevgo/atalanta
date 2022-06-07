@@ -6,8 +6,8 @@ Feature: Node.JS with npm
       {
         "name": "demo",
         "scripts": {
-          "task1": "echo one",
-          "task2": "echo two",
+          "task-1": "echo one",
+          "task-2": "echo two",
           "failing": "echo 'running a failing task' && exit 2"
         }
       }
@@ -21,12 +21,12 @@ Feature: Node.JS with npm
       Node.JS (npm):
 
       failing  echo 'running a failing task' && exit 2
-      task1    echo one
-      task2    echo two
+      task-1   echo one
+      task-2   echo two
       """
 
   Scenario: run a task
-    When executing "a task1"
+    When executing "a task-1"
     Then it prints:
       """
       one
@@ -42,8 +42,8 @@ Feature: Node.JS with npm
       Node.JS (npm):
 
       failing  echo 'running a failing task' && exit 2
-      task1    echo one
-      task2    echo two
+      task-1   echo one
+      task-2   echo two
       """
     Then the exit code is 1
 
