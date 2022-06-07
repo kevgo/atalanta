@@ -1,4 +1,5 @@
 use crate::domain::{Outcome, Workspace};
+use ansi_term::Style;
 use std::io::Write;
 use std::str;
 use tabwriter::TabWriter;
@@ -6,10 +7,14 @@ use tabwriter::TabWriter;
 /// lists all available commands
 pub fn list(workspace: Workspace) -> Outcome {
     for stack in workspace.stacks {
-        println!("{}:\n", stack);
+        println!("{}\n", Style::new().underline().paint(&stack.to_string()));
         let mut tw = TabWriter::new(vec![]);
         for task in stack.tasks() {
-            let text = format!("  {}\t{}\n", task.name, task.desc);
+            let text = format!(
+                "  {}\t{}\n",
+                Style::new().bold().paint(&task.name),
+                task.desc
+            );
             tw.write(text.as_bytes()).unwrap();
         }
         let bytes = tw.into_inner().unwrap();
