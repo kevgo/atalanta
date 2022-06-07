@@ -16,7 +16,6 @@ Feature: Makefiles
       .SILENT:
       """
 
-  @this
   Scenario: list available tasks
     When executing "a"
     Then it prints:
