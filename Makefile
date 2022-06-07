@@ -12,6 +12,9 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 help:  # shows all available Make commands
 	cat Makefile | grep '^[^ ]*:' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
+install:  # installs the binary on the current machine
+	cargo install --path .
+
 run:  # runs in the local directory
 	cargo run --quiet
 
