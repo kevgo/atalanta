@@ -30,3 +30,8 @@ path = "src/main.rs"
 name = "cucumber" # this should be the same as the filename of your test target
 harness = false  # allows Cucumber to print output instead of libtest
 test = false  # don't run this as part of "cargo test"
+
+[profile.release]
+strip = "symbols"
+lto = true
+panic = 'abort'
