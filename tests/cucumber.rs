@@ -1,33 +1,34 @@
 use async_trait::async_trait;
 use cucumber::gherkin::Step;
-use cucumber::{given, then, when, World, WorldInit};
+use cucumber::{given, then, when, WorldInit};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::convert::Infallible;
 use std::env;
 use std::fs;
-use std::fs::File;
-use std::io::prelude::*;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Output};
+use std::process::Output;
 use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
+use tokio::fs::File;
+use tokio::io::{self, AsyncWriteExt};
+use tokio::process::Command;
 
 #[derive(Debug, WorldInit)]
-pub struct RunWorld {
+struct RunWorld {
     /// the directory containing the test files of the current scenario
-    pub dir: PathBuf,
+    dir: PathBuf,
 
     /// the result of running Atlanta
-    pub output: Option<Output>,
+    output: Option<Output>,
 }
 
 #[async_trait(?Send)]
-impl World for RunWorld {
+impl cucumber::World for RunWorld {
     type Error = Infallible;
 
-    async fn new() -> Result<Self, Infallible> {
+    async fn new() -> Result<Self, Self::Error> {
         Ok(Self {
             dir: tmp_dir(),
             output: None,
@@ -63,25 +64,29 @@ impl RunWorld {
 }
 
 #[given(expr = "a file {string} with content:")]
-fn a_file_with_content(world: &mut RunWorld, step: &Step, filename: String) {
+async fn a_file_with_content(
+    world: &mut RunWorld,
+    step: &Step,
+    filename: String,
+) -> io::Result<()> {
     let content = step.docstring.as_ref().unwrap().trim();
-    create_file(filename, content, &world.dir)
+    create_file(&filename, content, &world.dir).await
 }
 
 #[given(expr = "a file {string}")]
-fn a_file(world: &mut RunWorld, filename: String) {
-    create_file(filename, "", &world.dir)
+async fn a_file(world: &mut RunWorld, filename: String) -> io::Result<()> {
+    create_file(&filename, "", &world.dir).await
 }
 
 #[given("a Makefile with content:")]
-fn a_makefile(world: &mut RunWorld, step: &Step) {
+async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
     let content = step.docstring.as_ref().unwrap().trim();
     let tabulized = convert_to_makefile_format(content);
-    create_file("Makefile", &tabulized, &world.dir)
+    create_file("Makefile", &tabulized, &world.dir).await
 }
 
 #[when(expr = "executing {string}")]
-fn executing(world: &mut RunWorld, command: String) {
+async fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
         Some("a") => {}
@@ -92,6 +97,7 @@ fn executing(world: &mut RunWorld, command: String) {
             .args(argv)
             .current_dir(&world.dir)
             .output()
+            .await
             .expect("cannot find the 'a' executable"),
     );
 }
@@ -119,12 +125,6 @@ fn contains_folder(world: &mut RunWorld, folder: String) {
     assert!(world.dir.join(folder).is_dir())
 }
 
-fn main() {
-    // You may choose any executor you like (`tokio`, `async-std`, etc.).
-    // You may even have an `async` main. Cucumber is composable.
-    futures::executor::block_on(RunWorld::run("features"));
-}
-
 /// creates a temporary directory
 fn tmp_dir() -> PathBuf {
     let timestamp = SystemTime::now()
@@ -142,13 +142,10 @@ fn tmp_dir() -> PathBuf {
     dir
 }
 
-fn create_file<P1: AsRef<Path>>(filename: P1, content: &str, dir: &Path) {
-    let filename = filename.as_ref();
-    if let Some(parent) = filename.parent() {
-        fs::create_dir_all(dir.join(parent)).unwrap();
-    }
-    let mut file = File::create(&dir.join(filename)).unwrap();
-    file.write_all(content.as_bytes()).unwrap();
+async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()> {
+    let filepath = dir.join(filename);
+    let mut file = File::create(filepath).await?;
+    file.write_all(content.as_bytes()).await
 }
 
 /// this codebase uses 2 spaces for indentation but Makefiles require tabs
@@ -165,4 +162,9 @@ fn convert_to_makefile_format(text: &str) -> String {
         }
     }
     result
+}
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() {
+    RunWorld::run("features").await;
 }
