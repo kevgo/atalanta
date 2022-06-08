@@ -104,7 +104,7 @@ fn verify_output(world: &mut RunWorld, step: &Step) {
     assert_eq!(have, want);
 }
 
-#[then(regex = "^the exit code is (\\d)$")]
+#[then(expr = "the exit code is {int}")]
 fn exit_code(world: &mut RunWorld, want: i32) {
     assert_eq!(world.exit_code(), want);
 }
