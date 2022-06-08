@@ -45,7 +45,7 @@ async fn is_full(w: &mut World) {
     assert_eq!(w.capacity, 3, "{} isn't full!", w.user.as_ref().unwrap());
 }
 
-#[tokio::main]
+#[tokio::main(flavor = "current_thread")]
 async fn main() {
-    World::run("tests/features/readme").await;
+    World::run("features").await;
 }
