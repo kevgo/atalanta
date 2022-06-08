@@ -91,13 +91,14 @@ async fn executing(world: &mut RunWorld, command: String) {
         Some("a") => {}
         _ => panic!("The end-to-end tests can only run the 'a' command for now"),
     }
-    let output = tokio::process::Command::new("../../target/debug/a")
-        .args(argv)
-        .current_dir(&world.dir)
-        .output()
-        .await
-        .expect("cannot find the 'a' executable");
-    world.output = Some(output);
+    world.output = Some(
+        tokio::process::Command::new("../../target/debug/a")
+            .args(argv)
+            .current_dir(&world.dir)
+            .output()
+            .await
+            .expect("cannot find the 'a' executable"),
+    );
 }
 
 #[then("it prints:")]
