@@ -8,13 +8,11 @@ use std::convert::Infallible;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Output};
+use std::process::Output;
 use std::str;
-use std::time::Duration;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tokio::fs::File;
 use tokio::io::{self, AsyncWriteExt};
-use tokio::time::sleep;
 
 #[derive(Debug, WorldInit)]
 struct RunWorld {
@@ -23,9 +21,6 @@ struct RunWorld {
 
     /// the result of running Atlanta
     pub output: Option<Output>,
-
-    pub capacity: usize,
-    user: Option<String>,
 }
 
 #[async_trait(?Send)]
@@ -36,8 +31,6 @@ impl cucumber::World for RunWorld {
         Ok(Self {
             dir: tmp_dir(),
             output: None,
-            capacity: 0,
-            user: None,
         })
     }
 }
@@ -69,27 +62,6 @@ impl RunWorld {
     }
 }
 
-#[given(expr = "{word} is hungry")] // Cucumber Expression
-async fn someone_is_hungry(w: &mut RunWorld, user: String) {
-    sleep(Duration::from_secs(1)).await;
-    w.user = Some(user);
-}
-
-#[when(regex = r"^(?:he|she|they) eats? (\d+) cucumbers?$")]
-async fn eat_cucumbers(w: &mut RunWorld, count: usize) {
-    sleep(Duration::from_secs(1)).await;
-    w.capacity += count;
-    assert!(w.capacity < 4, "{} exploded!", w.user.as_ref().unwrap());
-}
-
-#[then("she is full")]
-async fn is_full(w: &mut RunWorld) {
-    sleep(Duration::from_secs(1)).await;
-    assert_eq!(w.capacity, 3, "{} isn't full!", w.user.as_ref().unwrap());
-}
-
-////////////////////////////////
-
 #[given(expr = "a file {string} with content:")]
 async fn a_file_with_content(
     world: &mut RunWorld,
@@ -113,19 +85,19 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 }
 
 #[when(expr = "executing {string}")]
-fn executing(world: &mut RunWorld, command: String) {
+async fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
         Some("a") => {}
         _ => panic!("The end-to-end tests can only run the 'a' command for now"),
     }
-    world.output = Some(
-        Command::new("../../target/debug/a")
-            .args(argv)
-            .current_dir(&world.dir)
-            .output()
-            .expect("cannot find the 'a' executable"),
-    );
+    let output = tokio::process::Command::new("../../target/debug/a")
+        .args(argv)
+        .current_dir(&world.dir)
+        .output()
+        .await
+        .expect("cannot find the 'a' executable");
+    world.output = Some(output);
 }
 
 #[then("it prints:")]
@@ -189,8 +161,6 @@ fn convert_to_makefile_format(text: &str) -> String {
     }
     result
 }
-
-////////////////////////////////////////////////////////////////
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {

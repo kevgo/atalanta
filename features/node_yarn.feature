@@ -25,6 +25,7 @@ Feature: Node.JS with Yarn
         task-2   echo two
       """
 
+  @this
   Scenario: run a task
     When executing "a task-1"
     Then it prints:
