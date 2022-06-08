@@ -109,7 +109,7 @@ fn exit_code(world: &mut RunWorld, want: i32) {
     assert_eq!(world.exit_code(), want);
 }
 
-#[then(regex = "^the output contains \"(.*)\"$")]
+#[then(expr = "the output contains {string}")]
 fn output_contains(world: &mut RunWorld, text: String) {
     assert!(world.output().contains(&text));
 }
