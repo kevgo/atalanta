@@ -35,8 +35,9 @@ Feature: Makefiles
       """
     Then the exit code is 0
 
+  @this
   Scenario: run a task (short name)
-    When executing "atalanta 1"
+    When executing "a 1"
     Then it prints:
       """
       task 1 is running
