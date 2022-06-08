@@ -35,7 +35,6 @@ Feature: Makefiles
       """
     Then the exit code is 0
 
-  @this
   Scenario: run a task (short name)
     When executing "a 1"
     Then it prints:
@@ -43,6 +42,16 @@ Feature: Makefiles
       task 1 is running
       """
     Then the exit code is 0
+
+  Scenario: multiple tasks match a shortcut
+    When executing "a tk"
+    Then it prints:
+      """
+      Multiple matches:
+        task-1
+        task-2
+      """
+    Then the exit code is 1
 
   Scenario: run an unknown task
     When executing "a zonk"
