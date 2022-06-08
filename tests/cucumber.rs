@@ -80,7 +80,7 @@ fn a_makefile(world: &mut RunWorld, step: &Step) {
     create_file("Makefile", &tabulized, &world.dir)
 }
 
-#[when(regex = r#"^executing "(.*)"$"#)]
+#[when(expr = "executing {string}")]
 fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
