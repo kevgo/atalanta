@@ -36,3 +36,10 @@ Run the `test` script defined in `package.json`:
 ```
 a test
 ```
+
+You can also provide fewer characters for task names as long as they uniquely
+match exactly one task:
+
+```
+a t
+```
