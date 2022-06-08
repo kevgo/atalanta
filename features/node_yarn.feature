@@ -29,6 +29,7 @@ Feature: Node.JS with Yarn
     When executing "a task-1"
     Then it prints:
       """
+      yarn --silent run task-1
       one
       """
     Then the exit code is 0
@@ -51,6 +52,7 @@ Feature: Node.JS with Yarn
     When executing "a failing"
     Then it prints:
       """
+      yarn --silent run failing
       running a failing task
       """
     And the exit code is 2

@@ -16,6 +16,7 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
             return Outcome::TooManyTaskMatches { tasks };
         }
     };
+    println!("{}", task.cli());
     let output = task
         .command()
         .stdin(Stdio::inherit())

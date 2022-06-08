@@ -15,6 +15,10 @@ pub struct Task {
 }
 
 impl Task {
+    pub fn cli(&self) -> String {
+        format!("{} {}", self.cmd, self.argv.join(" "))
+    }
+
     /// provides a fully configured `Command` that executes this `Task`
     pub fn command(&self) -> Command {
         let mut cmd = Command::new(&self.cmd);

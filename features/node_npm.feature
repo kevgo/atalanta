@@ -29,6 +29,7 @@ Feature: Node.JS with npm
     When executing "a task-1"
     Then it prints:
       """
+      npm run task-1 --silent
       one
       """
     Then the exit code is 0
@@ -51,6 +52,7 @@ Feature: Node.JS with npm
     When executing "a failing"
     Then it prints:
       """
+      npm run failing --silent
       running a failing task
       """
     And the exit code is 2
