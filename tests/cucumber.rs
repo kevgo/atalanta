@@ -62,13 +62,13 @@ impl RunWorld {
     }
 }
 
-#[given(regex = r#"^a file "(.+)" with content:$"#)]
+#[given(expr = "a file {string} with content:")]
 fn a_file_with_content(world: &mut RunWorld, step: &Step, filename: String) {
     let content = step.docstring.as_ref().unwrap().trim();
     create_file(filename, content, &world.dir)
 }
 
-#[given(regex = r#"^a file "(.+)"$"#)]
+#[given(expr = "a file {string}")]
 fn a_file(world: &mut RunWorld, filename: String) {
     create_file(filename, "", &world.dir)
 }
@@ -80,7 +80,7 @@ fn a_makefile(world: &mut RunWorld, step: &Step) {
     create_file("Makefile", &tabulized, &world.dir)
 }
 
-#[when(regex = r#"^executing "(.*)"$"#)]
+#[when(expr = "executing {string}")]
 fn executing(world: &mut RunWorld, command: String) {
     let mut argv = command.split_ascii_whitespace();
     match argv.next() {
@@ -104,17 +104,17 @@ fn verify_output(world: &mut RunWorld, step: &Step) {
     assert_eq!(have, want);
 }
 
-#[then(regex = "^the exit code is (\\d)$")]
+#[then(expr = "the exit code is {int}")]
 fn exit_code(world: &mut RunWorld, want: i32) {
     assert_eq!(world.exit_code(), want);
 }
 
-#[then(regex = "^the output contains \"(.*)\"$")]
+#[then(expr = "the output contains {string}")]
 fn output_contains(world: &mut RunWorld, text: String) {
     assert!(world.output().contains(&text));
 }
 
-#[then(regex = "^the workspace contains a folder \"(.*)\"$")]
+#[then(expr = "the workspace contains a folder {string}")]
 fn contains_folder(world: &mut RunWorld, folder: String) {
     assert!(world.dir.join(folder).is_dir())
 }
