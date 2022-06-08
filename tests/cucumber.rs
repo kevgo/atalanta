@@ -13,6 +13,7 @@ use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tokio::fs::File;
 use tokio::io::{self, AsyncWriteExt};
+use tokio::process::Command;
 
 #[derive(Debug, WorldInit)]
 struct RunWorld {
@@ -92,7 +93,7 @@ async fn executing(world: &mut RunWorld, command: String) {
         _ => panic!("The end-to-end tests can only run the 'a' command for now"),
     }
     world.output = Some(
-        tokio::process::Command::new("../../target/debug/a")
+        Command::new("../../target/debug/a")
             .args(argv)
             .current_dir(&world.dir)
             .output()
