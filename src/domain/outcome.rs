@@ -13,6 +13,8 @@ pub enum Outcome {
     },
     /// Atalanta doesn't know how to set up this workspace
     NoSetup,
+    /// more than one task matches the shortcut provided by the user
+    TooManyTaskMatches { tasks: Vec<String> },
     /// couldn't determine a stack
     UnknownStack,
     /// there is no task with the given name
@@ -46,6 +48,13 @@ impl Termination for Outcome {
             }
             Outcome::NoSetup => {
                 println!("Warning: I don't know how to set up this workspace");
+                ExitCode::FAILURE
+            }
+            Outcome::TooManyTaskMatches { tasks } => {
+                println!("Multiple matches:");
+                for task in tasks {
+                    println!("  {}", task);
+                }
                 ExitCode::FAILURE
             }
         }
