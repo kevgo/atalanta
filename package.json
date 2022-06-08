@@ -1,8 +1,0 @@
-{
-  "name": "demo",
-  "scripts": {
-    "task-1": "echo one",
-    "task-2": "echo two",
-    "failing": "echo 'running a failing task' && exit 2"
-  }
-}
