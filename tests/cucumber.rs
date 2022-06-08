@@ -114,7 +114,7 @@ fn output_contains(world: &mut RunWorld, text: String) {
     assert!(world.output().contains(&text));
 }
 
-#[then(regex = "^the workspace contains a folder \"(.*)\"$")]
+#[then(expr = "the workspace contains a folder {string}")]
 fn contains_folder(world: &mut RunWorld, folder: String) {
     assert!(world.dir.join(folder).is_dir())
 }
