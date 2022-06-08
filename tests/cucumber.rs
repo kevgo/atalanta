@@ -62,13 +62,13 @@ impl RunWorld {
     }
 }
 
-#[given(regex = r#"^a file "(.+)" with content:$"#)]
+#[given(expr = "a file {string} with content:")]
 fn a_file_with_content(world: &mut RunWorld, step: &Step, filename: String) {
     let content = step.docstring.as_ref().unwrap().trim();
     create_file(filename, content, &world.dir)
 }
 
-#[given(regex = r#"^a file "(.+)"$"#)]
+#[given(expr = "a file {string}")]
 fn a_file(world: &mut RunWorld, filename: String) {
     create_file(filename, "", &world.dir)
 }
