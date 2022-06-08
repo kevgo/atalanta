@@ -17,10 +17,10 @@ use tokio::io::{self, AsyncWriteExt};
 #[derive(Debug, WorldInit)]
 struct RunWorld {
     /// the directory containing the test files of the current scenario
-    pub dir: PathBuf,
+    dir: PathBuf,
 
     /// the result of running Atlanta
-    pub output: Option<Output>,
+    output: Option<Output>,
 }
 
 #[async_trait(?Send)]
