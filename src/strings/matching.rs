@@ -44,10 +44,26 @@ mod tests {
     mod matching {
 
         #[test]
-        fn has_match() {
+        fn no_match() {
+            let names = vec!["task1", "task2", "task3"];
+            let have = super::super::matching("t4", names);
+            let want: Vec<&str> = vec![];
+            assert_eq!(have, want);
+        }
+
+        #[test]
+        fn one_match() {
             let names = vec!["task1", "task2", "task3"];
             let have = super::super::matching("t2", names);
             let want = vec!["task2"];
+            assert_eq!(have, want);
+        }
+
+        #[test]
+        fn multiple_matches() {
+            let names = vec!["task1", "task2"];
+            let have = super::super::matching("tk", names);
+            let want = vec!["task1", "task2"];
             assert_eq!(have, want);
         }
     }
