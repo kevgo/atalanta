@@ -99,7 +99,7 @@ mod tests {
 
         #[test]
         fn multiple_matches() {
-            let names = vec!["task1", "task2", "other"];
+            let names = vec!["task1", "task2", "tesseract"];
             let have = super::super::matching("tk", names);
             let want = vec!["task1", "task2"];
             assert_eq!(have, want);
