@@ -18,10 +18,9 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
             }
         };
         for i in 0..len {
-            let candidate = &mut candidates_iters[i];
             loop {
-                match &candidate.next() {
-                    Some(candidate_char) if candidate_char == &pattern_char => break, // same character --> done with this candidate
+                match candidates_iters[i].next() {
+                    Some(candidate_char) if candidate_char == pattern_char => break, // same character --> done with this candidate
                     Some(_) => continue, // no match --> go to the next candidate character
                     None => {
                         // candidate ran out of characters while the pattern still has characters left --> candidate is no match
