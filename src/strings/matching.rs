@@ -33,7 +33,7 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
     }
 }
 
-/// tracks the activity status of the given str
+/// tracks the activity status of given elements
 struct Tracker<'a> {
     candidates: Vec<&'a str>,
     in_race: Vec<bool>,
