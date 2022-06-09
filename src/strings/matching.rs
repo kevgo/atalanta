@@ -33,24 +33,24 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
     }
 }
 
-/// tracks the activity status of given elements
+/// tracks status of given elements
 struct Tracker<'a> {
-    candidates: Vec<&'a str>,
-    in_race: Vec<bool>,
+    elements: Vec<&'a str>,
+    statuses: Vec<bool>,
 }
 
 impl<'a> Tracker<'a> {
     fn new(candidates: Vec<&str>) -> Tracker {
         let len = candidates.len();
         Tracker {
-            candidates,
-            in_race: vec![true; len],
+            elements: candidates,
+            statuses: vec![true; len],
         }
     }
 
     /// disables the str with the given number
     fn disable(&mut self, index: usize) {
-        self.in_race[index] = false;
+        self.statuses[index] = false;
     }
 
     /// provides all the active elements
@@ -58,7 +58,7 @@ impl<'a> Tracker<'a> {
         let mut result = vec![];
         for i in 0..self.len() {
             if self.is_active(i) {
-                result.push(self.candidates[i]);
+                result.push(self.elements[i]);
             }
         }
         return result;
@@ -66,12 +66,12 @@ impl<'a> Tracker<'a> {
 
     /// indicates whether the given element is active
     fn is_active(&self, number: usize) -> bool {
-        self.in_race[number]
+        self.statuses[number]
     }
 
     /// provides the number of elements
     fn len(&self) -> usize {
-        self.candidates.len()
+        self.elements.len()
     }
 }
 
