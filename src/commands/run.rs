@@ -2,17 +2,17 @@ use crate::domain::{Outcome, Task, Workspace};
 use std::process::Stdio;
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
-    let tasks = workspace.tasks_matching_name(&name);
-    let task = match tasks.len() {
+    let task_names = workspace.tasks_matching_name(&name);
+    let task = match task_names.len() {
         0 => {
             return Outcome::UnknownTask {
                 task: name,
                 workspace,
             }
         }
-        1 => workspace.task_with_name(tasks[0]).unwrap(),
+        1 => workspace.task_with_name(task_names[0]).unwrap(),
         _ => {
-            let tasks: Vec<Task> = tasks
+            let tasks: Vec<Task> = task_names
                 .iter()
                 .map(|task| workspace.task_with_name(*task).unwrap())
                 .cloned()
