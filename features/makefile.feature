@@ -31,7 +31,6 @@ Feature: Makefiles
     When executing "a task-1"
     Then it prints:
       """
-      make --no-print-directory task-1
       task 1 is running
       """
     Then the exit code is 0
@@ -40,7 +39,6 @@ Feature: Makefiles
     When executing "a 1"
     Then it prints:
       """
-      make --no-print-directory task-1
       task 1 is running
       """
     Then the exit code is 0
@@ -73,7 +71,6 @@ Feature: Makefiles
     When executing "a failing"
     Then it prints:
       """
-      make --no-print-directory failing
       running a failing task
       """
     And the exit code is 2
