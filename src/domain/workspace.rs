@@ -1,4 +1,5 @@
 use super::{Stacks, Task};
+use crate::strings;
 
 pub struct Workspace {
     pub stacks: Stacks,
@@ -13,5 +14,15 @@ impl Workspace {
             }
         }
         None
+    }
+
+    pub fn tasks_matching_name(&self, name: &str) -> Vec<&str> {
+        let mut task_names = vec![];
+        for stack in &self.stacks {
+            for task in stack.tasks() {
+                task_names.push(task.name.as_str());
+            }
+        }
+        strings::matching(name, task_names)
     }
 }

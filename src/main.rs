@@ -4,6 +4,7 @@ use std::env::Args;
 mod commands;
 mod domain;
 mod stacks;
+mod strings;
 
 /// all commands that could be run
 enum Command {
