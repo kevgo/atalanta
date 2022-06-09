@@ -53,7 +53,7 @@ impl<'a> Tracker<'a> {
         self.statuses[index] = false;
     }
 
-    /// provides all the active elements
+    /// provides the active elements
     fn actives(&self) -> Vec<&'a str> {
         let mut result = vec![];
         for i in 0..self.len() {
