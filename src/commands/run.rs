@@ -14,8 +14,7 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         _ => {
             let tasks: Vec<Task> = task_names
                 .iter()
-                .map(|task| workspace.task_with_name(*task).unwrap())
-                .cloned()
+                .map(|task| workspace.task_with_name(*task).unwrap().to_owned())
                 .collect();
             return Outcome::TooManyTaskMatches { tasks };
         }
