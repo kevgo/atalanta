@@ -33,7 +33,7 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
     }
 }
 
-/// tracks status of given elements
+/// tracks a boolean status of given elements
 struct Tracker<'a> {
     elements: Vec<&'a str>,
     statuses: Vec<bool>,
