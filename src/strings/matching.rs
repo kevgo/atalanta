@@ -8,19 +8,13 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
         .iter()
         .map(|candidate| candidate.chars())
         .collect();
-    let mut candidate_in_race = vec![true; candidates.len()]; // true = still in the race, false = no match
+    let mut tracker = Tracker::new(candidates);
     loop {
         let pattern_char = match pattern_iter.next() {
             Some(c) => c,
             None => {
                 // reached the end of the pattern --> return all candidates still in the race
-                let mut result = vec![];
-                for i in 0..len {
-                    if candidate_in_race[i] {
-                        result.push(candidates[i]);
-                    }
-                }
-                return result;
+                return tracker.actives();
             }
         };
         for i in 0..len {
@@ -31,7 +25,7 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
                     Some(_) => continue, // no match --> go to the next candidate character
                     None => {
                         // candidate ran out of characters while the pattern still has characters left --> candidate is no match
-                        candidate_in_race[i] = false;
+                        tracker.disable(i);
                         break;
                     }
                 }
@@ -40,8 +34,51 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
     }
 }
 
+/// tracks the activity status of the given str
+struct Tracker<'a> {
+    candidates: Vec<&'a str>,
+    in_race: Vec<bool>,
+}
+
+impl<'a> Tracker<'a> {
+    fn new(candidates: Vec<&str>) -> Tracker {
+        let len = candidates.len();
+        Tracker {
+            candidates,
+            in_race: vec![true; len],
+        }
+    }
+
+    /// disables the str with the given number
+    fn disable(&mut self, index: usize) {
+        self.in_race[index] = false;
+    }
+
+    /// provides all the active elements
+    fn actives(&self) -> Vec<&'a str> {
+        let mut result = vec![];
+        for i in 0..self.len() {
+            if self.is_active(i) {
+                result.push(self.candidates[i]);
+            }
+        }
+        return result;
+    }
+
+    /// indicates whether the given element is active
+    fn is_active(&self, number: usize) -> bool {
+        self.in_race[number]
+    }
+
+    /// provides the number of elements
+    fn len(&self) -> usize {
+        self.candidates.len()
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    use super::Tracker;
 
     mod matching {
 
@@ -68,5 +105,14 @@ mod tests {
             let want = vec!["task1", "task2"];
             assert_eq!(have, want);
         }
+    }
+
+    #[test]
+    fn tracker() {
+        let mut t = Tracker::new(vec!["one", "two", "three"]);
+        t.disable(1);
+        assert!(t.is_active(0));
+        assert!(!t.is_active(1));
+        assert_eq!(t.actives(), vec!["one", "three"]);
     }
 }
