@@ -48,7 +48,7 @@ impl<'a> Tracker<'a> {
         }
     }
 
-    /// disables the str with the given number
+    /// disables the element with the given number
     fn disable(&mut self, index: usize) {
         self.statuses[index] = false;
     }
