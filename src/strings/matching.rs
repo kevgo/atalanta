@@ -108,10 +108,10 @@ mod tests {
 
     #[test]
     fn tracker() {
-        let mut t = Tracker::new(vec!["one", "two", "three"]);
-        t.disable(1);
-        assert!(t.is_active(0));
-        assert!(!t.is_active(1));
-        assert_eq!(t.actives(), vec!["one", "three"]);
+        let mut tracker = Tracker::new(vec!["one", "two", "three"]);
+        tracker.disable(1);
+        assert!(tracker.is_active(0));
+        assert!(!tracker.is_active(1));
+        assert_eq!(tracker.actives(), vec!["one", "three"]);
     }
 }
