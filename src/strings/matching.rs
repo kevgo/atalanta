@@ -2,35 +2,36 @@ use std::str::Chars;
 
 /// provides the elements from candidates that match the given pattern
 pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
-    let l = candidates.len();
+    let len = candidates.len();
     let mut pattern_iter = pattern.chars();
     let mut candidates_iters: Vec<Chars> = candidates
         .iter()
         .map(|candidate| candidate.chars())
         .collect();
-    let mut active = vec![true; candidates.len()];
+    let mut candidate_in_race = vec![true; candidates.len()]; // true = still in the race, false = no match
     loop {
-        let p = match pattern_iter.next() {
-            Some(p) => p,
+        let pattern_char = match pattern_iter.next() {
+            Some(c) => c,
             None => {
-                // reached the end of the pattern --> return all candidates still standing
+                // reached the end of the pattern --> return all candidates still in the race
                 let mut result = vec![];
-                for i in 0..l {
-                    if active[i] {
+                for i in 0..len {
+                    if candidate_in_race[i] {
                         result.push(candidates[i]);
                     }
                 }
                 return result;
             }
         };
-        for i in 0..l {
+        for i in 0..len {
             let candidate = &mut candidates_iters[i];
             loop {
                 match &candidate.next() {
-                    Some(c) if c == &p => break,
-                    Some(_) => continue,
+                    Some(candidate_char) if candidate_char == &pattern_char => break, // same character --> done with this candidate
+                    Some(_) => continue, // no match --> go to the next candidate character
                     None => {
-                        active[i] = false;
+                        // candidate ran out of characters while the pattern still has characters left --> candidate is no match
+                        candidate_in_race[i] = false;
                         break;
                     }
                 }
