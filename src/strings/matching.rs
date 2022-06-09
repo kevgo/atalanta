@@ -1,7 +1,7 @@
 use std::str::Chars;
 
 /// provides the elements from candidates that match the given pattern
-pub fn matching<'b>(pattern: &str, candidates: Vec<&'b str>) -> Vec<&'b str> {
+pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
     let l = candidates.len();
     let mut pattern_iter = pattern.chars();
     let mut candidates_iters: Vec<Chars> = candidates
