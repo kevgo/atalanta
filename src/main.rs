@@ -25,7 +25,7 @@ fn parse_cli_args(mut args: Args) -> Command {
 
 fn main() -> Outcome {
     let stacks = stacks::identify();
-    if stacks.len() == 0 {
+    if stacks.is_empty() {
         return Outcome::UnknownStack;
     };
     let workspace = Workspace { stacks };
