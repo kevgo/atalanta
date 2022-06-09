@@ -6,7 +6,7 @@ use std::fs;
 use std::io::ErrorKind;
 use std::process::Command;
 
-pub struct MakefileStack {
+struct MakefileStack {
     tasks: Vec<Task>,
 }
 
@@ -39,7 +39,7 @@ pub fn scan(stacks: &mut Stacks) {
     };
     stacks.push(Box::new(MakefileStack {
         tasks: parse_text(&text),
-    }))
+    }));
 }
 
 /// provides the tasks in the given Makefile content
@@ -68,7 +68,7 @@ fn parse_line(line: &str) -> Option<Task> {
         name: name.into(),
         cmd: "make".into(),
         argv: vec!["--no-print-directory".into(), name.into()],
-        desc: desc,
+        desc,
     })
 }
 static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r#"^([\w-]+):([^#]*)?(#\s*(.*))?"#).unwrap());
