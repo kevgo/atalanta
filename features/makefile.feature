@@ -27,7 +27,7 @@ Feature: Makefiles
         failing  this task returns a non-zero exit code
       """
 
-  Scenario: run a task (full name)
+  Scenario: run a task via full name
     When executing "a task-1"
     Then it prints:
       """
@@ -35,7 +35,7 @@ Feature: Makefiles
       """
     Then the exit code is 0
 
-  Scenario: run a task (short name)
+  Scenario: run a task via shortcut
     When executing "a 1"
     Then it prints:
       """
