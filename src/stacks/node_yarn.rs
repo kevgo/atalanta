@@ -4,7 +4,7 @@ use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
-pub struct NodeYarnStack {
+struct NodeYarnStack {
     tasks: Vec<Task>,
 }
 

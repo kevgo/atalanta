@@ -17,9 +17,9 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
                 return tracker.actives();
             }
         };
-        for i in 0..len {
+        for (i, candidate) in candidates_iters.iter_mut().enumerate().take(len) {
             loop {
-                match candidates_iters[i].next() {
+                match candidate.next() {
                     Some(candidate_char) if candidate_char == pattern_char => break, // same character --> done with this candidate
                     Some(_) => continue, // no match --> go to the next candidate character
                     None => {
@@ -61,7 +61,7 @@ impl<'a> Tracker<'a> {
                 result.push(self.elements[i]);
             }
         }
-        return result;
+        result
     }
 
     /// indicates whether the element with the given index is active

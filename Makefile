@@ -15,10 +15,13 @@ help:  # shows all available Make commands
 install:  # installs the binary on the current machine
 	cargo install --path .
 
+lint:  # finds code smells
+	cargo clippy --all-targets --all-features -- -W clippy::pedantic -A clippy::cast_sign_loss -A clippy::cast_possible_truncation
+
 run:  # runs in the local directory
 	cargo run --quiet
 
-test: unit cuke  # run all tests
+test: unit cuke lint  # run all tests
 
 unit:  # runs the unit tests
 	cargo test

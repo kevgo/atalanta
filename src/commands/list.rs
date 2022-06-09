@@ -21,7 +21,7 @@ pub fn print_stack(tasks: &Vec<Task>) {
             Style::new().bold().paint(&task.name),
             task.desc
         );
-        tw.write(text.as_bytes()).unwrap();
+        _ = tw.write(text.as_bytes()).unwrap();
     }
     let bytes = tw.into_inner().unwrap();
     unsafe {

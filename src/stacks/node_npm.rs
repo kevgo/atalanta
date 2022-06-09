@@ -7,7 +7,7 @@ use std::io::{BufReader, ErrorKind};
 use std::path::Path;
 use std::process::Command;
 
-pub struct NodeNpmStack {
+struct NodeNpmStack {
     tasks: Vec<Task>,
 }
 
