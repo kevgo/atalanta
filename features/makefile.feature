@@ -48,8 +48,8 @@ Feature: Makefiles
     Then it prints:
       """
       Multiple matches:
-        task-1
-        task-2
+        task-1  first task
+        task-2  second task
       """
     Then the exit code is 1
 

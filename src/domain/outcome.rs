@@ -1,4 +1,4 @@
-use super::Workspace;
+use super::{Task, Workspace};
 use crate::commands;
 use std::process::{ExitCode, Termination};
 
@@ -14,7 +14,7 @@ pub enum Outcome {
     /// Atalanta doesn't know how to set up this workspace
     NoSetup,
     /// more than one task matches the shortcut provided by the user
-    TooManyTaskMatches { tasks: Vec<String> },
+    TooManyTaskMatches { tasks: Vec<Task> },
     /// couldn't determine a stack
     UnknownStack,
     /// there is no task with the given name
@@ -52,9 +52,7 @@ impl Termination for Outcome {
             }
             Outcome::TooManyTaskMatches { tasks } => {
                 println!("Multiple matches:");
-                for task in tasks {
-                    println!("  {}", task);
-                }
+                commands::list::print_stack(&tasks);
                 ExitCode::FAILURE
             }
         }

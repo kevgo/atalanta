@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 use std::process::Command;
 
 /// a task that can be executed
-#[derive(Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct Task {
     /// name of this task, for identifying it via the CLI
     pub name: String,

@@ -1,4 +1,4 @@
-use crate::domain::{Outcome, Workspace};
+use crate::domain::{Outcome, Task, Workspace};
 use std::process::Stdio;
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
@@ -12,7 +12,11 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
         }
         1 => workspace.task_with_name(tasks[0]).unwrap(),
         _ => {
-            let tasks: Vec<String> = tasks.iter().map(|task| String::from(*task)).collect();
+            let tasks: Vec<Task> = tasks
+                .iter()
+                .map(|task| workspace.task_with_name(*task).unwrap())
+                .cloned()
+                .collect();
             return Outcome::TooManyTaskMatches { tasks };
         }
     };

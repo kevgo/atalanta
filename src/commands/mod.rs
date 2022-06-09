@@ -1,4 +1,4 @@
-mod list;
+pub mod list;
 mod run;
 mod setup;
 
