@@ -64,9 +64,9 @@ impl<'a> Tracker<'a> {
         return result;
     }
 
-    /// indicates whether the given element is active
-    fn is_active(&self, number: usize) -> bool {
-        self.statuses[number]
+    /// indicates whether the element with the given index is active
+    fn is_active(&self, index: usize) -> bool {
+        self.statuses[index]
     }
 
     /// provides the number of elements
