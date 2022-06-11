@@ -1,3 +1,4 @@
+@this
 Feature: Node.JS with npm
 
   Background:
@@ -6,8 +7,8 @@ Feature: Node.JS with npm
       {
         "name": "demo",
         "scripts": {
-          "task-1": "echo one",
-          "task-2": "echo two",
+          "format": "echo formatting",
+          "format:check": "echo checking format",
           "failing": "echo 'running a failing task' && exit 2"
         }
       }
@@ -20,16 +21,16 @@ Feature: Node.JS with npm
       """
       Node.JS (npm)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing       echo 'running a failing task' && exit 2
+        format        echo formatting
+        format:check  echo checking format
       """
 
   Scenario: run a task
-    When executing "a task-1"
+    When executing "a format"
     Then it prints:
       """
-      one
+      formatting
       """
     Then the exit code is 0
 
@@ -41,9 +42,9 @@ Feature: Node.JS with npm
 
       Node.JS (npm)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing       echo 'running a failing task' && exit 2
+        format        echo formatting
+        format:check  echo checking format
       """
     Then the exit code is 1
 
