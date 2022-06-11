@@ -11,7 +11,6 @@ enum Command {
     List,
     Run(String),
     Setup,
-    FishCompletionInstall,
     FishCompletionSetup,
     FishCompletion,
 }
@@ -21,7 +20,6 @@ fn parse_cli_args(mut args: Args) -> Command {
     match args.next() {
         Some(cmd) if cmd == "-s" => Command::Setup,
         Some(cmd) if cmd == "--fish-completion" => Command::FishCompletion,
-        Some(cmd) if cmd == "--install-fish-completions" => Command::FishCompletionInstall,
         Some(cmd) if cmd == "--print-fish-completions" => Command::FishCompletionSetup,
         Some(cmd) => Command::Run(cmd),
         None => Command::List,
@@ -39,7 +37,6 @@ fn execute(command: Command) -> Result<Outcome, Outcome> {
         Command::List => commands::list(load_workspace()?),
         Command::Run(name) => commands::run(load_workspace()?, name),
         Command::Setup => commands::setup(load_workspace()?),
-        Command::FishCompletionInstall => commands::completions::fish::install(),
         Command::FishCompletionSetup => commands::completions::fish::print(),
         Command::FishCompletion => commands::completions::fish::tasks(load_workspace()?),
     })
@@ -55,7 +52,6 @@ fn load_workspace() -> Result<Workspace, Outcome> {
 
 fn flatten(outcome: Result<Outcome, Outcome>) -> Outcome {
     match outcome {
-        Ok(outcome) => outcome,
-        Err(outcome) => outcome,
+        Err(outcome) | Ok(outcome) => outcome,
     }
 }

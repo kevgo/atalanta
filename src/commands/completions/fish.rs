@@ -1,17 +1,4 @@
 use crate::domain::{Outcome, Workspace};
-use std::fs;
-
-pub fn install() -> Outcome {
-    let path = "~/.config/fish/completions/atalanta.fish";
-    let result = fs::write(&path, setup_commands().join("\n"));
-    match result {
-        Ok(_) => Outcome::Success,
-        Err(e) => Outcome::CannotWriteFile {
-            path,
-            error: e.to_string(),
-        },
-    }
-}
 
 /// prints Fish commands that set up autocompletion
 pub fn print() -> Outcome {
