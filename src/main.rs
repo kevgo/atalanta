@@ -29,17 +29,33 @@ fn parse_cli_args(mut args: Args) -> Command {
 }
 
 fn main() -> Outcome {
-    let stacks = stacks::identify();
-    if stacks.is_empty() {
-        return Outcome::UnknownStack;
-    };
-    let workspace = Workspace { stacks };
-    match parse_cli_args(std::env::args()) {
-        Command::List => commands::list(workspace),
-        Command::Run(name) => commands::run(workspace, name),
-        Command::Setup => commands::setup(workspace),
+    let command = parse_cli_args(std::env::args());
+    let outcome = execute(command);
+    flatten(outcome)
+}
+
+fn execute(command: Command) -> Result<Outcome, Outcome> {
+    Ok(match command {
+        Command::List => commands::list(load_workspace()?),
+        Command::Run(name) => commands::run(load_workspace()?, name),
+        Command::Setup => commands::setup(load_workspace()?),
         Command::FishCompletionInstall => commands::completions::fish::install(),
         Command::FishCompletionSetup => commands::completions::fish::print(),
-        Command::FishCompletion => commands::completions::fish::tasks(workspace),
+        Command::FishCompletion => commands::completions::fish::tasks(load_workspace()?),
+    })
+}
+
+fn load_workspace() -> Result<Workspace, Outcome> {
+    let stacks = stacks::identify();
+    if stacks.is_empty() {
+        return Err(Outcome::UnknownStack);
+    };
+    Ok(Workspace { stacks })
+}
+
+fn flatten(outcome: Result<Outcome, Outcome>) -> Outcome {
+    match outcome {
+        Ok(outcome) => outcome,
+        Err(outcome) => outcome,
     }
 }
