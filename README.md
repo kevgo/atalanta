@@ -7,8 +7,8 @@ codebases, package managers, and developer tooling.
 
 ### installation
 
-You need [Rust](https://www.rust-lang.org). The recommended (and super easy) way
-to install it is via [RustUp](https://rustup.rs). To install Atalanta:
+Install [Rust](https://www.rust-lang.org) via [RustUp](https://rustup.rs). Then
+install Atalanta:
 
 ```
 cargo install https://github.com/kevgo/atalanta
@@ -17,7 +17,15 @@ cargo install https://github.com/kevgo/atalanta
 This installs a binary called `a` into the `~/.cargo/bin` folder. Please add it
 to your `$PATH`.
 
-Install the auto-completions for [Fish shell](https://fishshell.com):
+Install the auto-completions for [Fish shell](https://fishshell.com) into
+_~/.config/fish/completions/atalanta.fish_:
+
+```
+a --install-fish-completions
+```
+
+If you don't want to create this file, you can also configure autocompletions
+for the current shell:
 
 ```
 a --print-fish-completions | source
@@ -44,7 +52,7 @@ a test
 ```
 
 You can also provide fewer characters for task names as long as they uniquely
-match exactly one task:
+match a task:
 
 ```
 a t
