@@ -1,5 +1,6 @@
 use crate::domain::{Outcome, Workspace};
 
+/// prints Fish commands that set up autocompletion
 pub fn setup() -> Outcome {
     // disable file completions for the entire command
     println!("complete -c a -f");
@@ -10,6 +11,7 @@ pub fn setup() -> Outcome {
     Outcome::Success
 }
 
+/// used within autocompletion, prints available tasks in an auto-completion compatible format
 pub fn tasks(workspace: Workspace) -> Outcome {
     for stack in workspace.stacks {
         for task in stack.tasks() {
