@@ -107,7 +107,7 @@ fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
     let stripped = strip_ansi_escapes::strip(world.output_trimmed()).unwrap();
     let have = str::from_utf8(&stripped).unwrap();
-    assert_eq!(have, want);
+    pretty::assert_eq!(have, want);
 }
 
 #[then(expr = "the exit code is {int}")]
