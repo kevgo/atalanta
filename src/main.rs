@@ -38,8 +38,8 @@ fn main() -> Outcome {
         Command::List => commands::list(workspace),
         Command::Run(name) => commands::run(workspace, name),
         Command::Setup => commands::setup(workspace),
-        Command::FishCompletionInstall => commands::completions_fish::install(),
-        Command::FishCompletionSetup => commands::completions_fish::setup(),
-        Command::FishCompletion => commands::completions_fish::tasks(workspace),
+        Command::FishCompletionInstall => commands::completions::fish::install(),
+        Command::FishCompletionSetup => commands::completions::fish::print(),
+        Command::FishCompletion => commands::completions::fish::tasks(workspace),
     }
 }
