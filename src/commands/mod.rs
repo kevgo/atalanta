@@ -1,3 +1,4 @@
+pub mod completions_fish;
 pub mod list;
 mod run;
 mod setup;

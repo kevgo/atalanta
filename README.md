@@ -17,6 +17,12 @@ cargo install https://github.com/kevgo/atalanta
 This installs a binary called `a` into the `~/.cargo/bin` folder. Please add it
 to your `$PATH`.
 
+Load the auto-completions for [Fish shell](https://fishshell.com):
+
+```
+a --print-fish-completions | source
+```
+
 ### usage
 
 Install dependencies for your codebase (`-s` stands for "setup"):

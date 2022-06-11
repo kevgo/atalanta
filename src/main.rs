@@ -11,13 +11,16 @@ enum Command {
     List,
     Run(String),
     Setup,
+    FishCompletionSetup,
+    FishCompletion,
 }
 
 fn parse_cli_args(mut args: Args) -> Command {
-    // skip the binary name
-    args.next();
+    args.next(); // skip the binary name
     match args.next() {
         Some(cmd) if cmd == "-s" => Command::Setup,
+        Some(cmd) if cmd == "--fish-completion" => Command::FishCompletion,
+        Some(cmd) if cmd == "--print-fish-completions" => Command::FishCompletionSetup,
         Some(cmd) => Command::Run(cmd),
         None => Command::List,
     }
@@ -33,5 +36,7 @@ fn main() -> Outcome {
         Command::List => commands::list(workspace),
         Command::Run(name) => commands::run(workspace, name),
         Command::Setup => commands::setup(workspace),
+        Command::FishCompletionSetup => commands::completions_fish::setup(),
+        Command::FishCompletion => commands::completions_fish::tasks(),
     }
 }
