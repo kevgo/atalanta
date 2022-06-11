@@ -1,4 +1,4 @@
-use crate::domain::Outcome;
+use crate::domain::{Outcome, Workspace};
 
 pub fn setup() -> Outcome {
     // disable file completions for the entire command
@@ -10,8 +10,11 @@ pub fn setup() -> Outcome {
     Outcome::Success
 }
 
-pub fn tasks() -> Outcome {
-    println!("task 1\tone");
-    println!("task 2\ttwo");
+pub fn tasks(workspace: Workspace) -> Outcome {
+    for stack in workspace.stacks {
+        for task in stack.tasks() {
+            println!("{}\t{}", task.name, task.desc);
+        }
+    }
     Outcome::Success
 }

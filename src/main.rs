@@ -37,6 +37,6 @@ fn main() -> Outcome {
         Command::Run(name) => commands::run(workspace, name),
         Command::Setup => commands::setup(workspace),
         Command::FishCompletionSetup => commands::completions_fish::setup(),
-        Command::FishCompletion => commands::completions_fish::tasks(),
+        Command::FishCompletion => commands::completions_fish::tasks(workspace),
     }
 }
