@@ -21,11 +21,11 @@ pub fn tasks(workspace: Workspace) -> Outcome {
 /// the commands to set up autocompletion for Fish shell
 fn setup_commands() -> Vec<&'static str> {
     vec![
-        // disable file completions for the entire command
+        // disable completing filenames
         "complete -c a -f",
-        // completions for the built-in commands
+        // complete the built-in commands
         "complete -c a -a '-s' -d 'set up the codebase'",
-        // completions for the tasks in the current directory
+        // complete the tasks in the current directory
         "complete -c a -a \"(a --fish-completion)\"",
     ]
 }
