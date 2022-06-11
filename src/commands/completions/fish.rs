@@ -18,6 +18,7 @@ pub fn tasks(workspace: Workspace) -> Outcome {
     Outcome::Success
 }
 
+/// the commands to set up autocompletion for Fish shell
 fn setup_commands() -> Vec<&'static str> {
     vec![
         // disable file completions for the entire command
