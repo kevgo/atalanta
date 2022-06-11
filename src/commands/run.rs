@@ -3,14 +3,15 @@ use std::process::Stdio;
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
     let task_names = workspace.tasks_matching_name(&name);
-    let task = match task_names.len() {
+    let task_name = match task_names.len() {
         0 => {
             return Outcome::UnknownTask {
                 task: name,
                 workspace,
             }
         }
-        1 => workspace.task_with_name(task_names[0]).unwrap(),
+        1 => task_names[0],
+        _ if task_names.contains(&name.as_ref()) => &name,
         _ => {
             let tasks: Vec<Task> = task_names
                 .iter()
@@ -19,6 +20,7 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
             return Outcome::TooManyTaskMatches { tasks };
         }
     };
+    let task = workspace.task_with_name(task_name).unwrap();
     let output = task
         .command()
         .stdin(Stdio::inherit())

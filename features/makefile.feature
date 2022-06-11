@@ -3,11 +3,11 @@ Feature: Makefiles
   Background:
     Given a Makefile with content:
       """
-      task-1:  # first task
-        echo "task 1 is running"
+      format:  # formats the code
+        echo "formatting"
 
-      task-2: task-1  # second task
-        echo "task 2 is running"
+      format-check:  # checks for formatting problems
+        echo "check formatting"
 
       failing:  # this task returns a non-zero exit code
         echo "running a failing task"
@@ -22,34 +22,34 @@ Feature: Makefiles
       """
       Makefile
 
-        task-1   first task
-        task-2   second task
-        failing  this task returns a non-zero exit code
+        format        formats the code
+        format-check  checks for formatting problems
+        failing       this task returns a non-zero exit code
       """
 
   Scenario: run a task via full name
-    When executing "a task-1"
+    When executing "a format"
     Then it prints:
       """
-      task 1 is running
+      formatting
       """
     Then the exit code is 0
 
   Scenario: run a task via shortcut
-    When executing "a 1"
+    When executing "a fc"
     Then it prints:
       """
-      task 1 is running
+      check formatting
       """
     Then the exit code is 0
 
   Scenario: multiple tasks match a shortcut
-    When executing "a tk"
+    When executing "a fo"
     Then it prints:
       """
       Multiple matches:
-        task-1  first task
-        task-2  second task
+        format        formats the code
+        format-check  checks for formatting problems
       """
     Then the exit code is 1
 
@@ -61,9 +61,9 @@ Feature: Makefiles
 
       Makefile
 
-        task-1   first task
-        task-2   second task
-        failing  this task returns a non-zero exit code
+        format        formats the code
+        format-check  checks for formatting problems
+        failing       this task returns a non-zero exit code
       """
     Then the exit code is 1
 
