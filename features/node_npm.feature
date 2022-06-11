@@ -1,4 +1,3 @@
-@this
 Feature: Node.JS with npm
 
   Background:
