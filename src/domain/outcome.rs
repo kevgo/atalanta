@@ -26,6 +26,8 @@ pub enum Outcome {
     },
     /// Atalanta couldn't run an executable defined in a task
     CannotFindExecutable { err: String },
+    /// Atalanta cannot write the file with the given path
+    CannotWriteFile { path: &'static str, error: String },
 }
 
 impl Termination for Outcome {
@@ -44,6 +46,10 @@ impl Termination for Outcome {
             }
             Outcome::CannotFindExecutable { err } => {
                 println!("Error: cannot find executable: {}", err);
+                ExitCode::FAILURE
+            }
+            Outcome::CannotWriteFile { path, error } => {
+                println!("Error: cannot with file \"{}\": {}", path, error);
                 ExitCode::FAILURE
             }
             Outcome::NoSetup => {
