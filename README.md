@@ -17,15 +17,15 @@ cargo install https://github.com/kevgo/atalanta
 This installs a binary called `a` into the `~/.cargo/bin` folder. Please add it
 to your `$PATH`.
 
-Install the auto-completions for [Fish shell](https://fishshell.com) into
-_~/.config/fish/completions/atalanta.fish_:
+Install the auto-completions for [Fish shell](https://fishshell.com):
 
 ```
 a --install-fish-completions
 ```
 
-If you don't want to create this file, you can also configure autocompletions
-for the current shell:
+This creates a file _~/.config/fish/completions/atalanta.fish_. If you don't
+want to create this file, you can also configure autocompletions for the current
+shell:
 
 ```
 a --print-fish-completions | source
