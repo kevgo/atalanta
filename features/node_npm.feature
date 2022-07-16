@@ -56,7 +56,7 @@ Feature: Node.JS with npm
     And the exit code is 2
 
   Scenario Outline: setup
-    When executing "a -s"
+    When executing "a <COMMAND>"
     Then the output contains "up to date"
     And the exit code is 0
 
