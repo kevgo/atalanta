@@ -1,11 +1,29 @@
-# Atalanta
+<img src="web/logo800.jpg" alt="Atalanta" width="800" height="300">
 
-Atalanta &ndash; named after the Greek godess of running &ndash; performs
-typical software development tasks like installing dependencies and running
-scripts for a wide range of software stacks. This is useful if you work on a
-large variety of codebases, package managers, and developer tooling.
+Software development requires housekeeping activities like installing
+dependencies, running compilers, linters, automated tests, formatters, etc. If
+you work on a larger number of code bases, remembering how to use a variety of
+developer tools to run a variety of custom scripts and activities can get
+tedious. Atalanta &ndash; named after the Greek godess of running &ndash; knows
+a wide range of software stacks and runs these housekeeping activities for you.
 
-### installation
+Currently supported stacks:
+
+- [ ] Elixir
+- [ ] Haskell
+- [ ] Java using Bazel
+- [ ] Java using Gradle
+- [ ] Java using Maven
+- [x] Makefile
+- [x] Node.js using npm
+- [x] Node.js using yarn
+- [ ] Go
+- [ ] Python using pip
+- [ ] Python using Anaconda
+- [ ] Ruby on Rails
+- [ ] Rust using Cargo
+
+## Installation
 
 Install [Rust](https://www.rust-lang.org) via [RustUp](https://rustup.rs). Then
 install Atalanta:
@@ -26,36 +44,30 @@ if test -f ~/.cargo/bin/a
 end
 ```
 
-### usage
+## Usage
 
-Atalanta determines the stack of your codebase and does the right thing. For
-example, to install dependencies for your codebase:
-
-```
-a -s
-```
-
-`-s` stands for "setup" here. Running Atalanta without any parameters shows all
-available tasks:
+Use Atalanta inside a directory containing code. Running it without any
+parameters shows all recognized software stacks and available tasks for them:
 
 ```
 a
 ```
 
-If your codebase contains a file `package.json` that defines a `test` script:
+Use the `--setup` or `-s` command to install dependencies for your codebase:
+
+```
+a -s
+```
+
+If your codebase contains a file `package.json` that defines a `test` script,
+you no longer have to run `npm run test` but can do this now:
 
 ```
 a test
 ```
 
-If your codebase contains a `Makefile` that defines a `build` task:
-
-```
-a build
-```
-
-You can also provide fewer characters for task names as long as they uniquely
-match a task. To run the test script again:
+You can abbreviate task names as long as they uniquely match a task. To run the
+test script again:
 
 ```
 a t
