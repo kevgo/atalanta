@@ -9,19 +9,9 @@ a wide range of software stacks and runs these housekeeping activities for you.
 
 Currently supported stacks:
 
-- [ ] Elixir
-- [ ] Haskell
-- [ ] Java using Bazel
-- [ ] Java using Gradle
-- [ ] Java using Maven
-- [x] Makefile
-- [x] Node.js using npm
-- [x] Node.js using yarn
-- [ ] Go
-- [ ] Python using pip
-- [ ] Python using Anaconda
-- [ ] Ruby on Rails
-- [ ] Rust using Cargo
+- [Make](https://www.gnu.org/software/make)
+- [Node.js](https://nodejs.org) using [npm](https://github.com/npm/cli)
+- [Node.js](https://nodejs.org) using [yarn](https://yarnpkg.com)
 
 ## Installation
 
