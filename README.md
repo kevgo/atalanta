@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="documentation/logo_800_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="documentation/logo_800_light.png">
+  <img alt="Text-Runner logo" src="documentation/logo_800_light.jpg">
+</picture>
+
 <img src="web/logo800.jpg" alt="Atalanta" width="800" height="300">
 
 Software development requires housekeeping activities like installing
