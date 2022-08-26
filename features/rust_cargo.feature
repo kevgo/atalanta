@@ -14,11 +14,11 @@ Feature: Rust - Cargo
     When executing "a"
     Then it prints:
       """
-      Cargo
+      Rust (Cargo)
 
-        build       cargo build
-        check       cargo check
-        test        cargo test
+        build  cargo build
+        check  cargo check
+        test   cargo test
       """
 
   Scenario: run a task via full name

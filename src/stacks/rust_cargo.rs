@@ -43,6 +43,12 @@ pub fn scan(stacks: &mut Stacks) {
                 argv: vec!["check".into()],
                 desc: "cargo check".into(),
             },
+            Task {
+                name: "test".into(),
+                cmd: "cargo".into(),
+                argv: vec!["test".into()],
+                desc: "cargo test".into(),
+            },
         ],
     }));
 }
