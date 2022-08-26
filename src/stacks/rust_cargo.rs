@@ -15,9 +15,7 @@ impl Display for RustCargoStack {
 
 impl Stack for RustCargoStack {
     fn setup(&self) -> Option<Command> {
-        let mut cmd = Command::new("yarn");
-        cmd.arg("install");
-        Some(cmd)
+        None
     }
 
     fn tasks(&self) -> &Vec<Task> {

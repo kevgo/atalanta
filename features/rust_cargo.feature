@@ -9,7 +9,6 @@ Feature: Rust - Cargo
       """
     And a file "Cargo.lock"
 
-  @this
   Scenario: list available tasks
     When executing "a"
     Then it prints:
@@ -23,27 +22,19 @@ Feature: Rust - Cargo
 
   Scenario: run a task via full name
     When executing "a check"
-    Then it prints:
-      """
-      building
-      """
-    Then the exit code is 0
+    Then the exit code is 101
 
   Scenario: run a task via shortcut
     When executing "a c"
-    Then it prints:
-      """
-      building
-      """
-    Then the exit code is 0
+    Then the exit code is 101
 
   Scenario: multiple tasks match a shortcut
     When executing "a e"
     Then it prints:
       """
       Multiple matches:
-        format        formats the code
-        format-check  checks for formatting problems
+        check  cargo check
+        test   cargo test
       """
     Then the exit code is 1
 
@@ -53,14 +44,15 @@ Feature: Rust - Cargo
       """
       Error: task "zonk" doesn't exist
 
-      Cargo
+      Rust (Cargo)
 
-        build     build
-        check     cargo check
-        test      test
+        build  cargo build
+        check  cargo check
+        test   cargo test
       """
     Then the exit code is 1
 
+  @this
   Scenario: setup
     When executing "a -s"
     Then it prints:
