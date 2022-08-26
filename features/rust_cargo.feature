@@ -1,4 +1,4 @@
-Feature: Rust - Cargo
+Feature: Rust (Cargo)
 
   Background:
     Given a file "Cargo.toml" with content:
