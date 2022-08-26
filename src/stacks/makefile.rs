@@ -72,7 +72,7 @@ fn parse_line(line: &str) -> Option<Task> {
     })
 }
 static RE: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"^([[[:alpha:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?"#).unwrap());
+    Lazy::new(|| Regex::new(r#"^([[[:alnum:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?"#).unwrap());
 
 #[cfg(test)]
 mod tests {
@@ -148,6 +148,19 @@ mod tests {
                 cmd: "make".into(),
                 argv: vec!["--no-print-directory".into(), "cuke-this".into()],
                 desc: "run only the tagged Cucumber scenario".into(),
+            });
+            let have = super::super::parse_line(give);
+            pretty::assert_eq!(have, want);
+        }
+
+        #[test]
+        fn name_with_number() {
+            let give = "task-1:  # task 1";
+            let want = Some(Task {
+                name: "task-1".into(),
+                cmd: "make".into(),
+                argv: vec!["--no-print-directory".into(), "task-1".into()],
+                desc: "task 1".into(),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
