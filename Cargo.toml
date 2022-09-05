@@ -26,6 +26,7 @@ tokio = { version = "1.19.2", features = [ "fs", "io-util", "macros", "process",
 [[bin]]
 name = "a"
 path = "src/main.rs"
+doc = false
 
 [[test]]
 name = "cucumber" # this should be the same as the filename of your test target
@@ -33,6 +34,9 @@ harness = false  # allows Cucumber to print output instead of libtest
 test = false  # don't run this as part of "cargo test"
 
 [profile.release]
+debug = 0
 strip = "symbols"
 lto = true
 panic = 'abort'
+opt-level = "z"
+codegen-units = 1
