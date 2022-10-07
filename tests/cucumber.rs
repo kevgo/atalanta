@@ -4,13 +4,12 @@ use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::env;
-use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Output;
 use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
-use tokio::fs::File;
-use tokio::io::{self, AsyncWriteExt};
+use tokio::fs;
+use tokio::io;
 use tokio::process::Command;
 
 #[derive(Debug, World)]
@@ -134,15 +133,13 @@ fn tmp_dir() -> PathBuf {
         .collect();
     let cwd = env::current_dir().expect("cannot determine the current directory");
     let dir = cwd.join("tmp").join(format!("{}-{}", timestamp, rand));
-    fs::create_dir_all(&dir).unwrap();
+    std::fs::create_dir_all(&dir).unwrap();
     dir
 }
 
 async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()> {
     let filepath = dir.join(filename);
-    let mut file = File::create(filepath).await?;
-    file.write_all(content.as_bytes()).await?;
-    file.flush().await
+    fs::write(filepath, content.as_bytes()).await
 }
 
 /// this codebase uses 2 spaces for indentation but Makefiles require tabs
