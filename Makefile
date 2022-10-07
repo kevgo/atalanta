@@ -9,6 +9,9 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 
+fix:  # applies all auto-fixers
+	dprint fmt
+
 help:  # shows all available Make commands
 	cat Makefile | grep '^[^ ]*:' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
 
