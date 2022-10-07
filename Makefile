@@ -26,6 +26,8 @@ test: unit cuke lint  # run all tests
 unit:  # runs the unit tests
 	cargo test
 
+update:  # updates all dependencies
+	cargo upgrade    # install cargo-edit if this doesn't work
 
 .SILENT:
 .DEFAULT_GOAL := help
