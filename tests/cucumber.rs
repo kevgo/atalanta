@@ -145,7 +145,8 @@ fn tmp_dir() -> PathBuf {
 async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()> {
     let filepath = dir.join(filename);
     let mut file = File::create(filepath).await?;
-    file.write_all(content.as_bytes()).await
+    file.write_all(content.as_bytes()).await?;
+    file.flush().await
 }
 
 /// this codebase uses 2 spaces for indentation but Makefiles require tabs
