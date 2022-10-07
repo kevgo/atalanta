@@ -163,8 +163,5 @@ fn convert_to_makefile_format(text: &str) -> String {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    RunWorld::cucumber()
-        .max_concurrent_scenarios(1) // only one concurrent scenario because examples/home/.config contains shared mutable state
-        .run_and_exit("features")
-        .await;
+    RunWorld::run("features").await;
 }
