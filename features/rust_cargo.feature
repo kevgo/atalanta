@@ -52,7 +52,6 @@ Feature: Rust (Cargo)
       """
     Then the exit code is 1
 
-  @this
   Scenario: setup
     When executing "a -s"
     Then it prints:
