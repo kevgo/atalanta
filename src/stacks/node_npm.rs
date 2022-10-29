@@ -59,17 +59,16 @@ pub fn load_package_json() -> Option<PackageJson> {
         },
     };
     let reader = BufReader::new(file);
-    let package_json: PackageJson = match serde_json::from_reader(reader) {
-        Ok(content) => content,
+    match serde_json::from_reader(reader) {
+        Ok(content) => Some(content),
         Err(e) => {
             println!(
                 "Warning: file \"package.json\" has an invalid structure: {}",
                 e
             );
-            return None;
+            None
         }
-    };
-    Some(package_json)
+    }
 }
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
