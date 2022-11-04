@@ -1,4 +1,5 @@
 use crate::domain::{Stack, Stacks, Task};
+use big_s::S;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
@@ -62,12 +63,12 @@ fn parse_line(line: &str) -> Option<Task> {
     let name = capture.get(1).unwrap().as_str();
     let desc = match capture.get(4) {
         Some(desc) => desc.as_str().to_string(),
-        None => "".to_string(),
+        None => String::new(),
     };
     Some(Task {
         name: name.into(),
-        cmd: "make".into(),
-        argv: vec!["--no-print-directory".into(), name.into()],
+        cmd: S("make"),
+        argv: vec![S("--no-print-directory"), name.into()],
         desc,
     })
 }
@@ -79,6 +80,7 @@ mod tests {
 
     mod parse_line {
         use crate::domain::Task;
+        use big_s::S;
 
         #[test]
         fn no_task() {
@@ -92,10 +94,10 @@ mod tests {
         fn name() {
             let give = "cuke:";
             let want = Some(Task {
-                name: "cuke".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: "".into(),
+                name: S("cuke"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("cuke")],
+                desc: S(""),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -105,10 +107,10 @@ mod tests {
         fn name_and_deps() {
             let give = "cuke: build, lint";
             let want = Some(Task {
-                name: "cuke".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: "".into(),
+                name: S("cuke"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("cuke")],
+                desc: S(""),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -118,10 +120,10 @@ mod tests {
         fn name_and_desc() {
             let give = "cuke: # run cucumber";
             let want = Some(Task {
-                name: "cuke".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: "run cucumber".into(),
+                name: S("cuke"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("cuke")],
+                desc: S("run cucumber"),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -131,10 +133,10 @@ mod tests {
         fn name_and_deps_and_desc() {
             let give = "cuke: build, lint # run cucumber";
             let want = Some(Task {
-                name: "cuke".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "cuke".into()],
-                desc: "run cucumber".into(),
+                name: S("cuke"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("cuke")],
+                desc: S("run cucumber"),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -144,10 +146,10 @@ mod tests {
         fn name_with_dash() {
             let give = "cuke-this:  # run only the tagged Cucumber scenario";
             let want = Some(Task {
-                name: "cuke-this".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "cuke-this".into()],
-                desc: "run only the tagged Cucumber scenario".into(),
+                name: S("cuke-this"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("cuke-this")],
+                desc: S("run only the tagged Cucumber scenario"),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
@@ -157,10 +159,10 @@ mod tests {
         fn name_with_number() {
             let give = "task-1:  # task 1";
             let want = Some(Task {
-                name: "task-1".into(),
-                cmd: "make".into(),
-                argv: vec!["--no-print-directory".into(), "task-1".into()],
-                desc: "task 1".into(),
+                name: S("task-1"),
+                cmd: S("make"),
+                argv: vec![S("--no-print-directory"), S("task-1")],
+                desc: S("task 1"),
             });
             let have = super::super::parse_line(give);
             pretty::assert_eq!(have, want);
