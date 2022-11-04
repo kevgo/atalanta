@@ -1,3 +1,5 @@
+use big_s::S;
+
 use super::node_npm::{load_package_json, PackageJson};
 use crate::domain::{Stack, Stacks, Task};
 use std::fmt::Display;
@@ -43,8 +45,8 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
     for (key, value) in package_json.scripts {
         result.push(Task {
             name: key.clone(),
-            cmd: "yarn".into(),
-            argv: vec!["--silent".into(), "run".into(), key],
+            cmd: S("yarn"),
+            argv: vec![S("--silent"), S("run"), key],
             desc: value,
         });
     }

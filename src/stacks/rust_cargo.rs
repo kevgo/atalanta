@@ -1,4 +1,5 @@
 use crate::domain::{Stack, Stacks, Task};
+use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
@@ -30,22 +31,22 @@ pub fn scan(stacks: &mut Stacks) {
     stacks.push(Box::new(RustCargoStack {
         tasks: vec![
             Task {
-                name: "build".into(),
-                cmd: "cargo".into(),
-                argv: vec!["build".into()],
-                desc: "cargo build".into(),
+                name: S("build"),
+                cmd: S("cargo"),
+                argv: vec![S("build")],
+                desc: S("cargo build"),
             },
             Task {
-                name: "check".into(),
-                cmd: "cargo".into(),
-                argv: vec!["check".into()],
-                desc: "cargo check".into(),
+                name: S("check"),
+                cmd: S("cargo"),
+                argv: vec![S("check")],
+                desc: S("cargo check"),
             },
             Task {
-                name: "test".into(),
-                cmd: "cargo".into(),
-                argv: vec!["test".into()],
-                desc: "cargo test".into(),
+                name: S("test"),
+                cmd: S("cargo"),
+                argv: vec![S("test")],
+                desc: S("cargo test"),
             },
         ],
     }));
