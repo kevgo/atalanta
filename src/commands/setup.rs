@@ -4,9 +4,8 @@ use std::process::Stdio;
 pub fn setup(workspace: Workspace) -> Outcome {
     let mut executed = false;
     for stack in workspace.stacks {
-        let mut cmd = match stack.setup() {
-            Some(cmd) => cmd,
-            None => continue,
+        let Some(mut cmd) = stack.setup() else {
+            continue;
         };
         executed = true;
         let output = cmd

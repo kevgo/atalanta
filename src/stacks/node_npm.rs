@@ -39,9 +39,8 @@ pub fn scan(stacks: &mut Stacks) {
     if !Path::new("package-lock.json").exists() {
         return;
     }
-    let package_json = match load_package_json() {
-        Some(file) => file,
-        None => return,
+    let Some(package_json) = load_package_json() else {
+        return;
     };
     stacks.push(Box::new(NodeNpmStack {
         tasks: parse_scripts(package_json),
