@@ -1,4 +1,5 @@
 use crate::domain::{Stack, Stacks, Task};
+use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fmt::Display;
@@ -76,8 +77,8 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
     for (key, value) in package_json.scripts {
         result.push(Task {
             name: key.clone(),
-            cmd: "npm".into(),
-            argv: vec!["run".into(), key, "--silent".into()],
+            cmd: S("npm"),
+            argv: vec![S("run"), key, S("--silent")],
             desc: value,
         });
     }
