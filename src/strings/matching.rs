@@ -10,12 +10,9 @@ pub fn matching<'a>(pattern: &str, candidates: Vec<&'a str>) -> Vec<&'a str> {
         .collect();
     let mut tracker = Tracker::new(candidates);
     loop {
-        let pattern_char = match pattern_iter.next() {
-            Some(c) => c,
-            None => {
-                // reached the end of the pattern --> return all candidates still in the race
-                return tracker.actives();
-            }
+        let Some(pattern_char) = pattern_iter.next() else {
+            // reached the end of the pattern --> return all candidates still in the race
+            return tracker.actives();
         };
         for (i, candidate) in candidates_iters.iter_mut().enumerate().take(len) {
             loop {

@@ -1,4 +1,5 @@
 use crate::domain::{Stack, Stacks, Task};
+use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fmt::Display;
@@ -38,9 +39,8 @@ pub fn scan(stacks: &mut Stacks) {
     if !Path::new("package-lock.json").exists() {
         return;
     }
-    let package_json = match load_package_json() {
-        Some(file) => file,
-        None => return,
+    let Some(package_json) = load_package_json() else {
+        return;
     };
     stacks.push(Box::new(NodeNpmStack {
         tasks: parse_scripts(package_json),
@@ -59,17 +59,16 @@ pub fn load_package_json() -> Option<PackageJson> {
         },
     };
     let reader = BufReader::new(file);
-    let package_json: PackageJson = match serde_json::from_reader(reader) {
-        Ok(content) => content,
+    match serde_json::from_reader(reader) {
+        Ok(content) => Some(content),
         Err(e) => {
             println!(
                 "Warning: file \"package.json\" has an invalid structure: {}",
                 e
             );
-            return None;
+            None
         }
-    };
-    Some(package_json)
+    }
 }
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
@@ -77,8 +76,8 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
     for (key, value) in package_json.scripts {
         result.push(Task {
             name: key.clone(),
-            cmd: "npm".into(),
-            argv: vec!["run".into(), key, "--silent".into()],
+            cmd: S("npm"),
+            argv: vec![S("run"), key, S("--silent")],
             desc: value,
         });
     }

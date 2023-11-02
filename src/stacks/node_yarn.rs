@@ -1,3 +1,5 @@
+use big_s::S;
+
 use super::node_npm::{load_package_json, PackageJson};
 use crate::domain::{Stack, Stacks, Task};
 use std::fmt::Display;
@@ -30,9 +32,8 @@ pub fn scan(stacks: &mut Stacks) {
     if !Path::new("yarn.lock").exists() {
         return;
     }
-    let package_json = match load_package_json() {
-        Some(file) => file,
-        None => return,
+    let Some(package_json) = load_package_json() else {
+        return;
     };
     stacks.push(Box::new(NodeYarnStack {
         tasks: parse_scripts(package_json),
@@ -44,8 +45,8 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
     for (key, value) in package_json.scripts {
         result.push(Task {
             name: key.clone(),
-            cmd: "yarn".into(),
-            argv: vec!["--silent".into(), "run".into(), key],
+            cmd: S("yarn"),
+            argv: vec![S("--silent"), S("run"), key],
             desc: value,
         });
     }

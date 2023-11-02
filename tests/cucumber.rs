@@ -1,21 +1,19 @@
-use async_trait::async_trait;
 use cucumber::gherkin::Step;
-use cucumber::{given, then, when, WorldInit};
+use cucumber::{given, then, when, World};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
-use std::convert::Infallible;
 use std::env;
-use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Output;
 use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
-use tokio::fs::File;
-use tokio::io::{self, AsyncWriteExt};
+use tokio::fs;
+use tokio::io;
 use tokio::process::Command;
 
-#[derive(Debug, WorldInit)]
+#[derive(Debug, World)]
+#[world(init = Self::new)]
 struct RunWorld {
     /// the directory containing the test files of the current scenario
     dir: PathBuf,
@@ -24,15 +22,12 @@ struct RunWorld {
     output: Option<Output>,
 }
 
-#[async_trait(?Send)]
-impl cucumber::World for RunWorld {
-    type Error = Infallible;
-
-    async fn new() -> Result<Self, Self::Error> {
-        Ok(Self {
+impl RunWorld {
+    fn new() -> Self {
+        Self {
             dir: tmp_dir(),
             output: None,
-        })
+        }
     }
 }
 
@@ -138,14 +133,13 @@ fn tmp_dir() -> PathBuf {
         .collect();
     let cwd = env::current_dir().expect("cannot determine the current directory");
     let dir = cwd.join("tmp").join(format!("{}-{}", timestamp, rand));
-    fs::create_dir_all(&dir).unwrap();
+    std::fs::create_dir_all(&dir).unwrap();
     dir
 }
 
 async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()> {
     let filepath = dir.join(filename);
-    let mut file = File::create(filepath).await?;
-    file.write_all(content.as_bytes()).await
+    fs::write(filepath, content.as_bytes()).await
 }
 
 /// this codebase uses 2 spaces for indentation but Makefiles require tabs
