@@ -38,12 +38,12 @@ impl Termination for Outcome {
                 ExitCode::FAILURE
             }
             Outcome::UnknownTask { task, workspace } => {
-                println!("Error: task \"{}\" doesn't exist\n", task);
+                println!("Error: task \"{task}\" doesn't exist\n");
                 commands::list(workspace);
                 ExitCode::FAILURE
             }
             Outcome::CannotFindExecutable { err } => {
-                println!("Error: cannot find executable: {}", err);
+                println!("Error: cannot find executable: {err}");
                 ExitCode::FAILURE
             }
             Outcome::NoSetup => {

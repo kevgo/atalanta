@@ -33,7 +33,7 @@ pub fn scan(stacks: &mut Stacks) {
         Err(e) => match e.kind() {
             ErrorKind::NotFound => return,
             e => {
-                println!("Warning: Cannot read file \"Makefile\": {}", e);
+                println!("Warning: Cannot read file \"Makefile\": {e}");
                 return;
             }
         },
