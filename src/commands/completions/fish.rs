@@ -3,7 +3,7 @@ use crate::domain::{Outcome, Workspace};
 /// prints Fish commands that set up autocompletion
 pub fn print() -> Outcome {
     for command in setup_commands() {
-        println!("{}", command);
+        println!("{command}");
     }
     Outcome::Success
 }
