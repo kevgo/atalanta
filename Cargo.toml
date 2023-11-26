@@ -43,3 +43,4 @@ codegen-units = 1
 
 [lints.clippy]
 pedantic = "warn"
+cast_sign_loss = "allow"
