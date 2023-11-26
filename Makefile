@@ -19,7 +19,7 @@ install:  # installs the binary on the current machine
 	cargo install --path .
 
 lint:  # finds code smells
-	cargo clippy --all-targets --all-features -- -W clippy::pedantic
+	cargo clippy --all-targets --all-features -- --deny=warnings
 
 run:  # runs in the local directory
 	cargo run --quiet
