@@ -73,7 +73,7 @@ fn parse_line(line: &str) -> Option<Task> {
     })
 }
 static RE: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"^([[[:alnum:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?"#).unwrap());
+    Lazy::new(|| Regex::new(r"^([[[:alnum:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?").unwrap());
 
 #[cfg(test)]
 mod tests {

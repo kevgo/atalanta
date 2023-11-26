@@ -40,3 +40,6 @@ lto = true
 panic = 'abort'
 opt-level = "z"
 codegen-units = 1
+
+[lints.clippy]
+pedantic = "warn"
