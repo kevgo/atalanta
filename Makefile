@@ -33,7 +33,8 @@ unit:  # runs the unit tests
 	cargo test
 
 update: tools/run-that-app@${RUN_THAT_APP_VERSION}  # updates all dependencies
-	cargo upgrade    # install cargo-edit if this doesn't work
+	cargo install cargo-edit
+	cargo upgrade --incompatible
 	tools/rta --update
 
 # --- HELPER TARGETS --------------------------------------------------------------------------------------------------------------------------------
