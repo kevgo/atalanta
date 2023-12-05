@@ -1,5 +1,5 @@
 # dev tooling and versions
-RUN_THAT_APP_VERSION = 0.1.1
+RUN_THAT_APP_VERSION = 0.2.0
 
 build:  # builds the test binary
 	cargo build
