@@ -32,8 +32,9 @@ test: unit cuke lint  # run all tests
 unit:  # runs the unit tests
 	cargo test
 
-update:  # updates all dependencies
+update: tools/run-that-app@${RUN_THAT_APP_VERSION}  # updates all dependencies
 	cargo upgrade    # install cargo-edit if this doesn't work
+	tools/rta --update
 
 # --- HELPER TARGETS --------------------------------------------------------------------------------------------------------------------------------
 
