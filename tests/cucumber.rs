@@ -100,7 +100,7 @@ async fn executing(world: &mut RunWorld, command: String) {
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
     let want = step.docstring.as_ref().unwrap().trim();
-    let stripped = strip_ansi_escapes::strip(world.output_trimmed()).unwrap();
+    let stripped = strip_ansi_escapes::strip(world.output_trimmed());
     let have = str::from_utf8(&stripped).unwrap();
     pretty::assert_eq!(have, want);
 }
