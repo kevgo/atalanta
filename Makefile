@@ -13,6 +13,9 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	cargo test --test cucumber -- -t @this
 
 fix: tools/rta@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
+	cargo fmt
+	cargo fix --allow-dirty
+	cargo clippy --fix --allow-dirty
 	tools/rta dprint fmt
 
 help:  # shows all available Make commands
