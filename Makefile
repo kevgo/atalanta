@@ -12,7 +12,10 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 
-fix: tools/run-that-app@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
+fix: build tools/run-that-app@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
+	cargo +nightly fmt
+	cargo +nightly fix --allow-dirty
+	cargo clippy --fix --allow-dirty
 	tools/rta dprint fmt
 
 help:  # shows all available Make commands
@@ -22,10 +25,17 @@ install:  # installs the binary on the current machine
 	cargo install --path .
 
 lint:  # finds code smells
+	git diff --check
+	tools/rta dprint check
 	cargo clippy --all-targets --all-features -- --deny=warnings
+	target/debug/rta actionlint
 
 run:  # runs in the local directory
 	cargo run --quiet
+
+setup:  # install development dependencies on this computer
+	rustup toolchain add nightly
+	rustup component add rustfmt --toolchain nightly
 
 test: unit cuke lint  # run all tests
 
