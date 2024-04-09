@@ -14,6 +14,5 @@ Run a single end-to-end test:
   ```cucumber
   @this
   Scenario: list available tasks
-    When executing "a"
   ```
 - run `make cukethis`
