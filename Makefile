@@ -24,11 +24,11 @@ help:  # shows all available Make commands
 install:  # installs the binary on the current machine
 	cargo install --path .
 
-lint:  # finds code smells
+lint: tools/rta@${RUN_THAT_APP_VERSION}  # finds code smells
 	git diff --check
 	tools/rta dprint check
 	cargo clippy --all-targets --all-features -- --deny=warnings
-	target/debug/rta actionlint
+	tools/rta actionlint
 
 run:  # runs in the local directory
 	cargo run --quiet
