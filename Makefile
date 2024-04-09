@@ -13,8 +13,8 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	cargo test --test cucumber -- -t @this
 
 fix: tools/rta@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
-	cargo fmt
-	cargo fix --allow-dirty
+	cargo +nightly fmt
+	cargo +nightly fix --allow-dirty
 	cargo clippy --fix --allow-dirty
 	tools/rta dprint fmt
 
@@ -32,6 +32,10 @@ lint: tools/rta@${RUN_THAT_APP_VERSION}  # finds code smells
 
 run:  # runs in the local directory
 	cargo run --quiet
+
+setup:  # install development dependencies on this computer
+	rustup toolchain add nightly
+	rustup component add rustfmt --toolchain nightly
 
 test: unit cuke lint  # run all tests
 
