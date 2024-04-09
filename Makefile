@@ -22,7 +22,10 @@ install:  # installs the binary on the current machine
 	cargo install --path .
 
 lint:  # finds code smells
+	git diff --check
+	tools/rta dprint check
 	cargo clippy --all-targets --all-features -- --deny=warnings
+	tools/rta actionlint
 
 run:  # runs in the local directory
 	cargo run --quiet
