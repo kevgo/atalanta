@@ -12,7 +12,7 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 
-fix: build tools/rta@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
+fix: tools/rta@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
 	cargo +nightly fmt
 	cargo +nightly fix --allow-dirty
 	cargo clippy --fix --allow-dirty
