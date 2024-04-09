@@ -13,6 +13,6 @@ Run a single end-to-end test:
 
   ```cucumber
   @this
-  Scenario: list available tasks
+  Scenario: foo
   ```
 - run `make cukethis`
