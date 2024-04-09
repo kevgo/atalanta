@@ -3,14 +3,12 @@ use cucumber::{given, then, when, World};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
-use std::env;
 use std::path::{Path, PathBuf};
 use std::process::Output;
-use std::str;
 use std::time::{SystemTime, UNIX_EPOCH};
-use tokio::fs;
-use tokio::io;
+use std::{env, str};
 use tokio::process::Command;
+use tokio::{fs, io};
 
 #[derive(Debug, World)]
 #[world(init = Self::new)]
