@@ -16,6 +16,7 @@ Currently supported stacks:
 - [Make](https://www.gnu.org/software/make)
 - [Node.js](https://nodejs.org) using [npm](https://github.com/npm/cli)
 - [Node.js](https://nodejs.org) using [yarn](https://yarnpkg.com)
+- [Rust](https://www.rust-lang.org) using Cargo
 
 [![CI](https://github.com/kevgo/atalanta/actions/workflows/ci.yml/badge.svg)](https://github.com/kevgo/atalanta/actions/workflows/ci.yml)
 
