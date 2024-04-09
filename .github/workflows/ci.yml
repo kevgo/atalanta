@@ -24,3 +24,5 @@ jobs:
       - uses: Swatinem/rust-cache@v1.2.0
       - run: make setup
       - run: make test
+      - run: make fix
+      - run: git diff HEAD --exit-code --color
