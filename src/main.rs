@@ -29,8 +29,7 @@ fn parse_cli_args(mut args: Args) -> Command {
 
 fn main() -> Outcome {
   let command = parse_cli_args(std::env::args());
-  let outcome = execute(command);
-  flatten(outcome)
+  execute(command).unwrap_or(Outcome::Success)
 }
 
 fn execute(command: Command) -> Option<Outcome> {
@@ -49,11 +48,4 @@ fn load_workspace() -> Option<Workspace> {
     return None;
   };
   Some(Workspace { stacks })
-}
-
-fn flatten(outcome: Option<Outcome>) -> Outcome {
-  match outcome {
-    Some(outcome) => outcome,
-    None => Outcome::Success,
-  }
 }
