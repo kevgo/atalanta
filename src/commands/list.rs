@@ -16,7 +16,8 @@ pub fn list(workspace: Workspace) -> Outcome {
 pub fn print_stack(tasks: &Vec<Task>) {
   let mut tw = TabWriter::new(vec![]);
   if tasks.is_empty() {
-    println!("  (no tasks found)")
+    println!("  (no tasks found)");
+    return;
   }
   for task in tasks {
     let text = format!(
