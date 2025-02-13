@@ -39,7 +39,6 @@ setup:  # install development dependencies on this computer
 	rustup component add rustfmt --toolchain nightly
 	cargo install cargo-machete --locked
 
-
 test: unit cuke lint  # run all tests
 
 unit:  # runs the unit tests
