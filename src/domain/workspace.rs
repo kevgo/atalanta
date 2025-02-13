@@ -6,6 +6,7 @@ pub struct Workspace {
 }
 
 impl Workspace {
+  /// loads the workspace in the current working directory
   pub fn load() -> Workspace {
     Workspace {
       stacks: stacks::identify(),
