@@ -9,12 +9,9 @@ Feature: Node.JS with Yarn
       """
     And a file "yarn.lock"
 
-  @this
   Scenario: list available tasks
     When executing "a"
     Then it prints:
       """
       Node.JS (yarn)
-
-        (no tasks found)
       """
