@@ -1,8 +1,7 @@
 Feature: multiple stacks
 
   Background:
-    Given a file "Cargo.toml"
-    And a Makefile with content:
+    Given a Makefile with content:
       """
       task-1:  # task 1 in the Makefile
         echo "make task 1"
