@@ -1,8 +1,8 @@
-use super::{Stacks, Task};
+use super::{Stack, Task};
 use crate::{stacks, strings};
 
 pub struct Workspace {
-  pub stacks: Stacks,
+  pub stacks: Vec<Box<dyn Stack>>,
 }
 
 impl Workspace {

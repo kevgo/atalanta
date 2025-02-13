@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Stacks, Task};
+use crate::domain::{Stack, Task};
 use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -35,7 +35,7 @@ pub struct PackageJson {
   pub scripts: Option<HashMap<String, String>>,
 }
 
-pub fn scan(stacks: &mut Stacks) {
+pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
   if !Path::new("package-lock.json").exists() {
     return;
   }
