@@ -6,7 +6,7 @@ mod node_yarn;
 mod rust_cargo;
 
 /// determines the stacks in the current workspace
-pub fn identify() -> Vec<Box<dyn Stack>> {
+pub fn load() -> Vec<Box<dyn Stack>> {
   let mut result = vec![];
   makefile::scan(&mut result);
   node_npm::scan(&mut result);
