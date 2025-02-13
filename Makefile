@@ -29,6 +29,7 @@ lint: tools/rta@${RUN_THAT_APP_VERSION}  # finds code smells
 	tools/rta dprint check
 	cargo clippy --all-targets --all-features -- --deny=warnings
 	tools/rta actionlint
+	cargo machete
 
 run:  # runs in the local directory
 	cargo run --quiet
@@ -36,6 +37,7 @@ run:  # runs in the local directory
 setup:  # install development dependencies on this computer
 	rustup toolchain add nightly
 	rustup component add rustfmt --toolchain nightly
+	cargo install cargo-machete --locked
 
 test: unit cuke lint  # run all tests
 
