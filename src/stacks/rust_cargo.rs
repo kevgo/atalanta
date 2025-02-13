@@ -26,6 +26,7 @@ impl Stack for RustCargoStack {
 
 pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
   if !Path::new("Cargo.lock").exists() {
+    // TODO: do we really need to verify that this file exists?
     return;
   }
   stacks.push(Box::new(RustCargoStack {
