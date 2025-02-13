@@ -1,11 +1,17 @@
 use super::{Stacks, Task};
-use crate::strings;
+use crate::{stacks, strings};
 
 pub struct Workspace {
   pub stacks: Stacks,
 }
 
 impl Workspace {
+  pub fn load() -> Workspace {
+    Workspace {
+      stacks: stacks::identify(),
+    }
+  }
+
   pub fn task_with_name(&self, name: &str) -> Option<&Task> {
     for stack in &self.stacks {
       let task = stack.task_with_name(name);
