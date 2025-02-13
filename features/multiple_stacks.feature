@@ -8,8 +8,6 @@ Feature: multiple stacks
 
       task-2:  # task 2 in the Makefile
         echo "make task 2"
-
-      .SILENT:
       """
     And a file "package.json" with content:
       """
