@@ -32,7 +32,7 @@ impl Stack for NodeNpmStack {
 
 #[derive(Deserialize)]
 pub struct PackageJson {
-  pub scripts: HashMap<String, String>,
+  pub scripts: Option<HashMap<String, String>>,
 }
 
 pub fn scan(stacks: &mut Stacks) {
@@ -70,14 +70,16 @@ pub fn load_package_json() -> Option<PackageJson> {
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
   let mut result = vec![];
-  for (key, value) in package_json.scripts {
-    result.push(Task {
-      name: key.clone(),
-      cmd: S("npm"),
-      argv: vec![S("run"), key, S("--silent")],
-      desc: value,
-    });
+  if let Some(scripts) = package_json.scripts {
+    for (key, value) in scripts {
+      result.push(Task {
+        name: key.clone(),
+        cmd: S("npm"),
+        argv: vec![S("run"), key, S("--silent")],
+        desc: value,
+      });
+    }
+    result.sort_unstable_by(Task::sort);
   }
-  result.sort_unstable_by(Task::sort);
   result
 }

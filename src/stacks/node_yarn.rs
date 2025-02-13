@@ -41,14 +41,16 @@ pub fn scan(stacks: &mut Stacks) {
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
   let mut result = vec![];
-  for (key, value) in package_json.scripts {
-    result.push(Task {
-      name: key.clone(),
-      cmd: S("yarn"),
-      argv: vec![S("--silent"), S("run"), key],
-      desc: value,
-    });
+  if let Some(scripts) = package_json.scripts {
+    for (key, value) in scripts {
+      result.push(Task {
+        name: key.clone(),
+        cmd: S("yarn"),
+        argv: vec![S("--silent"), S("run"), key],
+        desc: value,
+      });
+    }
+    result.sort_unstable_by(Task::sort);
   }
-  result.sort_unstable_by(Task::sort);
   result
 }
