@@ -29,12 +29,11 @@ fn parse_cli_args(mut args: Args) -> Command {
 
 fn main() -> Outcome {
   let command = parse_cli_args(std::env::args());
-  let outcome = execute(command);
-  flatten(outcome)
+  execute(command).unwrap_or(Outcome::Success)
 }
 
-fn execute(command: Command) -> Result<Outcome, Outcome> {
-  Ok(match command {
+fn execute(command: Command) -> Option<Outcome> {
+  Some(match command {
     Command::List => commands::list(load_workspace()?),
     Command::Run(name) => commands::run(load_workspace()?, name),
     Command::Setup => commands::setup(load_workspace()?),
@@ -43,16 +42,10 @@ fn execute(command: Command) -> Result<Outcome, Outcome> {
   })
 }
 
-fn load_workspace() -> Result<Workspace, Outcome> {
+fn load_workspace() -> Option<Workspace> {
   let stacks = stacks::identify();
   if stacks.is_empty() {
-    return Err(Outcome::UnknownStack);
+    return None;
   };
-  Ok(Workspace { stacks })
-}
-
-fn flatten(outcome: Result<Outcome, Outcome>) -> Outcome {
-  match outcome {
-    Err(outcome) | Ok(outcome) => outcome,
-  }
+  Some(Workspace { stacks })
 }
