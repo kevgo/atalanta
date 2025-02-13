@@ -1,5 +1,5 @@
 use super::node_npm::{load_package_json, PackageJson};
-use crate::domain::{Stack, Stacks, Task};
+use crate::domain::{Stack, Task};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
@@ -27,7 +27,7 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub fn scan(stacks: &mut Stacks) {
+pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
   if !Path::new("yarn.lock").exists() {
     return;
   }

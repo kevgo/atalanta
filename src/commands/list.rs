@@ -1,12 +1,12 @@
-use crate::domain::{Outcome, Task, Workspace};
+use crate::domain::{Outcome, Stacks, Task};
 use ansi_term::Style;
 use std::io::Write;
 use std::str;
 use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list(workspace: Workspace) -> Outcome {
-  for stack in workspace.stacks {
+pub fn list(workspace: Stacks) -> Outcome {
+  for stack in workspace {
     println!("{}\n", Style::new().underline().paint(stack.to_string()));
     print_stack(stack.tasks());
   }

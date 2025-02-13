@@ -1,10 +1,10 @@
 use super::run::reduce_exit_status_to_code;
-use crate::domain::{Outcome, Workspace};
+use crate::domain::{Outcome, Stacks};
 use std::process::Stdio;
 
-pub fn setup(workspace: Workspace) -> Outcome {
+pub fn setup(stacks: Stacks) -> Outcome {
   let mut executed = false;
-  for stack in workspace.stacks {
+  for stack in stacks {
     let Some(mut cmd) = stack.setup() else {
       continue;
     };

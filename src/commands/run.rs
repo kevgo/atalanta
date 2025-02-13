@@ -1,7 +1,7 @@
-use crate::domain::{Outcome, Task, Workspace};
+use crate::domain::{Outcome, Task, Stacks};
 use std::process::Stdio;
 
-pub fn run(workspace: Workspace, name: String) -> Outcome {
+pub fn run(workspace: Stacks, name: String) -> Outcome {
   let task_names = workspace.tasks_matching_name(&name);
   let task_name = match task_names.len() {
     0 => {

@@ -1,9 +1,9 @@
 mod outcome;
 mod stack;
+mod stacks;
 mod task;
-mod workspace;
 
 pub use outcome::Outcome;
-pub use stack::{Stack, Stacks};
+pub use stack::Stack;
+pub use stacks::Stacks;
 pub use task::Task;
-pub use workspace::Workspace;
