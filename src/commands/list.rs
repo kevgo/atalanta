@@ -5,8 +5,8 @@ use std::str;
 use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list(workspace: Stacks) -> Outcome {
-  for stack in workspace {
+pub fn list(stacks: Stacks) -> Outcome {
+  for stack in stacks {
     println!("{}\n", Style::new().underline().paint(stack.to_string()));
     print_stack(stack.tasks());
   }
