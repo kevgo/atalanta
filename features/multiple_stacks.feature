@@ -47,3 +47,16 @@ Feature: multiple stacks
         check  cargo check
         test   cargo test
       """
+
+
+  @this
+  Scenario: run a task that exists in two stacks
+    When executing "a format"
+    Then it prints:
+      """
+      The task "format" exists in several stacks: Makefile and Node.js (npm).
+      Please prefix the stack name to specify the task.
+
+      mf for "Makefile format"
+      nf for "Node.js (npm) format"
+      """
