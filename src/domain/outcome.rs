@@ -15,8 +15,6 @@ pub enum Outcome {
   NoSetup,
   /// more than one task matches the shortcut provided by the user
   TooManyTaskMatches { tasks: Vec<Task> },
-  /// couldn't determine a stack
-  UnknownStack,
   /// there is no task with the given name
   UnknownTask {
     /// name of the task that we didn't find
@@ -33,10 +31,6 @@ impl Termination for Outcome {
     match self {
       Outcome::Success => ExitCode::SUCCESS,
       Outcome::ScriptFailed { exit_code } => ExitCode::from(exit_code),
-      Outcome::UnknownStack => {
-        println!("Error: cannot determine stack");
-        ExitCode::FAILURE
-      }
       Outcome::UnknownTask { task, workspace } => {
         println!("Error: task \"{task}\" doesn't exist\n");
         commands::list(workspace);

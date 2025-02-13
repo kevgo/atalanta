@@ -33,8 +33,8 @@ fn main() -> Outcome {
   flatten(outcome)
 }
 
-fn execute(command: Command) -> Result<Outcome, Outcome> {
-  Ok(match command {
+fn execute(command: Command) -> Option<Outcome> {
+  Some(match command {
     Command::List => commands::list(load_workspace()?),
     Command::Run(name) => commands::run(load_workspace()?, name),
     Command::Setup => commands::setup(load_workspace()?),
@@ -43,16 +43,17 @@ fn execute(command: Command) -> Result<Outcome, Outcome> {
   })
 }
 
-fn load_workspace() -> Result<Workspace, Outcome> {
+fn load_workspace() -> Option<Workspace> {
   let stacks = stacks::identify();
   if stacks.is_empty() {
-    return Err(Outcome::UnknownStack);
+    return None;
   };
-  Ok(Workspace { stacks })
+  Some(Workspace { stacks })
 }
 
-fn flatten(outcome: Result<Outcome, Outcome>) -> Outcome {
+fn flatten(outcome: Option<Outcome>) -> Outcome {
   match outcome {
-    Err(outcome) | Ok(outcome) => outcome,
+    Some(outcome) => outcome,
+    None => Outcome::Success,
   }
 }
