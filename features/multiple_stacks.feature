@@ -23,25 +23,31 @@ Feature: multiple stacks
       }
       """
     And a file "yarn.lock"
+    And a file "Cargo.toml" with content:
+      """
+      [package]
+      name = "foo"
+      version = "0.0.0"
+      """
+    And a file "Cargo.lock"
 
-  @this
   Scenario: list available tasks
     When executing "a"
     Then it prints:
       """
       Makefile
 
-        mtask-1  task 2 in the Makefile
-        mtask-2  task 1 in the Makefile
+        task-1  task 1 in the Makefile
+        task-2  task 2 in the Makefile
 
       Node.JS (yarn)
 
-        ntask-1   task 1 in package.json
-        ntask-2   task 2 in package.json
+        task-1  echo task 1 in package.json
+        task-2  echo task 2 in package.json
 
       Rust (Cargo)
 
-        build
-        check
-        test
+        build  cargo build
+        check  cargo check
+        test   cargo test
       """
