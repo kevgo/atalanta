@@ -56,10 +56,7 @@ fn parse_text(text: &str) -> Vec<Task> {
 
 /// provides a task for the Makefile target defined on the given line, if one exists
 fn parse_line(line: &str) -> Option<Task> {
-  let capture = match RE.captures(line) {
-    Some(capture) => capture,
-    None => return None,
-  };
+  let capture = RE.captures(line)?;
   let name = capture.get(1).unwrap().as_str();
   let desc = match capture.get(4) {
     Some(desc) => desc.as_str().to_string(),
