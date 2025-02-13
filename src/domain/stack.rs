@@ -16,5 +16,3 @@ pub trait Stack: Display {
     self.tasks().iter().find(|task| task.name == name)
   }
 }
-
-pub type Stacks = Vec<Box<dyn Stack>>;

@@ -4,6 +4,6 @@ mod task;
 mod workspace;
 
 pub use outcome::Outcome;
-pub use stack::{Stack, Stacks};
+pub use stack::Stack;
 pub use task::Task;
 pub use workspace::Workspace;
