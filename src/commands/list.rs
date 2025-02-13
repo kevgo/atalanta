@@ -7,7 +7,7 @@ use tabwriter::TabWriter;
 /// lists all available commands
 pub fn list(workspace: Workspace) -> Outcome {
   for stack in workspace.stacks {
-    println!("{}\n", Style::new().underline().paint(&stack.to_string()));
+    println!("{}\n", Style::new().underline().paint(stack.to_string()));
     print_stack(stack.tasks());
   }
   Outcome::Success
