@@ -12,7 +12,6 @@ Feature: multiple stacks
     And a file "package.json" with content:
       """
       {
-        "name": "demo",
         "scripts": {
           "task-1": "echo task 1 in package.json",
           "task-2": "echo task 2 in package.json"
