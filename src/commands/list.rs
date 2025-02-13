@@ -21,10 +21,10 @@ pub fn print_stack(tasks: &Vec<Task>) {
       Style::new().bold().paint(&task.name),
       task.desc
     );
-    _ = tab_writer.write(text.as_bytes()).unwrap();
+    tab_writer.write_all(text.as_bytes()).unwrap();
   }
   let bytes = tab_writer.into_inner().unwrap();
   let mut stdout = io::stdout();
-  let _ = stdout.write(&bytes);
-  let _ = stdout.write(&[10]);
+  stdout.write_all(&bytes).unwrap();
+  stdout.write_all(&[10]).unwrap();
 }
