@@ -5,6 +5,7 @@ use rand::Rng;
 use std::borrow::Cow;
 use std::path::{Path, PathBuf};
 use std::process::Output;
+use std::str::SplitAsciiWhitespace;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, str};
 use tokio::process::Command;
@@ -72,6 +73,12 @@ async fn a_file(world: &mut RunWorld, filename: String) -> io::Result<()> {
   create_file(&filename, "", &world.dir).await
 }
 
+#[given(expr = "a folder {string}")]
+async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
+  let folder_path = &world.dir.join(name);
+  fs::create_dir(folder_path).await
+}
+
 #[given("a Makefile with content:")]
 async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
   let content = step.docstring.as_ref().unwrap().trim();
@@ -81,15 +88,24 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 
 #[when(expr = "executing {string}")]
 async fn executing(world: &mut RunWorld, command: String) {
-  let mut argv = command.split_ascii_whitespace();
-  match argv.next() {
-    Some("a") => {}
-    _ => panic!("The end-to-end tests can only run the 'a' command for now"),
-  }
+  let args = parse_call(&command);
   world.output = Some(
     Command::new("../../target/debug/a")
-      .args(argv)
+      .args(args)
       .current_dir(&world.dir)
+      .output()
+      .await
+      .expect("cannot find the 'a' executable"),
+  );
+}
+
+#[when(expr = "executing {string} in the {string} folder")]
+async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+  let args = parse_call(&command);
+  world.output = Some(
+    Command::new("../../../target/debug/a")
+      .args(args)
+      .current_dir(&world.dir.join(folder))
       .output()
       .await
       .expect("cannot find the 'a' executable"),
@@ -155,6 +171,15 @@ fn convert_to_makefile_format(text: &str) -> String {
     }
   }
   result
+}
+
+fn parse_call(call: &str) -> SplitAsciiWhitespace<'_> {
+  let mut argv = call.split_ascii_whitespace();
+  match argv.next() {
+    Some("a") => {}
+    _ => panic!("The end-to-end tests can only run the 'a' command for now"),
+  }
+  argv
 }
 
 #[tokio::main(flavor = "current_thread")]
