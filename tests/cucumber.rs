@@ -102,11 +102,10 @@ async fn executing(world: &mut RunWorld, command: String) {
 #[when(expr = "executing {string} in the {string} folder")]
 async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let args = parse_call(&command);
-  let folder_path = &world.dir.join(folder);
   world.output = Some(
     Command::new("../../../target/debug/a")
       .args(args)
-      .current_dir(folder_path)
+      .current_dir(&world.dir.join(folder))
       .output()
       .await
       .expect("cannot find the 'a' executable"),
