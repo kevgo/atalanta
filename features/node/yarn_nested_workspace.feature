@@ -1,7 +1,8 @@
 Feature: nested Yarn workspace
 
   Background:
-    Given a file "tool/package.json" with content:
+    Given a folder "tool"
+    And a file "tool/package.json" with content:
       """
       {
         "name": "demo",

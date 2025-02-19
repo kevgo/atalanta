@@ -67,6 +67,12 @@ async fn a_file_with_content(
   create_file(&filename, content, &world.dir).await
 }
 
+#[given(expr = "a folder {string}")]
+async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
+  let folder_path = &world.dir.join(name);
+  fs::create_dir(folder_path).await
+}
+
 #[given(expr = "a file {string}")]
 async fn a_file(world: &mut RunWorld, filename: String) -> io::Result<()> {
   create_file(&filename, "", &world.dir).await
