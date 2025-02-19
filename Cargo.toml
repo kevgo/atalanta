@@ -43,3 +43,6 @@ codegen-units = 1
 
 [lints.clippy]
 pedantic = "warn"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
