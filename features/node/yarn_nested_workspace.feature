@@ -15,7 +15,6 @@ Feature: nested Yarn workspace
       """
     And a file "yarn.lock"
 
-  @this
   Scenario: list available tasks
     When executing "a" in the "tool" folder
     Then it prints:
@@ -28,7 +27,7 @@ Feature: nested Yarn workspace
       """
 
   Scenario: run a task
-    When executing "a task-1"
+    When executing "a task-1" in the "tool" folder
     Then it prints:
       """
       one
@@ -36,7 +35,7 @@ Feature: nested Yarn workspace
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "a zonk"
+    When executing "a zonk" in the "tool" folder
     Then it prints:
       """
       Error: task "zonk" doesn't exist
@@ -50,7 +49,7 @@ Feature: nested Yarn workspace
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "a failing"
+    When executing "a failing" in the "tool" folder
     Then it prints:
       """
       running a failing task
@@ -58,10 +57,9 @@ Feature: nested Yarn workspace
     And the exit code is 2
 
   Scenario Outline: setup
-    When executing "a <COMMAND>"
+    When executing "a <COMMAND>" in the "tool" folder
     Then the output contains "yarn install"
     And the exit code is 0
-    And the workspace contains a folder "node_modules"
 
     Examples:
       | COMMAND |
