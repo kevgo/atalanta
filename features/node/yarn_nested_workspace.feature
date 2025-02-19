@@ -1,11 +1,20 @@
 Feature: nested Yarn workspace
 
   Background:
-    Given a folder "tool"
+    Given a file "package.json" with content:
+      """
+      {
+        "workspaces": [
+          "tool"
+        ],
+        "private": true
+      }
+      """
+    And a folder "tool"
     And a file "tool/package.json" with content:
       """
       {
-        "name": "demo",
+        "name": "tool",
         "scripts": {
           "task-1": "echo one",
           "task-2": "echo two",
@@ -60,6 +69,7 @@ Feature: nested Yarn workspace
     When executing "a <COMMAND>" in the "tool" folder
     Then the output contains "yarn install"
     And the exit code is 0
+    And the workspace contains a folder "node_modules"
 
     Examples:
       | COMMAND |
