@@ -27,16 +27,23 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
-  if !Path::new("yarn.lock").exists() {
-    return;
-  }
+pub fn scan(stacks: &mut Vec<Box<dyn Stack>>, mut dir: &Path) {
   let Some(package_json) = load_package_json() else {
     return;
   };
-  stacks.push(Box::new(NodeYarnStack {
-    tasks: parse_scripts(package_json),
-  }));
+  loop {
+    let yarn_lock = dir.join("yarn.lock");
+    if yarn_lock.exists() {
+      stacks.push(Box::new(NodeYarnStack {
+        tasks: parse_scripts(package_json),
+      }));
+      return;
+    }
+    match dir.parent() {
+      Some(parent) => dir = parent,
+      None => return,
+    }
+  }
 }
 
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
