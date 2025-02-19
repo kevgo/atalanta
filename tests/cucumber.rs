@@ -67,15 +67,15 @@ async fn a_file_with_content(
   create_file(&filename, content, &world.dir).await
 }
 
+#[given(expr = "a file {string}")]
+async fn a_file(world: &mut RunWorld, filename: String) -> io::Result<()> {
+  create_file(&filename, "", &world.dir).await
+}
+
 #[given(expr = "a folder {string}")]
 async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
   let folder_path = &world.dir.join(name);
   fs::create_dir(folder_path).await
-}
-
-#[given(expr = "a file {string}")]
-async fn a_file(world: &mut RunWorld, filename: String) -> io::Result<()> {
-  create_file(&filename, "", &world.dir).await
 }
 
 #[given("a Makefile with content:")]
@@ -96,6 +96,24 @@ async fn executing(world: &mut RunWorld, command: String) {
     Command::new("../../target/debug/a")
       .args(argv)
       .current_dir(&world.dir)
+      .output()
+      .await
+      .expect("cannot find the 'a' executable"),
+  );
+}
+
+#[when(expr = "executing {string} in the {string} folder")]
+async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+  let mut argv = command.split_ascii_whitespace();
+  match argv.next() {
+    Some("a") => {}
+    _ => panic!("The end-to-end tests can only run the 'a' command for now"),
+  }
+  let folder_path = &world.dir.join(folder);
+  world.output = Some(
+    Command::new("../../../target/debug/a")
+      .args(argv)
+      .current_dir(folder_path)
       .output()
       .await
       .expect("cannot find the 'a' executable"),
