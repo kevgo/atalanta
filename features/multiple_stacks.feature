@@ -38,8 +38,8 @@ Feature: multiple stacks
 
       Node.JS (yarn)
 
-        task-1  echo task 1 in package.json
-        task-2  echo task 2 in package.json
+        task-1
+        task-2
 
       Rust (Cargo)
 

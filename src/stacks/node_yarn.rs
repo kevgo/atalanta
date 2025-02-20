@@ -49,12 +49,12 @@ pub fn scan(stacks: &mut Vec<Box<dyn Stack>>, mut dir: &Path) {
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
   let mut result = vec![];
   if let Some(scripts) = package_json.scripts {
-    for (key, value) in scripts {
+    for (key, _value) in scripts {
       result.push(Task {
         name: key.clone(),
         cmd: S("yarn"),
         argv: vec![S("--silent"), S("run"), key],
-        desc: value,
+        desc: String::new(),
       });
     }
     result.sort_unstable_by(Task::sort);
