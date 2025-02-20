@@ -20,9 +20,9 @@ Feature: Node.JS with Yarn
       """
       Node.JS (yarn)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing
+        task-1
+        task-2
       """
 
   Scenario: run a task
@@ -33,6 +33,7 @@ Feature: Node.JS with Yarn
       """
     Then the exit code is 0
 
+  @this
   Scenario: run an unknown task
     When executing "a zonk"
     Then it prints:
@@ -41,9 +42,9 @@ Feature: Node.JS with Yarn
 
       Node.JS (yarn)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing
+        task-1
+        task-2
       """
     Then the exit code is 1
 

@@ -71,12 +71,12 @@ pub fn load_package_json() -> Option<PackageJson> {
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
   let mut result = vec![];
   if let Some(scripts) = package_json.scripts {
-    for (key, value) in scripts {
+    for (key, _value) in scripts {
       result.push(Task {
         name: key.clone(),
         cmd: S("npm"),
         argv: vec![S("run"), key, S("--silent")],
-        desc: value,
+        desc: String::new(),
       });
     }
     result.sort_unstable_by(Task::sort);

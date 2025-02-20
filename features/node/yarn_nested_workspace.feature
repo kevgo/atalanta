@@ -30,9 +30,9 @@ Feature: nested Yarn workspace
       """
       Node.JS (yarn)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing
+        task-1
+        task-2
       """
 
   Scenario: run a task
@@ -51,9 +51,9 @@ Feature: nested Yarn workspace
 
       Node.JS (yarn)
 
-        failing  echo 'running a failing task' && exit 2
-        task-1   echo one
-        task-2   echo two
+        failing
+        task-1
+        task-2
       """
     Then the exit code is 1
 
