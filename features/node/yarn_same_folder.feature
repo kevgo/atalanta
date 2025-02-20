@@ -33,7 +33,6 @@ Feature: Node.JS with Yarn
       """
     Then the exit code is 0
 
-  @this
   Scenario: run an unknown task
     When executing "a zonk"
     Then it prints:
