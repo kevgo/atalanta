@@ -1,5 +1,7 @@
 use super::{Task, Tasks};
 use crate::strings;
+use fuzzy_matcher::FuzzyMatcher;
+use fuzzy_matcher::skim::SkimMatcherV2;
 use std::fmt::Display;
 use std::process::Command;
 use std::vec::IntoIter;
@@ -35,14 +37,17 @@ impl Stacks {
     None
   }
 
-  pub fn tasks_matching_name(&self, name: &str) -> Vec<&str> {
-    let mut task_names = vec![];
+  pub fn tasks_matching_name(self, name: &str) -> Tasks {
+    let mut result = Tasks::new();
+    let matcher = SkimMatcherV2::default();
     for stack in &self.0 {
       for task in stack.tasks() {
-        task_names.push(task.name.as_str());
+        if let Some(score) = matcher.fuzzy_match(&task.name, name) {
+          result.push(task.name.as_str());
+        }
       }
     }
-    strings::matching(name, task_names)
+    strings::matching(name, result)
   }
 }
 
