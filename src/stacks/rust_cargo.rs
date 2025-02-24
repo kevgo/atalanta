@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
@@ -24,7 +24,7 @@ impl Stack for RustCargoStack {
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
+pub fn scan(stacks: &mut Stacks) {
   if !Path::new("Cargo.lock").exists() {
     // TODO: do we really need to verify that this file exists?
     return;
