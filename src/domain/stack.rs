@@ -1,7 +1,7 @@
 use super::{Task, Tasks};
-use crate::strings;
 use fuzzy_matcher::FuzzyMatcher;
 use fuzzy_matcher::skim::SkimMatcherV2;
+use std::cmp::Ordering;
 use std::fmt::Display;
 use std::process::Command;
 use std::vec::IntoIter;
@@ -37,17 +37,22 @@ impl Stacks {
     None
   }
 
-  pub fn tasks_matching_name(self, name: &str) -> Tasks {
-    let mut result = Tasks::new();
+  pub fn tasks_matching_name(self, name: &str) -> Vec<Task> {
+    let mut search_results = vec![];
     let matcher = SkimMatcherV2::default();
     for stack in &self.0 {
       for task in stack.tasks() {
         if let Some(score) = matcher.fuzzy_match(&task.name, name) {
-          result.push(task.name.as_str());
+          search_results.push(SearchResult { task, score });
         }
       }
     }
-    strings::matching(name, result)
+    search_results.sort();
+    let mut tasks = vec![];
+    for search_result in search_results {
+      tasks.push(search_result.task);
+    }
+    tasks
   }
 }
 
@@ -57,5 +62,27 @@ impl IntoIterator for Stacks {
 
   fn into_iter(self) -> Self::IntoIter {
     self.0.into_iter()
+  }
+}
+
+#[derive(Eq, PartialEq)]
+struct SearchResult<'a> {
+  task: &'a Task,
+  score: i64,
+}
+
+impl<'a> Ord for SearchResult<'a> {
+  fn cmp(&self, other: &Self) -> Ordering {
+    match self.score.cmp(&other.score) {
+      Ordering::Equal => {}
+      ord => return ord,
+    }
+    self.task.name.cmp(&other.task.name)
+  }
+}
+
+impl<'a> PartialOrd for SearchResult<'a> {
+  fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+    Some(self.cmp(other))
   }
 }
