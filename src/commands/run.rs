@@ -1,5 +1,5 @@
 use crate::cli;
-use crate::domain::{Outcome, Stacks, Task};
+use crate::domain::{Outcome, Stacks, Task, Tasks};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
@@ -12,10 +12,12 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     _ if task_names.contains(&name.as_ref()) => &name,
     _ => {
       let tasks: Vec<Task> = task_names
-        .iter()
+        .into_iter()
         .map(|task_name| stacks.task_with_name(task_name).unwrap().clone())
         .collect();
-      return Outcome::TooManyTaskMatches { tasks };
+      return Outcome::TooManyTaskMatches {
+        tasks: Tasks::from(tasks),
+      };
     }
   };
   let task = stacks.task_with_name(task_name).unwrap();

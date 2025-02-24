@@ -1,12 +1,12 @@
 use super::node_npm::{PackageJson, load_package_json};
-use crate::domain::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task, Tasks};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
 struct NodeYarnStack {
-  tasks: Vec<Task>,
+  tasks: Tasks,
 }
 
 impl Display for NodeYarnStack {
@@ -22,7 +22,7 @@ impl Stack for NodeYarnStack {
     Some(cmd)
   }
 
-  fn tasks(&self) -> &Vec<Task> {
+  fn tasks(&self) -> &Tasks {
     &self.tasks
   }
 }
@@ -46,8 +46,8 @@ pub fn scan(stacks: &mut Stacks, mut dir: &Path) {
   }
 }
 
-fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
-  let mut result = vec![];
+fn parse_scripts(package_json: PackageJson) -> Tasks {
+  let mut result = Tasks::new();
   if let Some(scripts) = package_json.scripts {
     for (key, _value) in scripts {
       result.push(Task {

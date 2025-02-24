@@ -1,4 +1,4 @@
-use crate::domain::{Outcome, Stacks, Task};
+use crate::domain::{Outcome, Stacks, Tasks};
 use ansi_term::Style;
 use std::io;
 use std::io::Write;
@@ -13,7 +13,7 @@ pub fn list(stacks: Stacks) -> Outcome {
   Outcome::Success
 }
 
-pub fn print_stack(tasks: &Vec<Task>) {
+pub fn print_stack(tasks: &Tasks) {
   let mut tab_writer = TabWriter::new(vec![]);
   for task in tasks {
     let text = format!(

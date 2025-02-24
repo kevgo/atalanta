@@ -1,4 +1,4 @@
-use super::Task;
+use super::{Task, Tasks};
 use crate::strings;
 use std::fmt::Display;
 use std::process::Command;
@@ -11,12 +11,7 @@ pub trait Stack: Display {
 
   /// Provides all executable tasks for the codebase in the current directory.
   /// This only emits read references. The stack instance should own the task data.
-  fn tasks(&self) -> &Vec<Task>;
-
-  /// provides the task with the given name
-  fn task_with_name(&self, name: &str) -> Option<&Task> {
-    self.tasks().iter().find(|task| task.name == name)
-  }
+  fn tasks(&self) -> &Tasks;
 }
 
 pub struct Stacks(Vec<Box<dyn Stack>>);
@@ -32,7 +27,7 @@ impl Stacks {
 
   pub fn task_with_name(&self, name: &str) -> Option<&Task> {
     for stack in &self.0 {
-      let task = stack.task_with_name(name);
+      let task = stack.tasks().with_name(name);
       if task.is_some() {
         return task;
       }

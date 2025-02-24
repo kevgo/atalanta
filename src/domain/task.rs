@@ -47,6 +47,42 @@ impl Ord for Task {
   }
 }
 
+#[derive(Default)]
+pub struct Tasks(Vec<Task>);
+
+impl Tasks {
+  pub fn new() -> Self {
+    Self(vec![])
+  }
+
+  pub fn push(&mut self, task: Task) {
+    self.0.push(task);
+  }
+
+  pub fn sort(&mut self) {
+    self.0.sort();
+  }
+
+  pub fn with_name(&self, name: &str) -> Option<&Task> {
+    self.0.iter().find(|task| task.name == name)
+  }
+}
+
+impl<'a> IntoIterator for &'a Tasks {
+  type Item = &'a Task;
+  type IntoIter = std::slice::Iter<'a, Task>;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self.0.iter()
+  }
+}
+
+impl From<Vec<Task>> for Tasks {
+  fn from(tasks: Vec<Task>) -> Self {
+    Self(tasks)
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use crate::domain::Task;
