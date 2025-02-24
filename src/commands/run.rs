@@ -9,17 +9,14 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
       return Outcome::UnknownTask { task: name, stacks };
     }
     1 => tasks[0],
-    _ => {
-      // check for direct match
-      match find_direct_match(&tasks, &name) {
-        Some(task) => task,
-        None => {
-          return Outcome::TooManyTaskMatches {
-            tasks: Tasks::from(tasks),
-          };
-        }
+    _ => match find_direct_match(&tasks, &name) {
+      Some(task) => task,
+      None => {
+        return Outcome::TooManyTaskMatches {
+          tasks: Tasks::from(tasks),
+        };
       }
-    }
+    },
   };
   let output = task
     .command()
