@@ -1,3 +1,4 @@
+use crate::cli;
 use crate::domain::{Outcome, Task, Workspace};
 use std::process::Stdio;
 
@@ -34,15 +35,8 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
   match output.status.code() {
     Some(0) => Outcome::Success,
     Some(exit_code) => Outcome::ScriptFailed {
-      exit_code: reduce_exit_status_to_code(exit_code),
+      exit_code: cli::exit_status_to_code(exit_code),
     },
     None => Outcome::ScriptFailed { exit_code: 255 },
   }
-}
-
-pub fn reduce_exit_status_to_code(code: i32) -> u8 {
-  if !(0..=255).contains(&code) {
-    return 255;
-  }
-  u8::try_from(code).unwrap()
 }
