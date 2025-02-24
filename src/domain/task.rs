@@ -47,6 +47,7 @@ impl Ord for Task {
   }
 }
 
+#[derive(Default)]
 pub struct Tasks(Vec<Task>);
 
 impl Tasks {
