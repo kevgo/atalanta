@@ -94,7 +94,7 @@ mod tests {
         desc: S(""),
       },
     ];
-    have.sort_unstable_by(Task::cmp);
+    have.sort_unstable();
     assert_eq!(have, want);
   }
 }
