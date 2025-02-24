@@ -1,4 +1,4 @@
-use super::{Task, Workspace};
+use super::{Stacks, Task};
 use crate::commands;
 use std::process::{ExitCode, Termination};
 
@@ -20,7 +20,7 @@ pub enum Outcome {
     /// name of the task that we didn't find
     task: String,
     /// copy of the workspace to list all available tasks
-    workspace: Workspace,
+    stacks: Stacks,
   },
   /// Atalanta couldn't run an executable defined in a task
   CannotFindExecutable { err: String },
@@ -31,9 +31,9 @@ impl Termination for Outcome {
     match self {
       Outcome::Success => ExitCode::SUCCESS,
       Outcome::ScriptFailed { exit_code } => ExitCode::from(exit_code),
-      Outcome::UnknownTask { task, workspace } => {
+      Outcome::UnknownTask { task, stacks } => {
         println!("Error: task \"{task}\" doesn't exist\n");
-        commands::list(workspace);
+        commands::list(stacks);
         ExitCode::FAILURE
       }
       Outcome::CannotFindExecutable { err } => {

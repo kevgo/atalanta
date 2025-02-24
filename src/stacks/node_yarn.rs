@@ -1,5 +1,5 @@
 use super::node_npm::{PackageJson, load_package_json};
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
@@ -27,7 +27,7 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>, mut dir: &Path) {
+pub fn scan(stacks: &mut Stacks, mut dir: &Path) {
   let Some(package_json) = load_package_json() else {
     return;
   };
