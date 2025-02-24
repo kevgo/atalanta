@@ -1,10 +1,10 @@
-use crate::domain::Stack;
-use std::env;
-
 mod makefile;
 mod node_npm;
 mod node_yarn;
 mod rust_cargo;
+
+use crate::domain::Stack;
+use std::env;
 
 /// determines the stacks in the current workspace
 pub fn load() -> Vec<Box<dyn Stack>> {
