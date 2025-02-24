@@ -9,6 +9,6 @@ pub fn parse(mut args: Args) -> Command {
     Some(cmd) if cmd == "--fish-completion" => Command::FishCompletion,
     Some(cmd) if cmd == "--print-fish-completions" => Command::FishCompletionSetup,
     Some(cmd) => Command::Run(cmd),
-    None => Command::List,
+    None => Command::Run(String::new()),
   }
 }

@@ -8,7 +8,6 @@ use domain::{Command, Outcome, Workspace};
 
 fn main() -> Outcome {
   match cli::parse(std::env::args()) {
-    Command::List => commands::list(Workspace::load()),
     Command::Run(name) => commands::run(Workspace::load(), name),
     Command::Setup => commands::setup(Workspace::load()),
     Command::FishCompletionSetup => commands::completions::fish::print(),
