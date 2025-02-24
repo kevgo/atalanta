@@ -91,7 +91,7 @@ impl From<Vec<Task>> for Tasks {
 
 impl From<Vec<&Task>> for Tasks {
   fn from(tasks: Vec<&Task>) -> Self {
-    Self(tasks.into_iter().map(|task| task.to_owned()).collect())
+    Self(tasks.into_iter().map(ToOwned::to_owned).collect())
   }
 }
 

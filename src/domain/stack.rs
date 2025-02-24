@@ -94,7 +94,7 @@ impl<'a> Ord for SearchResult<'a> {
   }
 }
 
-impl<'a> PartialOrd for SearchResult<'a> {
+impl PartialOrd for SearchResult<'_> {
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
     Some(self.cmp(other))
   }
