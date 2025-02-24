@@ -9,7 +9,7 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
       return Outcome::UnknownTask {
         task: name,
         workspace,
-      }
+      };
     }
     1 => tasks[0],
     _ => {
