@@ -1,19 +1,19 @@
-use crate::domain::{Outcome, Task, Workspace};
+use crate::domain::{Outcome, Stacks, Tasks};
 use ansi_term::Style;
 use std::io;
 use std::io::Write;
 use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list(workspace: Workspace) -> Outcome {
-  for stack in workspace.stacks {
+pub fn list(stacks: Stacks) -> Outcome {
+  for stack in stacks {
     println!("{}\n", Style::new().underline().paint(stack.to_string()));
     print_stack(stack.tasks());
   }
   Outcome::Success
 }
 
-pub fn print_stack(tasks: &Vec<Task>) {
+pub fn print_stack(tasks: &Tasks) {
   let mut tab_writer = TabWriter::new(vec![]);
   for task in tasks {
     let text = format!(

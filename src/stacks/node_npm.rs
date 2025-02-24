@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task, Tasks};
 use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -9,7 +9,7 @@ use std::path::Path;
 use std::process::Command;
 
 struct NodeNpmStack {
-  tasks: Vec<Task>,
+  tasks: Tasks,
 }
 
 impl Display for NodeNpmStack {
@@ -25,7 +25,7 @@ impl Stack for NodeNpmStack {
     Some(command)
   }
 
-  fn tasks(&self) -> &Vec<Task> {
+  fn tasks(&self) -> &Tasks {
     &self.tasks
   }
 }
@@ -35,7 +35,7 @@ pub struct PackageJson {
   pub scripts: Option<HashMap<String, String>>,
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
+pub fn scan(stacks: &mut Stacks) {
   if !Path::new("package-lock.json").exists() {
     return;
   }
@@ -68,8 +68,8 @@ pub fn load_package_json() -> Option<PackageJson> {
   }
 }
 
-fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
-  let mut result = vec![];
+fn parse_scripts(package_json: PackageJson) -> Tasks {
+  let mut result = Tasks::new();
   if let Some(scripts) = package_json.scripts {
     for (key, _value) in scripts {
       result.push(Task {

@@ -56,6 +56,6 @@ Feature: Rust (Cargo)
     When executing "a -s"
     Then it prints:
       """
-      Warning: I don't know how to set up this workspace
+      Warning: I don't know how to set up this stack
       """
     And the exit code is 1
