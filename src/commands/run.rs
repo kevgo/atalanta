@@ -40,7 +40,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
 }
 
 fn find_direct_match<'a, 'b>(tasks: &'a Vec<&'b Task>, name: &str) -> Option<&'a Task> {
-  for task in tasks {
+  for &task in tasks {
     if task.name == name {
       return Some(task);
     }
