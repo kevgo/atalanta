@@ -1,3 +1,5 @@
+//! This module defines the types that represent concepts from the domain.
+
 mod command;
 mod outcome;
 mod stack;
