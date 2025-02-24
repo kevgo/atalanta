@@ -32,15 +32,15 @@ impl PartialOrd for Task {
 impl Ord for Task {
   fn cmp(&self, other: &Self) -> Ordering {
     match self.name.cmp(&other.name) {
-      core::cmp::Ordering::Equal => {}
+      Ordering::Equal => {}
       ord => return ord,
     }
     match self.desc.cmp(&other.desc) {
-      core::cmp::Ordering::Equal => {}
+      Ordering::Equal => {}
       ord => return ord,
     }
     match self.cmd.cmp(&other.cmd) {
-      core::cmp::Ordering::Equal => {}
+      Ordering::Equal => {}
       ord => return ord,
     }
     self.argv.cmp(&other.argv)

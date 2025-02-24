@@ -1,5 +1,8 @@
+use std::cmp::Ordering;
+
 use super::{Stack, Task};
-use crate::{stacks, strings};
+use crate::stacks;
+use fuzzy_matcher::{self, FuzzyMatcher};
 
 pub struct Workspace {
   pub stacks: Vec<Box<dyn Stack>>,
@@ -24,12 +27,37 @@ impl Workspace {
   }
 
   pub fn tasks_matching_name(&self, name: &str) -> Vec<&str> {
-    let mut task_names = vec![];
+    let mut matches = vec![];
+    let matcher = fuzzy_matcher::skim::SkimMatcherV2::default();
     for stack in &self.stacks {
       for task in stack.tasks() {
-        task_names.push(task.name.as_str());
+        if let Some(score) = matcher.fuzzy_match(&task.name, name) {
+          matches.push(SearchResult { task, score });
+        }
       }
     }
-    strings::matching(name, task_names)
+    matches.sort();
+  }
+}
+
+#[derive(Eq, PartialEq)]
+struct SearchResult<'a> {
+  task: &'a Task,
+  score: i64,
+}
+
+impl<'a> Ord for SearchResult<'a> {
+  fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+    match self.score.cmp(&other.score) {
+      Ordering::Equal => {}
+      ord => return ord,
+    }
+    self.task.name.cmp(&other.task.name)
+  }
+}
+
+impl<'a> PartialOrd for SearchResult<'a> {
+  fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+    Some(self.cmp(other))
   }
 }
