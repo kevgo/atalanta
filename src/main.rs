@@ -1,11 +1,11 @@
-use cli::Command;
-use domain::{Outcome, Workspace};
-
 mod cli;
 mod commands;
 mod domain;
 mod stacks;
 mod strings;
+
+use cli::Command;
+use domain::{Outcome, Workspace};
 
 fn main() -> Outcome {
   match cli::parse(std::env::args()) {
