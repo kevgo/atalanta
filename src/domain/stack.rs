@@ -38,7 +38,7 @@ impl Stacks {
   }
 
   /// provides all the tasks provided by all stacks that match the given name
-  pub fn tasks_matching_name(&self, name: &str) -> Vec<&Task> {
+  pub fn tasks_fuzzy_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
     let mut search_results = vec![];
     for stack in &self.0 {
@@ -49,12 +49,7 @@ impl Stacks {
       }
     }
     search_results.sort();
-    // search_results.into_iter().map(|sr| sr.task).collect()
-    let mut tasks = vec![];
-    for search_result in search_results {
-      tasks.push(search_result.task);
-    }
-    tasks
+    search_results.into_iter().map(|sr| sr.task).collect()
   }
 }
 

@@ -3,7 +3,7 @@ use crate::domain::{Outcome, Stacks, Task, Tasks};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
-  let tasks = stacks.tasks_matching_name(&name);
+  let tasks = stacks.tasks_fuzzy_matching_name(&name);
   let task = match tasks.len() {
     0 => {
       return Outcome::UnknownTask { task: name, stacks };
