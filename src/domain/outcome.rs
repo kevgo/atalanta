@@ -26,7 +26,7 @@ pub enum Outcome {
   CannotFindExecutable { err: String },
 }
 
-impl<'a> Termination for Outcome {
+impl Termination for Outcome {
   fn report(self) -> ExitCode {
     match self {
       Outcome::Success => ExitCode::SUCCESS,
