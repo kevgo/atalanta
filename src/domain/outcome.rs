@@ -46,7 +46,7 @@ impl Termination for Outcome {
       }
       Outcome::TooManyTaskMatches { tasks } => {
         println!("Multiple matches:");
-        commands::list::print_stack(tasks.as_ref());
+        commands::list::print_stack(&tasks);
         ExitCode::FAILURE
       }
     }
