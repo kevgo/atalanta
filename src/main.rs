@@ -4,8 +4,7 @@ mod domain;
 mod stacks;
 mod strings;
 
-use cli::Command;
-use domain::{Outcome, Workspace};
+use domain::{Command, Outcome, Workspace};
 
 fn main() -> Outcome {
   match cli::parse(std::env::args()) {
