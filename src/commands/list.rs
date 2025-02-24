@@ -1,4 +1,4 @@
-use crate::domain::{Outcome, Stacks, Task, Tasks};
+use crate::domain::{Outcome, Stacks, Tasks};
 use ansi_term::Style;
 use std::io;
 use std::io::Write;
