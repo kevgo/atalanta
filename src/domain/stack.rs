@@ -37,6 +37,7 @@ impl Stacks {
     None
   }
 
+  /// provides all the tasks provided by all stacks that match the given name
   pub fn tasks_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
     let mut search_results = vec![];
