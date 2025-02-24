@@ -8,7 +8,7 @@ mod rust_cargo;
 use crate::domain::Stacks;
 use std::env;
 
-/// determines the stacks in the current workspace
+/// determines the existing stacks
 pub fn load() -> Stacks {
   let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
