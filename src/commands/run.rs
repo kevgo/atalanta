@@ -40,3 +40,40 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
 fn exact_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
   tasks.iter().find(|&&task| task.name == name).copied()
 }
+
+#[cfg(test)]
+mod tests {
+
+  mod exact_match {
+    use crate::domain::Task;
+    use big_s::S;
+
+    #[test]
+    fn has_match() {
+      let task1 = Task {
+        name: S("one"),
+        ..Task::default()
+      };
+      let task2 = Task {
+        name: S("onetwo"),
+        ..Task::default()
+      };
+      let tasks = vec![&task1, &task2];
+      let have = super::super::exact_match(&tasks, "one");
+      let want = Some(&task1);
+      assert_eq!(have, want);
+    }
+
+    #[test]
+    fn no_match() {
+      let task = Task {
+        name: S("onetwo"),
+        ..Task::default()
+      };
+      let tasks = vec![&task];
+      let have = super::super::exact_match(&tasks, "one");
+      let want = None;
+      assert_eq!(have, want);
+    }
+  }
+}
