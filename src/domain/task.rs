@@ -94,7 +94,7 @@ mod tests {
         desc: S(""),
       },
     ];
-    have.sort_unstable();
+    have.sort();
     assert_eq!(have, want);
   }
 }

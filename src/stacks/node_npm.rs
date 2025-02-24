@@ -79,7 +79,7 @@ fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
         desc: String::new(),
       });
     }
-    result.sort_unstable();
+    result.sort();
   }
   result
 }
