@@ -50,17 +50,17 @@ mod tests {
 
     #[test]
     fn has_match() {
-      let task1 = Task {
+      let task_1 = Task {
         name: S("one"),
         ..Task::default()
       };
-      let task2 = Task {
+      let task_2 = Task {
         name: S("onetwo"),
         ..Task::default()
       };
-      let tasks = vec![&task1, &task2];
+      let tasks = vec![&task_1, &task_2];
       let have = super::super::exact_match(&tasks, "one");
-      let want = Some(&task1);
+      let want = Some(&task_1);
       assert_eq!(have, want);
     }
 

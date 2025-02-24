@@ -19,10 +19,6 @@ pub trait Stack: Display {
 pub struct Stacks(Vec<Box<dyn Stack>>);
 
 impl Stacks {
-  pub fn iter(&self) -> std::slice::Iter<'_, Box<dyn Stack>> {
-    self.0.iter()
-  }
-
   pub fn new() -> Self {
     Self(vec![])
   }
