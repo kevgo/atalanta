@@ -21,10 +21,29 @@ impl Task {
     cmd.args(&self.argv);
     cmd
   }
+}
 
-  /// sort function for sorting Tasks by name
-  pub fn sort(a: &Task, b: &Task) -> Ordering {
-    a.name.cmp(&b.name)
+impl PartialOrd for Task {
+  fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+    Some(self.cmp(other))
+  }
+}
+
+impl Ord for Task {
+  fn cmp(&self, other: &Self) -> Ordering {
+    match self.name.cmp(&other.name) {
+      core::cmp::Ordering::Equal => {}
+      ord => return ord,
+    }
+    match self.desc.cmp(&other.desc) {
+      core::cmp::Ordering::Equal => {}
+      ord => return ord,
+    }
+    match self.cmd.cmp(&other.cmd) {
+      core::cmp::Ordering::Equal => {}
+      ord => return ord,
+    }
+    self.argv.cmp(&other.argv)
   }
 }
 
@@ -75,7 +94,7 @@ mod tests {
         desc: S(""),
       },
     ];
-    have.sort_unstable_by(Task::sort);
+    have.sort();
     assert_eq!(have, want);
   }
 }

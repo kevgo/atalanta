@@ -1,5 +1,5 @@
 use cucumber::gherkin::Step;
-use cucumber::{given, then, when, World};
+use cucumber::{World, given, then, when};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
@@ -141,8 +141,8 @@ fn tmp_dir() -> PathBuf {
     .duration_since(UNIX_EPOCH)
     .unwrap()
     .as_millis();
-  let rand: String = rand::thread_rng()
-    .sample_iter(&rand::distributions::Alphanumeric)
+  let rand: String = rand::rng()
+    .sample_iter(&rand::distr::Alphanumeric)
     .take(3)
     .map(char::from)
     .collect();

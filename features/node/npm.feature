@@ -20,9 +20,9 @@ Feature: Node.JS with npm
       """
       Node.JS (npm)
 
-        failing       echo 'running a failing task' && exit 2
-        format        echo formatting
-        format:check  echo checking format
+        failing
+        format
+        format:check
       """
 
   Scenario: run a task
@@ -41,9 +41,9 @@ Feature: Node.JS with npm
 
       Node.JS (npm)
 
-        failing       echo 'running a failing task' && exit 2
-        format        echo formatting
-        format:check  echo checking format
+        failing
+        format
+        format:check
       """
     Then the exit code is 1
 

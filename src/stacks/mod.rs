@@ -1,14 +1,16 @@
-use crate::domain::Stack;
-use std::env;
+//! This module contains the various technology stacks that Atalanta can run.
 
 mod makefile;
 mod node_npm;
 mod node_yarn;
 mod rust_cargo;
 
-/// determines the stacks in the current workspace
-pub fn load() -> Vec<Box<dyn Stack>> {
-  let mut result = vec![];
+use crate::domain::Stacks;
+use std::env;
+
+/// determines the existing stacks
+pub fn load() -> Stacks {
+  let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
   makefile::scan(&mut result);
   node_npm::scan(&mut result);

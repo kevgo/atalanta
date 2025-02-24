@@ -1,4 +1,4 @@
-use super::{Task, Workspace};
+use super::{Stacks, Task};
 use crate::commands;
 use std::process::{ExitCode, Termination};
 
@@ -11,7 +11,7 @@ pub enum Outcome {
     /// the exit code to signal when quitting
     exit_code: u8,
   },
-  /// Atalanta doesn't know how to set up this workspace
+  /// Atalanta doesn't know how to set up this stack
   NoSetup,
   /// more than one task matches the shortcut provided by the user
   TooManyTaskMatches { tasks: Vec<Task> },
@@ -19,8 +19,8 @@ pub enum Outcome {
   UnknownTask {
     /// name of the task that we didn't find
     task: String,
-    /// copy of the workspace to list all available tasks
-    workspace: Workspace,
+    /// all available stacks, for listing the available tasks
+    stacks: Stacks,
   },
   /// Atalanta couldn't run an executable defined in a task
   CannotFindExecutable { err: String },
@@ -31,9 +31,9 @@ impl Termination for Outcome {
     match self {
       Outcome::Success => ExitCode::SUCCESS,
       Outcome::ScriptFailed { exit_code } => ExitCode::from(exit_code),
-      Outcome::UnknownTask { task, workspace } => {
+      Outcome::UnknownTask { task, stacks } => {
         println!("Error: task \"{task}\" doesn't exist\n");
-        commands::list(workspace);
+        commands::list(stacks);
         ExitCode::FAILURE
       }
       Outcome::CannotFindExecutable { err } => {
@@ -41,7 +41,7 @@ impl Termination for Outcome {
         ExitCode::FAILURE
       }
       Outcome::NoSetup => {
-        println!("Warning: I don't know how to set up this workspace");
+        println!("Warning: I don't know how to set up this stack");
         ExitCode::FAILURE
       }
       Outcome::TooManyTaskMatches { tasks } => {

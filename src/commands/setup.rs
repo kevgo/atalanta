@@ -1,10 +1,10 @@
-use super::run::reduce_exit_status_to_code;
-use crate::domain::{Outcome, Workspace};
+use crate::cli;
+use crate::domain::{Outcome, Stacks};
 use std::process::Stdio;
 
-pub fn setup(workspace: Workspace) -> Outcome {
+pub fn setup(stacks: Stacks) -> Outcome {
   let mut executed = false;
-  for stack in workspace.stacks {
+  for stack in stacks {
     let Some(mut cmd) = stack.setup() else {
       continue;
     };
@@ -21,7 +21,7 @@ pub fn setup(workspace: Workspace) -> Outcome {
     if let Some(exit_code) = output.status.code() {
       if exit_code != 0 {
         return Outcome::ScriptFailed {
-          exit_code: reduce_exit_status_to_code(exit_code),
+          exit_code: cli::exit_status_to_code(exit_code),
         };
       }
     };

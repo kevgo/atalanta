@@ -1,4 +1,4 @@
-use crate::domain::{Outcome, Workspace};
+use crate::domain::{Outcome, Stacks};
 
 /// prints Fish commands that set up autocompletion
 pub fn print() -> Outcome {
@@ -9,8 +9,8 @@ pub fn print() -> Outcome {
 }
 
 /// used within autocompletion, prints available tasks in an auto-completion compatible format
-pub fn tasks(workspace: Workspace) -> Outcome {
-  for stack in workspace.stacks {
+pub fn tasks(stacks: Stacks) -> Outcome {
+  for stack in stacks {
     for task in stack.tasks() {
       println!("{}\t{}", task.name, task.desc);
     }

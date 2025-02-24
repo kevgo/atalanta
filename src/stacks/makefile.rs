@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task};
 use big_s::S;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -27,7 +27,7 @@ impl Stack for MakefileStack {
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
+pub fn scan(stacks: &mut Stacks) {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
     Err(e) => match e.kind() {

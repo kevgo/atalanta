@@ -1,13 +1,5 @@
+use crate::domain::Command;
 use std::env::Args;
-
-/// all CLI commands that could be run
-pub enum Command {
-  List,
-  Run(String),
-  Setup,
-  FishCompletionSetup,
-  FishCompletion,
-}
 
 pub fn parse(mut args: Args) -> Command {
   args.next(); // skip the binary name

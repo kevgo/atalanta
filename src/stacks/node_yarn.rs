@@ -1,5 +1,5 @@
-use super::node_npm::{load_package_json, PackageJson};
-use crate::domain::{Stack, Task};
+use super::node_npm::{PackageJson, load_package_json};
+use crate::domain::{Stack, Stacks, Task};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
@@ -27,7 +27,7 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>, mut dir: &Path) {
+pub fn scan(stacks: &mut Stacks, mut dir: &Path) {
   let Some(package_json) = load_package_json() else {
     return;
   };
@@ -49,15 +49,15 @@ pub fn scan(stacks: &mut Vec<Box<dyn Stack>>, mut dir: &Path) {
 fn parse_scripts(package_json: PackageJson) -> Vec<Task> {
   let mut result = vec![];
   if let Some(scripts) = package_json.scripts {
-    for (key, value) in scripts {
+    for (key, _value) in scripts {
       result.push(Task {
         name: key.clone(),
         cmd: S("yarn"),
         argv: vec![S("--silent"), S("run"), key],
-        desc: value,
+        desc: String::new(),
       });
     }
-    result.sort_unstable_by(Task::sort);
+    result.sort();
   }
   result
 }
