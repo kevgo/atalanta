@@ -9,7 +9,7 @@ pub fn run(workspace: Workspace, name: String) -> Outcome {
       return Outcome::UnknownTask {
         task: name,
         workspace,
-      }
+      };
     }
     1 => task_names[0],
     _ if task_names.contains(&name.as_ref()) => &name,

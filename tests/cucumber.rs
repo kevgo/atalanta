@@ -1,5 +1,5 @@
 use cucumber::gherkin::Step;
-use cucumber::{given, then, when, World};
+use cucumber::{World, given, then, when};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
