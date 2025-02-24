@@ -1,6 +1,7 @@
 use crate::strings;
 use std::fmt::Display;
 use std::process::Command;
+use std::vec::IntoIter;
 
 use super::Task;
 
@@ -48,5 +49,15 @@ impl Stacks {
       }
     }
     strings::matching(name, task_names)
+  }
+}
+
+impl IntoIterator for Stacks {
+  type Item = Box<dyn Stack>;
+
+  type IntoIter = IntoIter<Self::Item>;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self.0.into_iter()
   }
 }
