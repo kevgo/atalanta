@@ -9,7 +9,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
       return Outcome::UnknownTask { task: name, stacks };
     }
     1 => tasks[0],
-    _ => match find_direct_match(&tasks, &name) {
+    _ => match exact_match(&tasks, &name) {
       Some(task) => task,
       None => {
         return Outcome::TooManyTaskMatches {
@@ -37,6 +37,6 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
   }
 }
 
-fn find_direct_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
+fn exact_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
   tasks.iter().find(|&&task| task.name == name).copied()
 }
