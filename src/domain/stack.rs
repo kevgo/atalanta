@@ -15,6 +15,7 @@ pub trait Stack: Display {
   fn tasks(&self) -> &Tasks;
 }
 
+#[derive(Default)]
 pub struct Stacks(Vec<Box<dyn Stack>>);
 
 impl Stacks {
@@ -84,7 +85,7 @@ struct SearchResult<'a> {
   score: i64,
 }
 
-impl<'a> Ord for SearchResult<'a> {
+impl Ord for SearchResult<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
     match self.score.cmp(&other.score) {
       Ordering::Equal => {}
