@@ -9,5 +9,5 @@ mod workspace;
 pub use command::Command;
 pub use outcome::Outcome;
 pub use stack::Stack;
-pub use task::Task;
+pub use task::{Task, Tasks};
 pub use workspace::Workspace;

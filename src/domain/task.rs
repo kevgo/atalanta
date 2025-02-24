@@ -47,6 +47,22 @@ impl Ord for Task {
   }
 }
 
+pub struct Tasks(Vec<Task>);
+
+impl Tasks {
+  pub fn new() -> Self {
+    Self(vec![])
+  }
+
+  pub fn push(&mut self, task: Task) {
+    self.0.push(task);
+  }
+
+  pub fn find_by_name(&self, name: &str) -> Option<&Task> {
+    self.0.iter().find(|task| task.name == name)
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use crate::domain::Task;

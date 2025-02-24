@@ -3,25 +3,25 @@ use crate::domain::{Outcome, Task, Workspace};
 use std::process::Stdio;
 
 pub fn run(workspace: Workspace, name: String) -> Outcome {
-  let task_names = workspace.tasks_matching_name(&name);
-  let task_name = match task_names.len() {
+  let tasks = workspace.tasks_matching_name(&name);
+  let task = match tasks.len() {
     0 => {
       return Outcome::UnknownTask {
         task: name,
         workspace,
       }
     }
-    1 => task_names[0],
-    _ if task_names.contains(&name.as_ref()) => &name,
+    1 => tasks[0],
     _ => {
-      let tasks: Vec<Task> = task_names
+      let exact_match = tasks.find_by_name(name);
+      let tasks: Vec<Task> = tasks
         .iter()
         .map(|task_name| workspace.task_with_name(task_name).unwrap().clone())
         .collect();
       return Outcome::TooManyTaskMatches { tasks };
     }
   };
-  let task = workspace.task_with_name(task_name).unwrap();
+  let task = workspace.task_with_name(task).unwrap();
   let output = task
     .command()
     .stdin(Stdio::inherit())

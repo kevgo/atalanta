@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use super::{Stack, Task};
+use super::{Stack, Task, Tasks};
 use crate::stacks;
 use fuzzy_matcher::{self, FuzzyMatcher};
 
@@ -26,7 +26,7 @@ impl Workspace {
     None
   }
 
-  pub fn tasks_matching_name(&self, name: &str) -> Vec<&str> {
+  pub fn tasks_matching_name(&self, name: &str) -> Tasks {
     let mut matches = vec![];
     let matcher = fuzzy_matcher::skim::SkimMatcherV2::default();
     for stack in &self.stacks {
@@ -37,6 +37,7 @@ impl Workspace {
       }
     }
     matches.sort();
+    matches.into_iter().map(|s| s.task).collect()
   }
 }
 
