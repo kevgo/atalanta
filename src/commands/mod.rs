@@ -1,4 +1,4 @@
-//! the various commands that this app provides
+//! the various sub-commands that the user can call
 
 pub mod completions;
 pub mod list;
