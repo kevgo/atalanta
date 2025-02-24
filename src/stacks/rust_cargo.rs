@@ -1,11 +1,11 @@
-use crate::domain::{Stack, Stacks, Task};
+use crate::domain::{Stack, Stacks, Task, Tasks};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
 struct RustCargoStack {
-  tasks: Vec<Task>,
+  tasks: Tasks,
 }
 
 impl Display for RustCargoStack {
@@ -19,7 +19,7 @@ impl Stack for RustCargoStack {
     None
   }
 
-  fn tasks(&self) -> &Vec<Task> {
+  fn tasks(&self) -> &Tasks {
     &self.tasks
   }
 }
@@ -30,7 +30,7 @@ pub fn scan(stacks: &mut Stacks) {
     return;
   }
   stacks.push(Box::new(RustCargoStack {
-    tasks: vec![
+    tasks: Tasks::from(vec![
       Task {
         name: S("build"),
         cmd: S("cargo"),
@@ -49,6 +49,6 @@ pub fn scan(stacks: &mut Stacks) {
         argv: vec![S("test")],
         desc: S("cargo test"),
       },
-    ],
+    ]),
   }));
 }
