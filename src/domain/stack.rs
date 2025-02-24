@@ -1,9 +1,8 @@
+use super::Task;
 use crate::strings;
 use std::fmt::Display;
 use std::process::Command;
 use std::vec::IntoIter;
-
-use super::Task;
 
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
