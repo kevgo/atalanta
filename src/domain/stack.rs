@@ -16,3 +16,7 @@ pub trait Stack: Display {
     self.tasks().iter().find(|task| task.name == name)
   }
 }
+
+pub struct Stacks(Vec<Box<dyn Stack>>);
+
+impl Stacks {}
