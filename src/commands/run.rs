@@ -1,5 +1,5 @@
 use crate::cli;
-use crate::domain::{Outcome, Stacks, Tasks};
+use crate::domain::{Outcome, Stacks, Task, Tasks};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
@@ -10,9 +10,14 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     }
     1 => tasks[0],
     _ => {
-      return Outcome::TooManyTaskMatches {
-        tasks: Tasks::from(tasks),
-      };
+      // check for direct match
+      if let Some(task) = find_direct_match(&tasks, &name) {
+        task
+      } else {
+        return Outcome::TooManyTaskMatches {
+          tasks: Tasks::from(tasks),
+        };
+      }
     }
   };
   let output = task
@@ -32,4 +37,13 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     },
     None => Outcome::ScriptFailed { exit_code: 255 },
   }
+}
+
+fn find_direct_match<'a, 'b>(tasks: &'a Vec<&'b Task>, name: &str) -> Option<&'a Task> {
+  for task in tasks {
+    if task.name == name {
+      return Some(task);
+    }
+  }
+  None
 }
