@@ -1,4 +1,4 @@
-use super::node_npm::{load_package_json, PackageJson};
+use super::node_npm::{PackageJson, load_package_json};
 use crate::domain::{Stack, Task};
 use big_s::S;
 use std::fmt::Display;
