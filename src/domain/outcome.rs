@@ -26,7 +26,7 @@ pub enum Outcome {
   CannotFindExecutable { err: String },
 }
 
-impl Termination for Outcome {
+impl<'a> Termination for Outcome {
   fn report(self) -> ExitCode {
     match self {
       Outcome::Success => ExitCode::SUCCESS,
@@ -46,7 +46,7 @@ impl Termination for Outcome {
       }
       Outcome::TooManyTaskMatches { tasks } => {
         println!("Multiple matches:");
-        commands::list::print_stack(&tasks);
+        commands::list::print_stack(tasks.as_ref());
         ExitCode::FAILURE
       }
     }

@@ -68,6 +68,12 @@ impl Tasks {
   }
 }
 
+impl AsRef<Vec<Task>> for Tasks {
+  fn as_ref(&self) -> &Vec<Task> {
+    &self.0
+  }
+}
+
 impl<'a> IntoIterator for &'a Tasks {
   type Item = &'a Task;
   type IntoIter = std::slice::Iter<'a, Task>;
@@ -80,6 +86,12 @@ impl<'a> IntoIterator for &'a Tasks {
 impl From<Vec<Task>> for Tasks {
   fn from(tasks: Vec<Task>) -> Self {
     Self(tasks)
+  }
+}
+
+impl From<Vec<&Task>> for Tasks {
+  fn from(tasks: Vec<&Task>) -> Self {
+    Self(tasks.into_iter().map(|task| task.to_owned()).collect())
   }
 }
 

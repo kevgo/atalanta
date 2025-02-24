@@ -4,7 +4,6 @@ use fuzzy_matcher::skim::SkimMatcherV2;
 use std::cmp::Ordering;
 use std::fmt::Display;
 use std::process::Command;
-use std::vec::IntoIter;
 
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
@@ -19,6 +18,10 @@ pub trait Stack: Display {
 pub struct Stacks(Vec<Box<dyn Stack>>);
 
 impl Stacks {
+  pub fn iter(&self) -> std::slice::Iter<'_, Box<dyn Stack>> {
+    self.0.iter()
+  }
+
   pub fn new() -> Self {
     Self(vec![])
   }
@@ -37,9 +40,9 @@ impl Stacks {
     None
   }
 
-  pub fn tasks_matching_name(self, name: &str) -> Vec<&Task> {
-    let mut search_results = vec![];
+  pub fn tasks_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
+    let mut search_results = vec![];
     for stack in &self.0 {
       for task in stack.tasks() {
         if let Some(score) = matcher.fuzzy_match(&task.name, name) {
@@ -59,10 +62,19 @@ impl Stacks {
 
 impl IntoIterator for Stacks {
   type Item = Box<dyn Stack>;
-  type IntoIter = IntoIter<Self::Item>;
+  type IntoIter = std::vec::IntoIter<Self::Item>;
 
   fn into_iter(self) -> Self::IntoIter {
     self.0.into_iter()
+  }
+}
+
+impl<'a> IntoIterator for &'a Stacks {
+  type Item = &'a Box<dyn Stack>;
+  type IntoIter = std::slice::Iter<'a, Box<dyn Stack>>;
+
+  fn into_iter(self) -> Self::IntoIter {
+    self.0.iter()
   }
 }
 

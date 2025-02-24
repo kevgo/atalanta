@@ -1,5 +1,5 @@
 use crate::cli;
-use crate::domain::{Outcome, Stacks, Task, Tasks};
+use crate::domain::{Outcome, Stacks, Tasks};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
@@ -10,10 +10,11 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     }
     1 => tasks[0],
     _ => {
-      return Outcome::TooManyTaskMatches { tasks };
+      return Outcome::TooManyTaskMatches {
+        tasks: Tasks::from(tasks),
+      };
     }
   };
-  let task = stacks.task_with_name(task_name).unwrap();
   let output = task
     .command()
     .stdin(Stdio::inherit())
