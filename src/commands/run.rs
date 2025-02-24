@@ -3,20 +3,14 @@ use crate::domain::{Outcome, Stacks, Task, Tasks};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
-  let task_names = stacks.tasks_matching_name(&name);
-  let task_name = match task_names.len() {
+  let tasks = stacks.tasks_matching_name(&name);
+  let task = match tasks.len() {
     0 => {
       return Outcome::UnknownTask { task: name, stacks };
     }
     1 => tasks[0],
     _ => {
-      let tasks: Vec<Task> = task_names
-        .into_iter()
-        .map(|task_name| stacks.task_with_name(task_name).unwrap().clone())
-        .collect();
-      return Outcome::TooManyTaskMatches {
-        tasks: Tasks::from(tasks),
-      };
+      return Outcome::TooManyTaskMatches { tasks };
     }
   };
   let task = stacks.task_with_name(task_name).unwrap();
