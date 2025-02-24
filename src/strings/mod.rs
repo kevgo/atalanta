@@ -1,4 +1,4 @@
-//! various helper methods for string handling
+//! helper methods for string handling
 
 mod matching;
 
