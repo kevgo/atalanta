@@ -54,7 +54,3 @@ impl IntoIterator for Stacks {
     self.0.into_iter()
   }
 }
-
-pub struct Stacks(Vec<Box<dyn Stack>>);
-
-impl Stacks {}
