@@ -39,6 +39,6 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
   }
 }
 
-fn find_direct_match<'a, 'b>(tasks: &'a Vec<&'b Task>, name: &str) -> Option<&'a Task> {
+fn find_direct_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
   tasks.iter().find(|&&task| task.name == name).copied()
 }
