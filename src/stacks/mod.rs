@@ -1,3 +1,5 @@
+//! This module contains the various technology stacks that Atalanta can run.
+
 mod makefile;
 mod node_npm;
 mod node_yarn;

@@ -1,3 +1,5 @@
+//! This module provides functionality to interact with the shell environment from which this app is called.
+
 mod exit_code;
 mod parse;
 
