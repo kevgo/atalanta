@@ -8,4 +8,4 @@ mod task;
 pub use command::Command;
 pub use outcome::Outcome;
 pub use stack::{Stack, Stacks};
-pub use task::Task;
+pub use task::{Task, Tasks};

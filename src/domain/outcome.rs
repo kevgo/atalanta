@@ -1,4 +1,4 @@
-use super::{Stacks, Task};
+use super::{Stacks, Tasks};
 use crate::commands;
 use std::process::{ExitCode, Termination};
 
@@ -14,7 +14,7 @@ pub enum Outcome {
   /// Atalanta doesn't know how to set up this stack
   NoSetup,
   /// more than one task matches the shortcut provided by the user
-  TooManyTaskMatches { tasks: Vec<Task> },
+  TooManyTaskMatches { tasks: Tasks },
   /// there is no task with the given name
   UnknownTask {
     /// name of the task that we didn't find
