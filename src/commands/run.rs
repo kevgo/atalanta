@@ -11,12 +11,13 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     1 => tasks[0],
     _ => {
       // check for direct match
-      if let Some(task) = find_direct_match(&tasks, &name) {
-        task
-      } else {
-        return Outcome::TooManyTaskMatches {
-          tasks: Tasks::from(tasks),
-        };
+      match find_direct_match(&tasks, &name) {
+        Some(task) => task,
+        None => {
+          return Outcome::TooManyTaskMatches {
+            tasks: Tasks::from(tasks),
+          };
+        }
       }
     }
   };
