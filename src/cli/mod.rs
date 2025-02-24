@@ -1,3 +1,5 @@
+//! Code related to interacting with the shell environment from which this app is called.
+
 mod exit_code;
 mod parse;
 

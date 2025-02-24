@@ -1,3 +1,5 @@
+//! the various commands that this app provides
+
 pub mod completions;
 pub mod list;
 mod run;
