@@ -1,4 +1,5 @@
-use super::{Stack, Task};
+use super::Task;
+use crate::stacks::Stack;
 use crate::{stacks, strings};
 
 pub struct Workspace {

@@ -1,4 +1,5 @@
-use crate::domain::{Stack, Task};
+use crate::domain::Task;
+use crate::stacks::Stack;
 use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;

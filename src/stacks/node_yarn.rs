@@ -1,5 +1,6 @@
 use super::node_npm::{load_package_json, PackageJson};
-use crate::domain::{Stack, Task};
+use crate::domain::Task;
+use crate::stacks::Stack;
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
