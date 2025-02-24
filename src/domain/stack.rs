@@ -53,7 +53,6 @@ impl Stacks {
 
 impl IntoIterator for Stacks {
   type Item = Box<dyn Stack>;
-
   type IntoIter = IntoIter<Self::Item>;
 
   fn into_iter(self) -> Self::IntoIter {
