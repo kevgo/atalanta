@@ -1,6 +1,6 @@
 use crate::domain::Task;
 use ansi_term::Style;
-use crossterm::event::{Event, KeyCode};
+use crossterm::event::{Event, KeyCode, KeyEventKind};
 use crossterm::terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode};
 use crossterm::{QueueableCommand, cursor};
 use std::io::Write;
@@ -36,6 +36,9 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
     // wait for keyboard input
     let event = crossterm::event::read().unwrap();
     if let Event::Key(key_code) = event {
+      if key_code.kind == KeyEventKind::Release {
+        continue;
+      }
       match key_code.code {
         KeyCode::Down | KeyCode::Tab => position = cursor_down(position, tasks.len()),
         KeyCode::Up | KeyCode::BackTab => position = cursor_up(position, tasks.len()),
