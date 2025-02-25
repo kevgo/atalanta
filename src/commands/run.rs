@@ -12,6 +12,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     _ => match exact_match(&tasks, &name) {
       Some(task) => task,
       None => {
+        // TODO: let the user choose a task to run via the UI
         return Outcome::TooManyTaskMatches {
           tasks: Tasks::from(tasks),
         };
