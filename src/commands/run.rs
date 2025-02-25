@@ -11,7 +11,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     1 => tasks[0],
     _ => match exact_match(&tasks, &name) {
       Some(task) => task,
-      None => choose_task(tasks),
+      None => choose_task(&tasks),
     },
   };
   let status = task
@@ -33,7 +33,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
   }
 }
 
-fn choose_task(tasks: Vec<&Task>) -> &Task {
+fn choose_task<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   cli::choose_dialog(tasks)
 }
 

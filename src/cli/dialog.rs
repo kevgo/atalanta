@@ -5,7 +5,7 @@ use std::io;
 use std::io::Write;
 use tabwriter::TabWriter;
 
-pub(crate) fn choose_dialog(tasks: Vec<&Task>) -> &Task {
+pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   let mut position = 0;
   let mut stdout = io::stdout();
   loop {
