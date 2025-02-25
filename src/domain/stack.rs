@@ -120,6 +120,7 @@ mod tests {
     }
 
     #[test]
+    #[allow(clippy::similar_names)]
     fn direct_and_fuzzy_matches() {
       let task_1a = Task {
         name: S("install"),
