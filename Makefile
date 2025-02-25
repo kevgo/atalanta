@@ -1,7 +1,7 @@
 # dev tooling and versions
 RUN_THAT_APP_VERSION = 0.11.0
 
-build:  # builds the test binary
+build:  # builds the codebase
 	cargo build
 
 cuke: build  # runs all end-to-end tests
