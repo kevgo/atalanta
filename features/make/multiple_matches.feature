@@ -1,6 +1,6 @@
 Feature: Makefiles
 
-  Background:
+  Scenario: multiple tasks match a shortcut
     Given a Makefile with content:
       """
       format:  # formats the code
@@ -15,19 +15,11 @@ Feature: Makefiles
 
       .SILENT:
       """
-
-  Scenario: run a task via full name
-    When executing "a format"
+    When executing "a fo"
     Then it prints:
       """
-      formatting
+      Multiple matches:
+        format        formats the code
+        format-check  checks for formatting problems
       """
-    Then the exit code is 0
-
-  Scenario: run a task via shortcut
-    When executing "a fc"
-    Then it prints:
-      """
-      check formatting
-      """
-    Then the exit code is 0
+    Then the exit code is 1
