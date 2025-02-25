@@ -37,12 +37,17 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
     let event = crossterm::event::read().unwrap();
     if let Event::Key(key_code) = event {
       match key_code.code {
-        KeyCode::Enter => break,
-        KeyCode::Up | KeyCode::BackTab => position = cursor_up(position, tasks.len()),
         KeyCode::Down | KeyCode::Tab => position = cursor_down(position, tasks.len()),
+        KeyCode::Up | KeyCode::BackTab => position = cursor_up(position, tasks.len()),
+        KeyCode::Enter => break,
         KeyCode::Char(key) => match key {
           'j' => position = cursor_down(position, tasks.len()),
           'k' => position = cursor_up(position, tasks.len()),
+          'o' => break,
+          'q' => {
+            aborted = true;
+            break;
+          }
           _ => {}
         },
         KeyCode::Esc => {
