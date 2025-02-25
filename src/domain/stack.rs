@@ -37,7 +37,7 @@ impl Stacks {
     None
   }
 
-  /// provides all the tasks provided by all stacks that match the given name
+  /// provides all the tasks from all stacks that match the given task name
   pub fn tasks_fuzzy_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
     let mut search_results = vec![];
