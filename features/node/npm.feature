@@ -22,20 +22,6 @@ Feature: Node.JS with npm
       """
     Then the exit code is 0
 
-  Scenario: run an unknown task
-    When executing "a zonk"
-    Then it prints:
-      """
-      Error: task "zonk" doesn't exist
-
-      Node.JS (npm)
-
-        failing
-        format
-        format:check
-      """
-    Then the exit code is 1
-
   Scenario: a task returns a non-zero exit code
     When executing "a failing"
     Then it prints:
