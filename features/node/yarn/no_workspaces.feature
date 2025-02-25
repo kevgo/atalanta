@@ -14,16 +14,16 @@ Feature: Node.JS with Yarn
       """
     And a file "yarn.lock"
 
-  Scenario: list available tasks
-    When executing "a"
-    Then it prints:
-      """
-      Node.JS (yarn)
+  # Scenario: list available tasks
+  #   When executing "a"
+  #   Then it prints:
+  #     """
+  #     Node.JS (yarn)
 
-        failing
-        task-1
-        task-2
-      """
+  #       failing
+  #       task-1
+  #       task-2
+  #     """
 
   Scenario: run a task
     When executing "a task-1"

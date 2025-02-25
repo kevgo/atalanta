@@ -4,10 +4,11 @@ use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::path::{Path, PathBuf};
-use std::process::Output;
+use std::process::{Output, Stdio};
 use std::str::SplitAsciiWhitespace;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, str};
+use tokio::io::AsyncWriteExt;
 use tokio::process::Command;
 use tokio::{fs, io};
 
@@ -94,6 +95,34 @@ async fn executing(world: &mut RunWorld, command: String) {
       .args(args)
       .current_dir(&world.dir)
       .output()
+      .await
+      .expect("cannot find the 'a' executable"),
+  );
+}
+
+#[when(expr = "executing {string} and pressing the keys:")]
+async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
+  let args = parse_call(&command);
+  let mut cmd = Command::new("../../target/debug/a")
+    .args(args)
+    .current_dir(&world.dir)
+    .stdin(Stdio::piped())
+    .stdout(Stdio::piped())
+    .stderr(Stdio::piped())
+    .kill_on_drop(true) // kill the process if the test suite terminates
+    .spawn()
+    .unwrap();
+  // This code works with normal subshell commands like "cat", but not with the atalanta executable.
+  // The Atalanta executable ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
+  // Maybe Atalanta's terminal library (crossterm) performs low-level API calls to the OS to read keyboard input?
+  if let Some(mut stdin) = cmd.stdin.take() {
+    stdin.write_all(b"j\n").await.unwrap();
+    stdin.flush().await.unwrap();
+    stdin.shutdown().await.unwrap();
+  }
+  world.output = Some(
+    cmd
+      .wait_with_output()
       .await
       .expect("cannot find the 'a' executable"),
   );

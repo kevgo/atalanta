@@ -1,5 +1,5 @@
 use crate::cli;
-use crate::domain::{Outcome, Stacks, Task, Tasks};
+use crate::domain::{Outcome, Stacks, Task};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
@@ -11,11 +11,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     1 => tasks[0],
     _ => match exact_match(&tasks, &name) {
       Some(task) => task,
-      None => {
-        return Outcome::TooManyTaskMatches {
-          tasks: Tasks::from(tasks),
-        };
-      }
+      None => cli::select(&tasks),
     },
   };
   let status = task
