@@ -34,7 +34,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
 }
 
 fn choose_task<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
-  cli::choose_dialog(tasks)
+  cli::select(tasks)
 }
 
 fn exact_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {

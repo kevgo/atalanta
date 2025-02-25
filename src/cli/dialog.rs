@@ -7,15 +7,16 @@ use std::io::Write;
 use std::{io, process};
 use tabwriter::TabWriter;
 
-pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
+pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   let mut position = 0;
   let mut aborted = false;
   let mut stderr = io::stderr();
   enable_raw_mode().unwrap();
+  stderr.queue(cursor::SavePosition).unwrap();
   stderr.queue(cursor::Hide).unwrap();
   loop {
-    stderr.queue(Clear(ClearType::All)).unwrap();
-    stderr.queue(cursor::MoveTo(0, 0)).unwrap();
+    stderr.queue(cursor::RestorePosition).unwrap();
+    stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
     // print options
     let mut tab_writer = TabWriter::new(vec![]);
     for (i, &task) in tasks.iter().enumerate() {
@@ -51,8 +52,8 @@ pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
       }
     }
   }
-  stderr.queue(Clear(ClearType::All)).unwrap();
-  stderr.queue(cursor::MoveTo(0, 0)).unwrap();
+  stderr.queue(cursor::RestorePosition).unwrap();
+  stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
   stderr.queue(cursor::Show).unwrap();
   disable_raw_mode().unwrap();
   if aborted {
