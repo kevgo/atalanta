@@ -1,4 +1,4 @@
-Feature: Node.JS with npm
+Feature: run an unknown Node script
 
   Scenario: run an unknown task
     Given a file "package.json" with content:

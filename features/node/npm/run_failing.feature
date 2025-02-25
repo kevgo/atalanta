@@ -1,4 +1,4 @@
-Feature: Node.JS with npm
+Feature: run a failing Node script
 
   Scenario: a task returns a non-zero exit code
     Given a file "package.json" with content:

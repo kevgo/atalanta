@@ -1,4 +1,4 @@
-Feature: Node.JS with npm
+Feature: set up a Node stack
 
   Scenario Outline: setup
     Given a file "package.json" with content:

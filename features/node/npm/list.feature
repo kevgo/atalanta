@@ -1,4 +1,4 @@
-Feature: Node.JS with npm
+Feature: listing all available Node scripts
 
   Scenario: list available tasks
     Given a file "package.json" with content:

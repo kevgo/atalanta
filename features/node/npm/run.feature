@@ -1,4 +1,4 @@
-Feature: Node.JS with npm
+Feature: run a Node script
 
   Scenario: run a task
     Given a file "package.json" with content:
