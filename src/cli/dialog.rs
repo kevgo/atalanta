@@ -7,6 +7,7 @@ use std::io::Write;
 use std::{io, process};
 use tabwriter::TabWriter;
 
+/// displays a dialog that allows the user to select a task to execute
 pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   let mut position = 0;
   let mut aborted = false;
