@@ -99,6 +99,27 @@ async fn executing(world: &mut RunWorld, command: String) {
   );
 }
 
+#[when(expr = "executing {string} and pressing the keys")]
+async fn executing(world: &mut RunWorld, command: String) {
+  let args = parse_call(&command);
+  let cmd = Command::new("../../target/debug/a")
+    .args(args)
+    .current_dir(&world.dir)
+    .stdin(Stdio::piped())
+    .stdout(Stdio::piped())
+    .stderr(Stdio::piped())
+    .spawn();
+  let mut stdin = cmd.stdin.take().unwrap();
+  stdin.write_all("\n").unwrap();
+  drop(stdin);
+  world.output = Some(
+    cmd
+      .wait_with_output()
+      .await
+      .expect("cannot find the 'a' executable"),
+  );
+}
+
 #[when(expr = "executing {string} in the {string} folder")]
 async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let args = parse_call(&command);

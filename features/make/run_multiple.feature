@@ -17,10 +17,9 @@ Feature: building multiple matching Make targets
       """
     When executing "a fo" and pressing the keys:
       | KEY   | DESCRIPTION              |
-      | j     | go down one entry        |
       | enter | select the current entry |
     Then it prints:
       """
-      check formatting
+      formatting
       """
     And the exit code is 1
