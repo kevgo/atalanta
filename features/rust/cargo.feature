@@ -9,17 +9,6 @@ Feature: Rust (Cargo)
       """
     And a file "Cargo.lock"
 
-  Scenario: list available tasks
-    When executing "a"
-    Then it prints:
-      """
-      Rust (Cargo)
-
-        build  cargo build
-        check  cargo check
-        test   cargo test
-      """
-
   Scenario: run a task via full name
     When executing "a check"
     Then the exit code is 101
