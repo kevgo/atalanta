@@ -124,27 +124,22 @@ mod tests {
     fn direct_and_fuzzy_matches_in_two_stacks() {
       let task_1a = Task {
         name: S("install"),
-        desc: S("task 1a"),
         ..Default::default()
       };
       let task_1b = Task {
         name: S("initialize"),
-        desc: S("task 1b"),
         ..Default::default()
       };
       let task_1c = Task {
         name: S("intl"),
-        desc: S("task 1c"),
         ..Default::default()
       };
       let task_1d = Task {
         name: S("foo"),
-        desc: S("task 1d"),
         ..Default::default()
       };
       let task_2a = Task {
         name: S("internalize"),
-        desc: S("task 2a"),
         ..Default::default()
       };
       let stack_1 = TestStack {
