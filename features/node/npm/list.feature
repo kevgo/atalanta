@@ -8,7 +8,7 @@ Feature: listing all available Node scripts
         "scripts": {
           "format": "echo formatting",
           "format:check": "echo checking format",
-          "failing": "echo 'running a failing task' && exit 2"
+          "another": "echo another script"
         }
       }
       """
@@ -18,7 +18,7 @@ Feature: listing all available Node scripts
       """
       Node.JS (npm)
 
-        failing
+        another
         format
         format:check
       """
