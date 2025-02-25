@@ -1,4 +1,4 @@
-# Feature: multiple stacks
+Feature: multiple stacks
 
 #   Background:
 #     Given a Makefile with content:
