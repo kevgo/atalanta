@@ -79,11 +79,11 @@ struct SearchResult<'a> {
 
 impl Ord for SearchResult<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
-    match self.score.cmp(&other.score) {
+    match other.score.cmp(&self.score) {
       Ordering::Equal => {}
       ord => return ord,
     }
-    self.task.name.cmp(&other.task.name)
+    other.task.name.cmp(&self.task.name)
   }
 }
 
@@ -164,7 +164,7 @@ mod tests {
         .into_iter()
         .map(|task| task.name.clone())
         .collect();
-      let want = vec![S("initialize"), S("install"), S("internalize"), S("intl")];
+      let want = vec![S("intl"), S("internalize"), S("install"), S("initialize")];
       assert_eq!(have, want);
     }
   }
