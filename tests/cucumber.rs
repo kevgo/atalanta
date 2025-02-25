@@ -100,7 +100,7 @@ async fn executing(world: &mut RunWorld, command: String) {
   );
 }
 
-#[when(expr = "executing {string} and pressing the keys")]
+#[when(expr = "executing {string} and pressing the keys:")]
 async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   let args = parse_call(&command);
   let mut cmd = Command::new("../../target/debug/a")
