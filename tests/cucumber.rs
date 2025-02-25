@@ -4,10 +4,11 @@ use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::path::{Path, PathBuf};
-use std::process::Output;
+use std::process::{Output, Stdio};
 use std::str::SplitAsciiWhitespace;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, str};
+use tokio::io::AsyncWriteExt;
 use tokio::process::Command;
 use tokio::{fs, io};
 
@@ -100,18 +101,19 @@ async fn executing(world: &mut RunWorld, command: String) {
 }
 
 #[when(expr = "executing {string} and pressing the keys")]
-async fn executing(world: &mut RunWorld, command: String) {
+async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   let args = parse_call(&command);
-  let cmd = Command::new("../../target/debug/a")
+  let mut cmd = Command::new("../../target/debug/a")
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
     .stdout(Stdio::piped())
     .stderr(Stdio::piped())
-    .spawn();
+    .spawn()
+    .unwrap();
   let mut stdin = cmd.stdin.take().unwrap();
-  stdin.write_all("\n").unwrap();
-  drop(stdin);
+  stdin.write_all(b"\n").await.unwrap();
+  stdin.shutdown().await.unwrap();
   world.output = Some(
     cmd
       .wait_with_output()
