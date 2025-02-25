@@ -18,17 +18,17 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
       }
     },
   };
-  let output = task
+  let status = task
     .command()
     .stdin(Stdio::inherit())
     .stdout(Stdio::inherit())
     .stderr(Stdio::inherit())
-    .output();
-  let output = match output {
-    Ok(output) => output,
+    .status();
+  let status = match status {
+    Ok(status) => status,
     Err(e) => return Outcome::CannotFindExecutable { err: e.to_string() },
   };
-  match output.status.code() {
+  match status.code() {
     Some(0) => Outcome::Success,
     Some(exit_code) => Outcome::ScriptFailed {
       exit_code: cli::exit_status_to_code(exit_code),
