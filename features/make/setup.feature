@@ -1,12 +1,10 @@
 Feature: Makefiles
 
-  Background:
+  Scenario: setup
     Given a Makefile with content:
       """
       .SILENT:
       """
-
-  Scenario: setup
     When executing "a -s"
     Then it prints:
       """
