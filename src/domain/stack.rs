@@ -7,7 +7,7 @@ use std::process::Command;
 
 /// a technology stack that Atalanta knows about
 pub trait Stack: Display {
-  /// provides the command to set up this stack (binary, argv)
+  /// provides a Command instance initialized to set up this stack
   fn setup(&self) -> Option<Command>;
 
   /// Provides all executable tasks for the codebase in the current directory.
