@@ -1,6 +1,6 @@
 Feature: Makefiles
 
-  Background:
+  Scenario: run an unknown task
     Given a Makefile with content:
       """
       format:  # formats the code
@@ -15,29 +15,15 @@ Feature: Makefiles
 
       .SILENT:
       """
-
-  Scenario: run a task via full name
-    When executing "a format"
+    When executing "a zonk"
     Then it prints:
       """
-      formatting
-      """
-    Then the exit code is 0
+      Error: task "zonk" doesn't exist
 
-  Scenario: run a task via shortcut
-    When executing "a fc"
-    Then it prints:
-      """
-      check formatting
-      """
-    Then the exit code is 0
+      Makefile
 
-  Scenario: multiple tasks match a shortcut
-    When executing "a fo"
-    Then it prints:
-      """
-      Multiple matches:
         format        formats the code
         format-check  checks for formatting problems
+        failing       this task returns a non-zero exit code
       """
     Then the exit code is 1
