@@ -7,7 +7,7 @@ use std::fs;
 use std::io::ErrorKind;
 use std::process::Command;
 
-struct MakefileStack {
+pub(crate) struct MakefileStack {
   tasks: Tasks,
 }
 

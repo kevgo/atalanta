@@ -1,7 +1,7 @@
 mod cli;
 mod commands;
 mod domain;
-mod stacks;
+pub(crate) mod stacks;
 
 use domain::{Command, Outcome};
 

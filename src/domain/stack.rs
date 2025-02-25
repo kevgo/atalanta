@@ -92,3 +92,70 @@ impl PartialOrd for SearchResult<'_> {
     Some(self.cmp(other))
   }
 }
+
+#[cfg(test)]
+mod tests {
+
+  mod tasks_fuzzy_matching_name {
+    use crate::domain::{Task, Tasks};
+    use big_s::S;
+    use std::fmt::Display;
+
+    struct TestStack {
+      tasks: Tasks,
+    }
+    impl super::super::Stack for TestStack {
+      fn setup(&self) -> Option<std::process::Command> {
+        None
+      }
+
+      fn tasks(&self) -> &Tasks {
+        &self.tasks
+      }
+    }
+    impl Display for TestStack {
+      fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("test stack")
+      }
+    }
+
+    #[test]
+    fn direct_and_fuzzy_matches() {
+      let task_1a = Task {
+        name: S("install"),
+        desc: S("task 1a"),
+        ..Default::default()
+      };
+      let task_1b = Task {
+        name: S("initialize"),
+        desc: S("task 1b"),
+        ..Default::default()
+      };
+      let task_1c = Task {
+        name: S("intl"),
+        desc: S("task 1c"),
+        ..Default::default()
+      };
+      let task_1d = Task {
+        name: S("foo"),
+        desc: S("task 1d"),
+        ..Default::default()
+      };
+      let task_2a = Task {
+        name: S("internalize"),
+        desc: S("task 2a"),
+        ..Default::default()
+      };
+      let stack_1 = TestStack {
+        tasks: Tasks::from(vec![task_1a.clone(), task_1b.clone(), task_1c, task_1d]),
+      };
+      let stack_2 = TestStack {
+        tasks: Tasks::from(vec![task_2a.clone()]),
+      };
+      let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
+      let have = stacks.tasks_fuzzy_matching_name("intl");
+      let want = vec![&task_1b, &task_1a, &task_2a];
+      assert_eq!(have, want);
+    }
+  }
+}
