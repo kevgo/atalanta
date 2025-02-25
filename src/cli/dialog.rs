@@ -1,7 +1,8 @@
 use crate::domain::Task;
 use ansi_term::Style;
 use crossterm::event::{Event, KeyCode};
-use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
+use crossterm::terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode};
+use crossterm::{QueueableCommand, cursor};
 use std::io::Write;
 use std::{io, process};
 use tabwriter::TabWriter;
@@ -9,9 +10,12 @@ use tabwriter::TabWriter;
 pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   let mut position = 0;
   let mut aborted = false;
-  let mut stdout = io::stdout();
+  let mut stderr = io::stderr();
   enable_raw_mode().unwrap();
+  stderr.queue(cursor::Hide).unwrap();
   loop {
+    stderr.queue(Clear(ClearType::All)).unwrap();
+    stderr.queue(cursor::MoveTo(0, 0)).unwrap();
     // print options
     let mut tab_writer = TabWriter::new(vec![]);
     for (i, &task) in tasks.iter().enumerate() {
@@ -24,9 +28,9 @@ pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
       tab_writer.write_all(text.as_bytes()).unwrap();
     }
     let bytes = tab_writer.into_inner().unwrap();
-    stdout.write_all(&bytes).unwrap();
-    stdout.write_all(&[10]).unwrap();
-    stdout.flush().unwrap();
+    stderr.write_all(&bytes).unwrap();
+    stderr.write_all(&[10]).unwrap();
+    stderr.flush().unwrap();
     // wait for keyboard input
     let event = crossterm::event::read().unwrap();
     if let Event::Key(key_code) = event {
@@ -35,8 +39,8 @@ pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
         KeyCode::Up | KeyCode::BackTab => position = cursor_up(position, tasks.len()),
         KeyCode::Down | KeyCode::Tab => position = cursor_down(position, tasks.len()),
         KeyCode::Char(key) => match key {
-          'j' => position = cursor_up(position, tasks.len()),
-          'k' => position = cursor_down(position, tasks.len()),
+          'j' => position = cursor_down(position, tasks.len()),
+          'k' => position = cursor_up(position, tasks.len()),
           _ => {}
         },
         KeyCode::Esc => {
@@ -47,6 +51,9 @@ pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
       }
     }
   }
+  stderr.queue(Clear(ClearType::All)).unwrap();
+  stderr.queue(cursor::MoveTo(0, 0)).unwrap();
+  stderr.queue(cursor::Show).unwrap();
   disable_raw_mode().unwrap();
   if aborted {
     process::exit(0);
