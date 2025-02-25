@@ -17,7 +17,7 @@ pub(crate) fn choose_dialog<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
     for (i, &task) in tasks.iter().enumerate() {
       let cursor = if i == position { '>' } else { ' ' };
       let text = format!(
-        "{cursor} {}\t{}\n",
+        "{cursor} {}\t{}\r\n",
         Style::new().bold().paint(&task.name),
         task.desc
       );
