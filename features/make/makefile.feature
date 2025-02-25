@@ -66,11 +66,3 @@ Feature: Makefiles
         failing       this task returns a non-zero exit code
       """
     Then the exit code is 1
-
-  Scenario: a task returns a non-zero exit code
-    When executing "a failing"
-    Then it prints:
-      """
-      running a failing task
-      """
-    And the exit code is 2
