@@ -79,6 +79,7 @@ struct SearchResult<'a> {
 
 impl Ord for SearchResult<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
+    // compare the other way around here so that highest scores come first
     match other.score.cmp(&self.score) {
       Ordering::Equal => {}
       ord => return ord,
