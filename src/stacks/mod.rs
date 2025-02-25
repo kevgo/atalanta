@@ -1,9 +1,9 @@
 //! This module contains the various technology stacks that Atalanta can run.
 
-pub mod makefile;
-pub mod node_npm;
-pub mod node_yarn;
-pub mod rust_cargo;
+mod makefile;
+mod node_npm;
+mod node_yarn;
+mod rust_cargo;
 
 use crate::domain::Stacks;
 use std::env;
