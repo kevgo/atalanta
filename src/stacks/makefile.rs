@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task, Tasks};
 use big_s::S;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -8,7 +8,7 @@ use std::io::ErrorKind;
 use std::process::Command;
 
 struct MakefileStack {
-  tasks: Vec<Task>,
+  tasks: Tasks,
 }
 
 impl Display for MakefileStack {
@@ -22,12 +22,12 @@ impl Stack for MakefileStack {
     None
   }
 
-  fn tasks(&self) -> &Vec<Task> {
+  fn tasks(&self) -> &Tasks {
     &self.tasks
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
+pub fn scan(stacks: &mut Stacks) {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
     Err(e) => match e.kind() {
@@ -44,8 +44,8 @@ pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
 }
 
 /// provides the tasks in the given Makefile content
-fn parse_text(text: &str) -> Vec<Task> {
-  let mut result = vec![];
+fn parse_text(text: &str) -> Tasks {
+  let mut result = Tasks::new();
   for line in text.lines() {
     if let Some(task) = parse_line(line) {
       result.push(task);

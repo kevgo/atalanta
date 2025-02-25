@@ -1,11 +1,11 @@
-use crate::domain::{Stack, Task};
+use crate::domain::{Stack, Stacks, Task, Tasks};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
 struct RustCargoStack {
-  tasks: Vec<Task>,
+  tasks: Tasks,
 }
 
 impl Display for RustCargoStack {
@@ -19,18 +19,18 @@ impl Stack for RustCargoStack {
     None
   }
 
-  fn tasks(&self) -> &Vec<Task> {
+  fn tasks(&self) -> &Tasks {
     &self.tasks
   }
 }
 
-pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
+pub fn scan(stacks: &mut Stacks) {
   if !Path::new("Cargo.lock").exists() {
     // TODO: do we really need to verify that this file exists?
     return;
   }
   stacks.push(Box::new(RustCargoStack {
-    tasks: vec![
+    tasks: Tasks::from(vec![
       Task {
         name: S("build"),
         cmd: S("cargo"),
@@ -49,6 +49,6 @@ pub fn scan(stacks: &mut Vec<Box<dyn Stack>>) {
         argv: vec![S("test")],
         desc: S("cargo test"),
       },
-    ],
+    ]),
   }));
 }
