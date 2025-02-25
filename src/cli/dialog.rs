@@ -18,7 +18,7 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   loop {
     clear_output(&mut stderr);
     print_options(&mut stderr, tasks, position);
-    // wait for keyboard input
+    // read and handle keyboard input
     let event = crossterm::event::read().unwrap();
     if let Event::Key(key_code) = event {
       if key_code.kind == KeyEventKind::Release {
