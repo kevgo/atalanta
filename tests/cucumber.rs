@@ -112,14 +112,11 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     .kill_on_drop(true) // kill the process if the test suite terminates
     .spawn()
     .unwrap();
-  let stdin = cmd.stdin.take().unwrap();
-  let stdin_task = tokio::spawn(async move {
-    let mut stdin = stdin;
+  if let Some(mut stdin) = cmd.stdin.take() {
     stdin.write_all(b"j\n").await.unwrap();
     stdin.flush().await.unwrap();
     stdin.shutdown().await.unwrap();
-  });
-  stdin_task.await.unwrap();
+  }
   world.output = Some(
     cmd
       .wait_with_output()
