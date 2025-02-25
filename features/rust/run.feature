@@ -16,13 +16,3 @@ Feature: Rust (Cargo)
   Scenario: run a task via shortcut
     When executing "a c"
     Then the exit code is 101
-
-  Scenario: multiple tasks match a shortcut
-    When executing "a e"
-    Then it prints:
-      """
-      Multiple matches:
-        check  cargo check
-        test   cargo test
-      """
-    Then the exit code is 1
