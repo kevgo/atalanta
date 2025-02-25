@@ -33,8 +33,8 @@ Feature: Rust (Cargo)
     Then it prints:
       """
       Multiple matches:
-        check  cargo check
         test   cargo test
+        check  cargo check
       """
     Then the exit code is 1
 
