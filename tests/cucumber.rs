@@ -109,6 +109,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     .stdin(Stdio::piped())
     .stdout(Stdio::piped())
     .stderr(Stdio::piped())
+    .kill_on_drop(true) // kill the process if the test suite terminates
     .spawn()
     .unwrap();
   let stdin = cmd.stdin.take().unwrap();
