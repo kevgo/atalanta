@@ -5,11 +5,7 @@ Feature: Node.JS with npm
       """
       {
         "name": "demo",
-        "scripts": {
-          "format": "echo formatting",
-          "format:check": "echo checking format",
-          "failing": "echo 'running a failing task' && exit 2"
-        }
+        "scripts": {}
       }
       """
     And a file "package-lock.json"
