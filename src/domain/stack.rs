@@ -109,7 +109,6 @@ mod tests {
       fn setup(&self) -> Option<std::process::Command> {
         None
       }
-
       fn tasks(&self) -> &Tasks {
         &self.tasks
       }
