@@ -112,8 +112,9 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     .kill_on_drop(true) // kill the process if the test suite terminates
     .spawn()
     .unwrap();
-  // This code works with normal subshell commands like "cat", but not with atalanta.
-  // Maybe Atalanta's terminal library (crossterm) does something special that breaks piping data into STDIN?
+  // This code works with normal subshell commands like "cat", but not with the atalanta executable.
+  // The Atalanta executable simply ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
+  // Maybe Atalanta's terminal library (crossterm) performs low-level API calls to the OS to read keyboard input?
   if let Some(mut stdin) = cmd.stdin.take() {
     stdin.write_all(b"j\n").await.unwrap();
     stdin.flush().await.unwrap();
