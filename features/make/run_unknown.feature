@@ -9,10 +9,6 @@ Feature: Makefiles
       format-check:  # checks for formatting problems
         echo "check formatting"
 
-      failing:  # this task returns a non-zero exit code
-        echo "running a failing task"
-        exit 2
-
       .SILENT:
       """
     When executing "a zonk"
@@ -24,6 +20,5 @@ Feature: Makefiles
 
         format        formats the code
         format-check  checks for formatting problems
-        failing       this task returns a non-zero exit code
       """
     Then the exit code is 1
