@@ -48,7 +48,6 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   }
   clear_output(&mut stderr);
   stderr.queue(cursor::Show).unwrap();
-  stderr.flush().unwrap();
   disable_raw_mode().unwrap();
   if aborted {
     process::exit(0);
@@ -56,11 +55,13 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   tasks[position]
 }
 
+/// removes the output created by print_options
 fn clear_output(stderr: &mut Stderr) {
   stderr.queue(cursor::RestorePosition).unwrap();
   stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
 }
 
+/// prints the dialog
 fn print_options(stderr: &mut Stderr, tasks: &[&Task], position: usize) {
   let mut tab_writer = TabWriter::new(vec![]);
   for (i, &task) in tasks.iter().enumerate() {
