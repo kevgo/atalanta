@@ -1,7 +1,5 @@
 Feature: Makefiles
 
-  Background:
-
   Scenario: list available tasks
     Given a Makefile with content:
       """
