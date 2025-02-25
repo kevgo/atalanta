@@ -1,15 +1,16 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="web/logo_800_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="web/logo_800_light.png">
-  <img alt="Atalanta logo" src="documentation/logo_800_light.png">
+  <img alt="Atalanta logo" src="web/logo_800_light.png">
 </picture>
 
 Software development requires housekeeping activities like installing
 dependencies, running compilers, linters, automated tests, formatters, etc. If
-you work on a larger number of code bases, remembering how to use a variety of
-developer tools to run a variety of custom scripts and activities can get
-tedious. Atalanta &ndash; named after the Greek godess of running &ndash; knows
-a wide range of software stacks and runs these housekeeping activities for you.
+you work on a larger number of code bases written in various technology stacks,
+remembering how to use a variety of developer tools to run a variety of custom
+scripts and activities can get tedious. Atalanta &ndash; named after the Greek
+godess of running &ndash; knows a wide range of software stacks and runs these
+housekeeping activities for you.
 
 Currently supported stacks:
 
