@@ -55,7 +55,7 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   tasks[position]
 }
 
-/// removes the output created by print_options
+/// removes the previously printed dialog
 fn clear_output(stderr: &mut Stderr) {
   stderr.queue(cursor::RestorePosition).unwrap();
   stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
