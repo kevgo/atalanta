@@ -11,7 +11,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     1 => tasks[0],
     _ => match exact_match(&tasks, &name) {
       Some(task) => task,
-      None => choose_task(&tasks),
+      None => cli::select(&tasks),
     },
   };
   let status = task
@@ -31,10 +31,6 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     },
     None => Outcome::ScriptFailed { exit_code: 255 },
   }
-}
-
-fn choose_task<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
-  cli::select(tasks)
 }
 
 fn exact_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
