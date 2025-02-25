@@ -166,19 +166,17 @@ mod tests {
     #[test]
     #[allow(clippy::similar_names)]
     fn no_matches() {
-      let task_1a = Task {
-        name: S("foo"),
-        ..Default::default()
-      };
-      let task_2a = Task {
-        name: S("bar"),
-        ..Default::default()
-      };
       let stack_1 = TestStack {
-        tasks: Tasks::from(vec![task_1a]),
+        tasks: Tasks::from(vec![Task {
+          name: S("foo"),
+          ..Default::default()
+        }]),
       };
       let stack_2 = TestStack {
-        tasks: Tasks::from(vec![task_2a]),
+        tasks: Tasks::from(vec![Task {
+          name: S("bar"),
+          ..Default::default()
+        }]),
       };
       let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
       let have: Vec<String> = stacks
