@@ -3,7 +3,7 @@ use ansi_term::Style;
 use crossterm::event::{Event, KeyCode, KeyEventKind};
 use crossterm::terminal::{Clear, ClearType, disable_raw_mode, enable_raw_mode};
 use crossterm::{QueueableCommand, cursor};
-use std::io::Write;
+use std::io::{Stderr, Write};
 use std::{io, process};
 use tabwriter::TabWriter;
 
@@ -16,23 +16,8 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
   stderr.queue(cursor::SavePosition).unwrap();
   stderr.queue(cursor::Hide).unwrap();
   loop {
-    stderr.queue(cursor::RestorePosition).unwrap();
-    stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
-    // print options
-    let mut tab_writer = TabWriter::new(vec![]);
-    for (i, &task) in tasks.iter().enumerate() {
-      let cursor = if i == position { '>' } else { ' ' };
-      let text = format!(
-        "{cursor} {}\t{}\r\n",
-        Style::new().bold().paint(&task.name),
-        task.desc
-      );
-      tab_writer.write_all(text.as_bytes()).unwrap();
-    }
-    let bytes = tab_writer.into_inner().unwrap();
-    stderr.write_all(&bytes).unwrap();
-    stderr.write_all(&[10]).unwrap();
-    stderr.flush().unwrap();
+    clear_output(&mut stderr);
+    print_options(&mut stderr, tasks, position);
     // wait for keyboard input
     let event = crossterm::event::read().unwrap();
     if let Event::Key(key_code) = event {
@@ -61,14 +46,36 @@ pub(crate) fn select<'a>(tasks: &'a Vec<&Task>) -> &'a Task {
       }
     }
   }
-  stderr.queue(cursor::RestorePosition).unwrap();
-  stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
+  clear_output(&mut stderr);
   stderr.queue(cursor::Show).unwrap();
+  stderr.flush().unwrap();
   disable_raw_mode().unwrap();
   if aborted {
     process::exit(0);
   }
   tasks[position]
+}
+
+fn clear_output(stderr: &mut Stderr) {
+  stderr.queue(cursor::RestorePosition).unwrap();
+  stderr.queue(Clear(ClearType::FromCursorDown)).unwrap();
+}
+
+fn print_options(stderr: &mut Stderr, tasks: &[&Task], position: usize) {
+  let mut tab_writer = TabWriter::new(vec![]);
+  for (i, &task) in tasks.iter().enumerate() {
+    let cursor = if i == position { '>' } else { ' ' };
+    let text = format!(
+      "{cursor} {}\t{}\r\n",
+      Style::new().bold().paint(&task.name),
+      task.desc
+    );
+    tab_writer.write_all(text.as_bytes()).unwrap();
+  }
+  let bytes = tab_writer.into_inner().unwrap();
+  stderr.write_all(&bytes).unwrap();
+  stderr.write_all(&[10]).unwrap();
+  stderr.flush().unwrap();
 }
 
 fn cursor_down(cursor: usize, max: usize) -> usize {
