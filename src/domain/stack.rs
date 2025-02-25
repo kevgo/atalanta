@@ -159,8 +159,12 @@ mod tests {
         tasks: Tasks::from(vec![task_2a.clone()]),
       };
       let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
-      let have = stacks.tasks_fuzzy_matching_name("intl");
-      let want = vec![&task_1b, &task_1a, &task_2a, &task_1c];
+      let have: Vec<String> = stacks
+        .tasks_fuzzy_matching_name("intl")
+        .into_iter()
+        .map(|task| task.name.clone())
+        .collect();
+      let want = vec![S("initialize"), S("install"), S("internalize"), S("intl")];
       assert_eq!(have, want);
     }
   }
