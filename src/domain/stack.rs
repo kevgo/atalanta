@@ -84,7 +84,7 @@ impl Ord for SearchResult<'_> {
       Ordering::Equal => {}
       ord => return ord,
     }
-    other.task.name.cmp(&self.task.name)
+    self.task.name.cmp(&other.task.name)
   }
 }
 

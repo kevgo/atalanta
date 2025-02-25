@@ -48,8 +48,8 @@ Feature: Makefiles
     Then it prints:
       """
       Multiple matches:
-        format-check  checks for formatting problems
         format        formats the code
+        format-check  checks for formatting problems
       """
     Then the exit code is 1
 
