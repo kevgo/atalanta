@@ -1,12 +1,7 @@
 Feature: run a Cargo command
 
   Background:
-    Given a file "Cargo.toml" with content:
-      """
-      [package]
-      name = "atalanta"
-      version = "0.0.0"
-      """
+    Given a file "Cargo.toml"
     And a file "Cargo.lock"
 
   Scenario: run a task via full name

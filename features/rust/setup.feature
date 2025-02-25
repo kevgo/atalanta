@@ -1,12 +1,7 @@
 Feature: set up a Rust codebase
 
   Scenario: setup
-    Given a file "Cargo.toml" with content:
-      """
-      [package]
-      name = "atalanta"
-      version = "0.0.0"
-      """
+    Given a file "Cargo.toml"
     And a file "Cargo.lock"
     When executing "a -s"
     Then it prints:
