@@ -121,7 +121,7 @@ mod tests {
 
     #[test]
     #[allow(clippy::similar_names)]
-    fn direct_and_fuzzy_matches() {
+    fn direct_and_fuzzy_matches_in_two_stacks() {
       let task_1a = Task {
         name: S("install"),
         desc: S("task 1a"),
@@ -165,6 +165,35 @@ mod tests {
         .map(|task| task.name.clone())
         .collect();
       let want = vec![S("intl"), S("internalize"), S("install"), S("initialize")];
+      assert_eq!(have, want);
+    }
+
+    #[test]
+    #[allow(clippy::similar_names)]
+    fn no_matches() {
+      let task_1a = Task {
+        name: S("foo"),
+        desc: S("task 1a"),
+        ..Default::default()
+      };
+      let task_2a = Task {
+        name: S("bar"),
+        desc: S("task 2a"),
+        ..Default::default()
+      };
+      let stack_1 = TestStack {
+        tasks: Tasks::from(vec![task_1a]),
+      };
+      let stack_2 = TestStack {
+        tasks: Tasks::from(vec![task_2a]),
+      };
+      let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
+      let have: Vec<String> = stacks
+        .tasks_fuzzy_matching_name("intl")
+        .into_iter()
+        .map(|task| task.name.clone())
+        .collect();
+      let want: Vec<String> = vec![];
       assert_eq!(have, want);
     }
   }
