@@ -2,7 +2,6 @@ mod cli;
 mod commands;
 mod domain;
 mod stacks;
-mod strings;
 
 use domain::{Command, Outcome};
 

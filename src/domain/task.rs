@@ -83,6 +83,12 @@ impl From<Vec<Task>> for Tasks {
   }
 }
 
+impl From<Vec<&Task>> for Tasks {
+  fn from(tasks: Vec<&Task>) -> Self {
+    Self(tasks.into_iter().map(ToOwned::to_owned).collect())
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use crate::domain::Task;
