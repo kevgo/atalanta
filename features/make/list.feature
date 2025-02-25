@@ -9,9 +9,8 @@ Feature: listing all available Make targets
       format-check:  # checks for formatting problems
         echo "check formatting"
 
-      failing:  # this task returns a non-zero exit code
-        echo "running a failing task"
-        exit 2
+      other:  # another target
+        echo "other"
 
       .SILENT:
       """
@@ -22,7 +21,7 @@ Feature: listing all available Make targets
 
         format        formats the code
         format-check  checks for formatting problems
-        failing       this task returns a non-zero exit code
+        other         another target
       """
 
   Scenario: no tasks
