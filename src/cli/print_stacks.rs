@@ -1,16 +1,15 @@
-use crate::domain::{Outcome, Stacks, Tasks};
+use crate::domain::{Stacks, Tasks};
 use ansi_term::Style;
 use std::io;
 use std::io::Write;
 use tabwriter::TabWriter;
 
 /// lists all available commands
-pub fn list(stacks: Stacks) -> Outcome {
+pub fn print_stacks(stacks: Stacks) {
   for stack in stacks {
     println!("{}\n", Style::new().underline().paint(stack.to_string()));
     print_stack(stack.tasks());
   }
-  Outcome::Success
 }
 
 pub fn print_stack(tasks: &Tasks) {

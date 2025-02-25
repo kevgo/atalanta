@@ -1,5 +1,5 @@
-use super::{Stacks, Tasks};
-use crate::commands;
+use super::Stacks;
+use crate::cli;
 use std::process::{ExitCode, Termination};
 
 /// end result of an Atalanta run
@@ -13,8 +13,6 @@ pub enum Outcome {
   },
   /// Atalanta doesn't know how to set up this stack
   NoSetup,
-  /// more than one task matches the shortcut provided by the user
-  TooManyTaskMatches { tasks: Tasks },
   /// there is no task with the given name
   UnknownTask {
     /// name of the task that we didn't find
@@ -33,7 +31,7 @@ impl Termination for Outcome {
       Outcome::ScriptFailed { exit_code } => ExitCode::from(exit_code),
       Outcome::UnknownTask { task, stacks } => {
         println!("Error: task \"{task}\" doesn't exist\n");
-        commands::list(stacks);
+        cli::print_stacks(stacks);
         ExitCode::FAILURE
       }
       Outcome::CannotFindExecutable { err } => {
@@ -42,11 +40,6 @@ impl Termination for Outcome {
       }
       Outcome::NoSetup => {
         println!("Warning: I don't know how to set up this stack");
-        ExitCode::FAILURE
-      }
-      Outcome::TooManyTaskMatches { tasks } => {
-        println!("Multiple matches:");
-        commands::list::print_stack(&tasks);
         ExitCode::FAILURE
       }
     }

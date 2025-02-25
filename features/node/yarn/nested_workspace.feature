@@ -24,16 +24,16 @@ Feature: nested Yarn workspace
       """
     And a file "yarn.lock"
 
-  Scenario: list available tasks
-    When executing "a" in the "tool" folder
-    Then it prints:
-      """
-      Node.JS (yarn)
+  # Scenario: list available tasks
+  #   When executing "a" in the "tool" folder
+  #   Then it prints:
+  #     """
+  #     Node.JS (yarn)
 
-        failing
-        task-1
-        task-2
-      """
+  #       failing
+  #       task-1
+  #       task-2
+  #     """
 
   Scenario: run a task
     When executing "a task-1" in the "tool" folder

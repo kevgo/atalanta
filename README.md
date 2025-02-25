@@ -1,7 +1,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="web/logo_800_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="web/logo_800_light.png">
-  <img alt="Atalanta logo" src="documentation/logo_800_light.png">
+  <img alt="Atalanta logo" src="web/logo_800_light.png">
 </picture>
 
 Software development requires housekeeping activities like installing
