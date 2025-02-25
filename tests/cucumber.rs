@@ -113,7 +113,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     .spawn()
     .unwrap();
   // This code works with normal subshell commands like "cat", but not with the atalanta executable.
-  // The Atalanta executable simply ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
+  // The Atalanta executable ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
   // Maybe Atalanta's terminal library (crossterm) performs low-level API calls to the OS to read keyboard input?
   if let Some(mut stdin) = cmd.stdin.take() {
     stdin.write_all(b"j\n").await.unwrap();
