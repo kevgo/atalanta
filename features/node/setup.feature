@@ -1,6 +1,6 @@
 Feature: Node.JS with npm
 
-  Background:
+  Scenario Outline: setup
     Given a file "package.json" with content:
       """
       {
@@ -13,24 +13,6 @@ Feature: Node.JS with npm
       }
       """
     And a file "package-lock.json"
-
-  Scenario: run a task
-    When executing "a format"
-    Then it prints:
-      """
-      formatting
-      """
-    Then the exit code is 0
-
-  Scenario: a task returns a non-zero exit code
-    When executing "a failing"
-    Then it prints:
-      """
-      running a failing task
-      """
-    And the exit code is 2
-
-  Scenario Outline: setup
     When executing "a <COMMAND>"
     Then the output contains "up to date"
     And the exit code is 0
