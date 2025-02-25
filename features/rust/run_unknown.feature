@@ -1,6 +1,6 @@
 Feature: Rust (Cargo)
 
-  Background:
+  Scenario: run an unknown task
     Given a file "Cargo.toml" with content:
       """
       [package]
@@ -8,20 +8,14 @@ Feature: Rust (Cargo)
       version = "0.0.0"
       """
     And a file "Cargo.lock"
-
-  Scenario: run a task via full name
-    When executing "a check"
-    Then the exit code is 101
-
-  Scenario: run a task via shortcut
-    When executing "a c"
-    Then the exit code is 101
-
-  Scenario: multiple tasks match a shortcut
-    When executing "a e"
+    When executing "a zonk"
     Then it prints:
       """
-      Multiple matches:
+      Error: task "zonk" doesn't exist
+
+      Rust (Cargo)
+
+        build  cargo build
         check  cargo check
         test   cargo test
       """
