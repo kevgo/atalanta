@@ -1,4 +1,4 @@
-Feature: Makefiles
+Feature: building Make targets
 
   Background:
     Given a Makefile with content:

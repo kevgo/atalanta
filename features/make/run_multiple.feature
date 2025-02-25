@@ -1,4 +1,4 @@
-Feature: Makefiles
+Feature: building multiple matching Make targets
 
   Scenario: multiple tasks match a shortcut
     Given a Makefile with content:

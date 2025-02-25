@@ -1,4 +1,4 @@
-Feature: Makefiles
+Feature: building an unknown Make target
 
   Scenario: run an unknown task
     Given a Makefile with content:

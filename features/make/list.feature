@@ -1,4 +1,4 @@
-Feature: Makefiles
+Feature: listing all available Make targets
 
   Scenario: list available tasks
     Given a Makefile with content:

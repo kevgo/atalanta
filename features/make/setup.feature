@@ -1,4 +1,4 @@
-Feature: Makefiles
+Feature: cannot set up Makefiles
 
   Scenario: setup
     Given a Makefile with content:
