@@ -166,19 +166,20 @@ mod tests {
     #[test]
     #[allow(clippy::similar_names)]
     fn no_matches() {
-      let stack_1 = TestStack {
-        tasks: Tasks::from(vec![Task {
-          name: S("foo"),
-          ..Default::default()
-        }]),
-      };
-      let stack_2 = TestStack {
-        tasks: Tasks::from(vec![Task {
-          name: S("bar"),
-          ..Default::default()
-        }]),
-      };
-      let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
+      let stacks = super::super::Stacks(vec![
+        Box::new(TestStack {
+          tasks: Tasks::from(vec![Task {
+            name: S("foo"),
+            ..Default::default()
+          }]),
+        }),
+        Box::new(TestStack {
+          tasks: Tasks::from(vec![Task {
+            name: S("bar"),
+            ..Default::default()
+          }]),
+        }),
+      ]);
       let have: Vec<String> = stacks
         .tasks_fuzzy_matching_name("intl")
         .into_iter()
