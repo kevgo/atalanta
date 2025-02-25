@@ -168,12 +168,10 @@ mod tests {
     fn no_matches() {
       let task_1a = Task {
         name: S("foo"),
-        desc: S("task 1a"),
         ..Default::default()
       };
       let task_2a = Task {
         name: S("bar"),
-        desc: S("task 2a"),
         ..Default::default()
       };
       let stack_1 = TestStack {
