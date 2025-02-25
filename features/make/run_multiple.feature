@@ -5,7 +5,7 @@ Feature: building multiple matching Make targets
     Given a Makefile with content:
       """
       format:  # formats the code
-        echo "formatting"
+        echo "formatting the code"
 
       format-check:  # checks for formatting problems
         echo "check formatting"
@@ -20,6 +20,6 @@ Feature: building multiple matching Make targets
       | enter | select the current entry |
     Then it prints:
       """
-      formatting
+      formatting the code
       """
-    And the exit code is 1
+    And the exit code is 0

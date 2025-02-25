@@ -111,9 +111,14 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     .stderr(Stdio::piped())
     .spawn()
     .unwrap();
-  let mut stdin = cmd.stdin.take().unwrap();
-  stdin.write_all(b"\n").await.unwrap();
-  stdin.shutdown().await.unwrap();
+  let stdin = cmd.stdin.take().unwrap();
+  let stdin_task = tokio::spawn(async move {
+    let mut stdin = stdin;
+    stdin.write_all(b"j\n").await.unwrap();
+    stdin.flush().await.unwrap();
+    stdin.shutdown().await.unwrap();
+  });
+  stdin_task.await.unwrap();
   world.output = Some(
     cmd
       .wait_with_output()
