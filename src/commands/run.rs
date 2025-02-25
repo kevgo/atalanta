@@ -1,5 +1,5 @@
 use crate::cli;
-use crate::domain::{Outcome, Stacks, Task, Tasks};
+use crate::domain::{Outcome, Stacks, Task};
 use std::process::Stdio;
 
 pub fn run(stacks: Stacks, name: String) -> Outcome {
@@ -11,12 +11,7 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     1 => tasks[0],
     _ => match exact_match(&tasks, &name) {
       Some(task) => task,
-      None => {
-        // TODO: let the user choose a task to run via the UI
-        return Outcome::TooManyTaskMatches {
-          tasks: Tasks::from(tasks),
-        };
-      }
+      None => choose_task(tasks),
     },
   };
   let status = task
@@ -36,6 +31,10 @@ pub fn run(stacks: Stacks, name: String) -> Outcome {
     },
     None => Outcome::ScriptFailed { exit_code: 255 },
   }
+}
+
+fn choose_task(tasks: Vec<&Task>) -> &Task {
+  cli::choose_dialog(tasks)
 }
 
 fn exact_match<'a>(tasks: &'a Vec<&'_ Task>, name: &str) -> Option<&'a Task> {
