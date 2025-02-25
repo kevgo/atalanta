@@ -1,5 +1,6 @@
 Feature: building multiple matching Make targets
 
+  @this
   Scenario: multiple tasks match a shortcut
     Given a Makefile with content:
       """
@@ -14,11 +15,12 @@ Feature: building multiple matching Make targets
 
       .SILENT:
       """
-    When executing "a fo"
+    When executing "a fo" and pressing the keys:
+      | KEY   | DESCRIPTION              |
+      | j     | go down one entry        |
+      | enter | select the current entry |
     Then it prints:
       """
-      Multiple matches:
-        format        formats the code
-        format-check  checks for formatting problems
+      check formatting
       """
-    Then the exit code is 1
+    And the exit code is 1
