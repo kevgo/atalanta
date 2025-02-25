@@ -26,3 +26,14 @@ Feature: Makefiles
         format-check  checks for formatting problems
         failing       this task returns a non-zero exit code
       """
+
+  Scenario: no tasks
+    Given a Makefile with content:
+      """
+      .SILENT:
+      """
+    When executing "a"
+    Then it prints:
+      """
+      Makefile
+      """

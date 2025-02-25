@@ -22,3 +22,17 @@ Feature: Node.JS with npm
         format
         format:check
       """
+
+  Scenario: no tasks
+    Given a file "package.json" with content:
+      """
+      {
+        "name": "demo"
+      }
+      """
+    And a file "yarn.lock"
+    When executing "a"
+    Then it prints:
+      """
+      Node.JS (yarn)
+      """
