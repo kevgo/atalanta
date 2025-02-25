@@ -68,12 +68,6 @@ impl Tasks {
   }
 }
 
-impl AsRef<Vec<Task>> for Tasks {
-  fn as_ref(&self) -> &Vec<Task> {
-    &self.0
-  }
-}
-
 impl<'a> IntoIterator for &'a Tasks {
   type Item = &'a Task;
   type IntoIter = std::slice::Iter<'a, Task>;
