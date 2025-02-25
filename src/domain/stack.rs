@@ -147,14 +147,19 @@ mod tests {
         ..Default::default()
       };
       let stack_1 = TestStack {
-        tasks: Tasks::from(vec![task_1a.clone(), task_1b.clone(), task_1c, task_1d]),
+        tasks: Tasks::from(vec![
+          task_1a.clone(),
+          task_1b.clone(),
+          task_1c.clone(),
+          task_1d.clone(),
+        ]),
       };
       let stack_2 = TestStack {
         tasks: Tasks::from(vec![task_2a.clone()]),
       };
       let stacks = super::super::Stacks(vec![Box::new(stack_1), Box::new(stack_2)]);
       let have = stacks.tasks_fuzzy_matching_name("intl");
-      let want = vec![&task_1b, &task_1a, &task_2a];
+      let want = vec![&task_1b, &task_1a, &task_2a, &task_1c];
       assert_eq!(have, want);
     }
   }
