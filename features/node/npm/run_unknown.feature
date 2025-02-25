@@ -7,8 +7,7 @@ Feature: run an unknown Node script
         "name": "demo",
         "scripts": {
           "format": "echo formatting",
-          "format:check": "echo checking format",
-          "failing": "echo 'running a failing task' && exit 2"
+          "format:check": "echo checking format"
         }
       }
       """
@@ -20,7 +19,6 @@ Feature: run an unknown Node script
 
       Node.JS (npm)
 
-        failing
         format
         format:check
       """
