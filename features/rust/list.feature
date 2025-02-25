@@ -1,4 +1,4 @@
-Feature: Rust (Cargo)
+Feature: list available Cargo commands
 
   Scenario: list available tasks
     Given a file "Cargo.toml" with content:

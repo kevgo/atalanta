@@ -1,4 +1,4 @@
-Feature: Rust (Cargo)
+Feature: set up a Rust codebase
 
   Scenario: setup
     Given a file "Cargo.toml" with content:

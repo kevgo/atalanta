@@ -1,4 +1,4 @@
-Feature: Rust (Cargo)
+Feature: run multiple Cargo commands
 
   Scenario: multiple tasks match a shortcut
     Given a file "Cargo.toml" with content:

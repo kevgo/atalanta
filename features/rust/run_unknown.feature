@@ -1,4 +1,4 @@
-Feature: Rust (Cargo)
+Feature: run an unknown Cargo command
 
   Scenario: run an unknown task
     Given a file "Cargo.toml" with content:
