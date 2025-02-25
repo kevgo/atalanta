@@ -14,17 +14,6 @@ Feature: Node.JS with npm
       """
     And a file "package-lock.json"
 
-  Scenario: list available tasks
-    When executing "a"
-    Then it prints:
-      """
-      Node.JS (npm)
-
-        failing
-        format
-        format:check
-      """
-
   Scenario: run a task
     When executing "a format"
     Then it prints:

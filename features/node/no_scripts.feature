@@ -1,6 +1,6 @@
 Feature: Node.JS with Yarn
 
-  Background:
+  Scenario: list available tasks
     Given a file "package.json" with content:
       """
       {
@@ -8,8 +8,6 @@ Feature: Node.JS with Yarn
       }
       """
     And a file "yarn.lock"
-
-  Scenario: list available tasks
     When executing "a"
     Then it prints:
       """
