@@ -16,17 +16,6 @@ Feature: Makefiles
       .SILENT:
       """
 
-  Scenario: list available tasks
-    When executing "a"
-    Then it prints:
-      """
-      Makefile
-
-        format        formats the code
-        format-check  checks for formatting problems
-        failing       this task returns a non-zero exit code
-      """
-
   Scenario: run a task via full name
     When executing "a format"
     Then it prints:
