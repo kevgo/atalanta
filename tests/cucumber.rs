@@ -222,9 +222,9 @@ fn exit_code(world: &mut RunWorld, want: i32) {
 
 #[then(expr = "the output contains {string}")]
 fn output_contains(world: &mut RunWorld, text: String) {
-  let output = String::from_utf8_lossy(&world.output.as_ref().unwrap().stdout);
+  let output = str::from_utf8(&world.output.as_ref().unwrap().stdout).unwrap();
   if !output.contains(&text) {
-    panic!("output does not contain {text}:\n{output}");
+    panic!("output does not contain '{text}':\n{output}");
   }
 }
 
