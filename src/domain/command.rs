@@ -1,5 +1,5 @@
 /// all CLI commands that could be run
-pub enum Command {
+pub(crate) enum Command {
   Run(String),
   Setup,
   FishCompletionSetup,

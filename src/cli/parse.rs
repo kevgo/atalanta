@@ -1,7 +1,7 @@
 use crate::domain::Command;
 use std::env::Args;
 
-pub fn parse(mut args: Args) -> Command {
+pub(crate) fn parse(mut args: Args) -> Command {
   args.next(); // skip the binary name
   match args.next() {
     Some(cmd) if cmd == "-s" => Command::Setup,

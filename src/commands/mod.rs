@@ -1,8 +1,8 @@
 //! the various sub-commands that the user can call
 
-pub mod completions;
+pub(crate) mod completions;
 mod run;
 mod setup;
 
-pub use run::run;
-pub use setup::setup;
+pub(crate) use run::run;
+pub(crate) use setup::setup;

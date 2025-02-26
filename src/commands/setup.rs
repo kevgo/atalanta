@@ -2,7 +2,7 @@ use crate::cli;
 use crate::domain::{Outcome, Stacks};
 use std::process::Stdio;
 
-pub fn setup(stacks: Stacks) -> Outcome {
+pub(crate) fn setup(stacks: Stacks) -> Outcome {
   let mut executed = false;
   for stack in stacks {
     let Some(mut cmd) = stack.setup() else {
