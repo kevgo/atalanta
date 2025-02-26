@@ -112,7 +112,7 @@ async fn executing(world: &mut RunWorld, command: String) {
       .current_dir(&world.dir)
       .output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{cmd}' executable")),
   );
 }
 
