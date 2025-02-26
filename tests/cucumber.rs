@@ -79,6 +79,14 @@ async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
   fs::create_dir(folder_path).await
 }
 
+#[then(expr = "a globally installed Rust executable {string} exists")]
+async fn global_rust_executable_exists(_world: &mut RunWorld, name: String) {
+  let executable_path = home::cargo_home().unwrap().join("bin").join(name);
+  let metadata = fs::metadata(&executable_path).await.unwrap();
+  assert!(metadata.is_file());
+  fs::remove_file(executable_path).await.unwrap();
+}
+
 #[given("a Makefile with content:")]
 async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
   let content = step.docstring.as_ref().unwrap().trim();
@@ -136,7 +144,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
 }
 
 #[when(expr = "executing {string} in the {string} folder")]
-async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let mut args = command.split_ascii_whitespace();
   let cmd = args.next().unwrap();
   world.output = Some(
@@ -147,6 +155,11 @@ async fn executing_in_folder(world: &mut RunWorld, command: String, folder: Stri
       .await
       .expect("cannot find the 'a' executable"),
   );
+}
+
+#[given(expr = "executing {string} in the {string} folder")]
+async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+  when_executing_in_folder(world, command, folder).await
 }
 
 #[then("it prints:")]

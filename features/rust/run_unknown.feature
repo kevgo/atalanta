@@ -9,9 +9,5 @@ Feature: run an unknown Cargo command
       Error: task "zonk" doesn't exist
 
       Rust (Cargo)
-
-        build  cargo build
-        check  cargo check
-        test   cargo test
       """
     Then the exit code is 1
