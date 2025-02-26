@@ -5,30 +5,24 @@ Feature: Rakefile with Bundler
       """
       desc 'Run linter'
       task 'lint' do
-        sh 'bundle exec rubocop'
+        sh 'echo linting'
       end
 
       desc 'Run tests'
       task 'test' do
-        sh 'bundle exec rubocop'
+        sh 'echo testing'
       end
       """
-    And a file "Gemfile" with content:
-      """
-      # frozen_string_literal: true
-      source 'https://rubygems.org'
-      gem 'diff_match_patch', '~> 0.1.0'
-      """
-    And a file "Gemfile.lock"
+    And a file "Gemfile"
 
   Scenario: list available tasks
   # run "bundle exec rake --tasks"
 
   Scenario: run a task
-    When executing "a task-1"
+    When executing "a lint"
     Then it prints:
       """
-      one
+      linting
       """
     And the exit code is 0
 
@@ -40,9 +34,8 @@ Feature: Rakefile with Bundler
 
       Ruby (Rakefile)
 
-        failing
-        task-1
-        task-2
+        lint  Run linter
+        test  Run tests
       """
     Then the exit code is 1
 
