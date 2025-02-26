@@ -25,29 +25,28 @@ impl Stack for RustCargoStack {
 }
 
 pub(crate) fn scan(stacks: &mut Stacks) {
-  if !Path::new("Cargo.toml").exists() {
-    return;
+  if Path::new("Cargo.toml").exists() {
+    stacks.push(Box::new(RustCargoStack {
+      tasks: Tasks::from(vec![
+        Task {
+          name: S("build"),
+          cmd: S("cargo"),
+          argv: vec![S("build")],
+          desc: S("cargo build"),
+        },
+        Task {
+          name: S("check"),
+          cmd: S("cargo"),
+          argv: vec![S("check")],
+          desc: S("cargo check"),
+        },
+        Task {
+          name: S("test"),
+          cmd: S("cargo"),
+          argv: vec![S("test")],
+          desc: S("cargo test"),
+        },
+      ]),
+    }));
   }
-  stacks.push(Box::new(RustCargoStack {
-    tasks: Tasks::from(vec![
-      Task {
-        name: S("build"),
-        cmd: S("cargo"),
-        argv: vec![S("build")],
-        desc: S("cargo build"),
-      },
-      Task {
-        name: S("check"),
-        cmd: S("cargo"),
-        argv: vec![S("check")],
-        desc: S("cargo check"),
-      },
-      Task {
-        name: S("test"),
-        cmd: S("cargo"),
-        argv: vec![S("test")],
-        desc: S("cargo test"),
-      },
-    ]),
-  }));
 }
