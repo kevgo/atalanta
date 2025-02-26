@@ -27,7 +27,7 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub fn scan(stacks: &mut Stacks, mut dir: &Path) {
+pub(crate) fn scan(stacks: &mut Stacks, mut dir: &Path) {
   let Some(package_json) = load_package_json() else {
     return;
   };

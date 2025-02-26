@@ -3,7 +3,7 @@ use crate::cli;
 use std::process::{ExitCode, Termination};
 
 /// end result of an Atalanta run
-pub enum Outcome {
+pub(crate) enum Outcome {
   /// Atalanta has been able to do its thing.
   Success,
   /// A user-provided script didn't succeed
