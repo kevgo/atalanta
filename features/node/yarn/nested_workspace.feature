@@ -36,7 +36,7 @@ Feature: nested Yarn workspace
   #     """
 
   Scenario: run a task
-    When executing "a task-1" in the "tool" folder
+    When executing "../../../target/debug/a task-1" in the "tool" folder
     Then it prints:
       """
       one

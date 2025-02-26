@@ -138,10 +138,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
 #[when(expr = "executing {string} in the {string} folder")]
 async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
-  if cmd == "a" {
-    cmd = "../../../target/debug/a";
-  }
+  let cmd = args.next().unwrap();
   world.output = Some(
     Command::new(cmd)
       .args(args)
