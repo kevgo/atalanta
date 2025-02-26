@@ -44,7 +44,7 @@ Feature: nested Yarn workspace
     Then the exit code is 0
 
   Scenario: run an unknown task
-    When executing "a zonk" in the "tool" folder
+    When executing "../../../target/debug/a zonk" in the "tool" folder
     Then it prints:
       """
       Error: task "zonk" doesn't exist
@@ -58,7 +58,7 @@ Feature: nested Yarn workspace
     Then the exit code is 1
 
   Scenario: a task returns a non-zero exit code
-    When executing "a failing" in the "tool" folder
+    When executing "../../../target/debug/a failing" in the "tool" folder
     Then it prints:
       """
       running a failing task
@@ -66,7 +66,7 @@ Feature: nested Yarn workspace
     And the exit code is 2
 
   Scenario Outline: setup
-    When executing "a <COMMAND>" in the "tool" folder
+    When executing "../../../target/debug/a <COMMAND>" in the "tool" folder
     Then the output contains "yarn install"
     And the exit code is 0
     And the workspace contains a folder "node_modules"
