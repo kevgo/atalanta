@@ -27,7 +27,7 @@ impl Stack for MakefileStack {
   }
 }
 
-pub fn scan(stacks: &mut Stacks) {
+pub(crate) fn scan(stacks: &mut Stacks) {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
     Err(e) => match e.kind() {

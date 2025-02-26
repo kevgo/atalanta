@@ -3,20 +3,20 @@ use std::process::Command;
 
 /// a task that can be executed
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct Task {
+pub(crate) struct Task {
   /// name of this task, for identifying it via the CLI
-  pub name: String,
+  pub(crate) name: String,
   /// the binary to run
-  pub cmd: String,
+  pub(crate) cmd: String,
   /// command-line arguments for the binary
-  pub argv: Vec<String>,
+  pub(crate) argv: Vec<String>,
   /// optional description
-  pub desc: String,
+  pub(crate) desc: String,
 }
 
 impl Task {
   /// provides a fully configured `Command` that executes this `Task`
-  pub fn command(&self) -> Command {
+  pub(crate) fn command(&self) -> Command {
     let mut cmd = Command::new(&self.cmd);
     cmd.args(&self.argv);
     cmd
@@ -48,23 +48,19 @@ impl Ord for Task {
 }
 
 #[derive(Default)]
-pub struct Tasks(Vec<Task>);
+pub(crate) struct Tasks(Vec<Task>);
 
 impl Tasks {
-  pub fn new() -> Self {
+  pub(crate) fn new() -> Self {
     Self(vec![])
   }
 
-  pub fn push(&mut self, task: Task) {
+  pub(crate) fn push(&mut self, task: Task) {
     self.0.push(task);
   }
 
-  pub fn sort(&mut self) {
+  pub(crate) fn sort(&mut self) {
     self.0.sort();
-  }
-
-  pub fn with_name(&self, name: &str) -> Option<&Task> {
-    self.0.iter().find(|task| task.name == name)
   }
 }
 

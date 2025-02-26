@@ -31,11 +31,11 @@ impl Stack for NodeNpmStack {
 }
 
 #[derive(Deserialize)]
-pub struct PackageJson {
-  pub scripts: Option<HashMap<String, String>>,
+pub(crate) struct PackageJson {
+  pub(crate) scripts: Option<HashMap<String, String>>,
 }
 
-pub fn scan(stacks: &mut Stacks) {
+pub(crate) fn scan(stacks: &mut Stacks) {
   if !Path::new("package-lock.json").exists() {
     return;
   }
@@ -47,7 +47,7 @@ pub fn scan(stacks: &mut Stacks) {
   }));
 }
 
-pub fn load_package_json() -> Option<PackageJson> {
+pub(crate) fn load_package_json() -> Option<PackageJson> {
   let file = match File::open("package.json") {
     Ok(file) => file,
     Err(e) => match e.kind() {
