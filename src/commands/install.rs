@@ -1,6 +1,5 @@
 use crate::cli;
 use crate::domain::{Outcome, Stacks};
-use std::process::Stdio;
 
 pub(crate) fn install(stacks: Stacks) -> Outcome {
   let mut executed = false;
@@ -9,12 +8,7 @@ pub(crate) fn install(stacks: Stacks) -> Outcome {
       continue;
     };
     executed = true;
-    let output = cmd
-      .stdin(Stdio::inherit())
-      .stdout(Stdio::inherit())
-      .stderr(Stdio::inherit())
-      .output();
-    let output = match output {
+    let output = match cmd.output() {
       Ok(output) => output,
       Err(e) => return Outcome::CannotFindExecutable { err: e.to_string() },
     };
