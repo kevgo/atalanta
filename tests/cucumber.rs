@@ -101,6 +101,9 @@ async fn executing(world: &mut RunWorld, command: String) {
   if cmd == "a" {
     cmd = "../../target/debug/a";
   }
+  if env::consts::OS == "windows" {
+    let cmd = cmd + ".exe";
+  }
   world.output = Some(
     Command::new(cmd)
       .args(args)
