@@ -1,14 +1,13 @@
-Feature: cannot install Makefiles
+Feature: install a Rust application
 
+  @this
   Scenario Outline:
-    Given a Makefile with content:
-      """
-      .SILENT:
-      """
+    Given a file "Cargo.toml"
+    And a file "Cargo.lock"
     When executing "a <FLAG>"
     Then it prints:
       """
-      Warning: I don't know how to install this stack
+      Warning: I don't know how to set up this stack
       """
     And the exit code is 1
 

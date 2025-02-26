@@ -75,3 +75,16 @@ Feature: nested Yarn workspace
       | COMMAND |
       | -s      |
       | --setup |
+
+  Scenario Outline: install
+    When executing "a <COMMAND>" in the "tool" folder
+    Then it prints:
+      """
+      Warning: I don't know how to install this stack
+      """
+    And the exit code is 1
+
+    Examples:
+      | COMMAND   |
+      | -i        |
+      | --install |
