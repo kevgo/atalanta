@@ -97,54 +97,54 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 #[when(expr = "executing {string}")]
 async fn executing(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
+  let mut executable = args.next().unwrap();
   let mut _string = String::new();
-  if cmd == "a" {
-    cmd = "../../target/debug/a";
+  if executable == "a" {
+    executable = "../../target/debug/a";
     if env::consts::OS == "windows" {
-      _string = format!("{cmd}.exe");
-      cmd = &_string;
+      _string = format!("{executable}.exe");
+      executable = &_string;
     }
     _string = world
       .dir
-      .join(cmd)
+      .join(executable)
       .canonicalize()
       .unwrap()
       .to_string_lossy()
       .to_string();
-    cmd = &_string;
+    executable = &_string;
   }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(executable)
       .args(args)
       .current_dir(&world.dir)
       .output()
       .await
-      .expect(&format!("cannot find the '{cmd}' executable")),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
 #[when(expr = "executing {string} and pressing the keys:")]
 async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
+  let mut executable = args.next().unwrap();
   let mut _string = String::new();
-  if cmd == "a" {
-    cmd = "../../target/debug/a";
+  if executable == "a" {
+    executable = "../../target/debug/a";
     if env::consts::OS == "windows" {
-      _string = format!("{cmd}.exe");
-      cmd = &_string;
+      _string = format!("{executable}.exe");
+      executable = &_string;
     }
     _string = world
       .dir
-      .join(cmd)
+      .join(executable)
       .canonicalize()
       .unwrap()
       .to_string_lossy()
       .to_string();
-    cmd = &_string;
+    executable = &_string;
   }
-  let mut cmd = Command::new(cmd)
+  let mut command = Command::new(executable)
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -156,45 +156,45 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   // This code works with normal subshell commands like "cat", but not with the atalanta executable.
   // The Atalanta executable ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
   // Maybe Atalanta's terminal library (crossterm) performs low-level API calls to the OS to read keyboard input?
-  if let Some(mut stdin) = cmd.stdin.take() {
+  if let Some(mut stdin) = command.stdin.take() {
     stdin.write_all(b"j\n").await.unwrap();
     stdin.flush().await.unwrap();
     stdin.shutdown().await.unwrap();
   }
   world.output = Some(
-    cmd
+    command
       .wait_with_output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
 #[when(expr = "executing {string} in the {string} folder")]
 async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
+  let mut executable = args.next().unwrap();
   let mut _string = String::new();
-  if cmd == "a" {
+  if executable == "a" {
     if env::consts::OS == "windows" {
-      _string = format!("{cmd}.exe");
-      cmd = &_string;
+      _string = format!("{executable}.exe");
+      executable = &_string;
     }
     _string = world
       .dir
-      .join(cmd)
+      .join(executable)
       .canonicalize()
       .unwrap()
       .to_string_lossy()
       .to_string();
-    cmd = &_string;
+    executable = &_string;
   }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(executable)
       .args(args)
       .current_dir(&world.dir.join(folder))
       .output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
