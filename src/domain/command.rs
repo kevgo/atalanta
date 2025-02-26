@@ -2,6 +2,7 @@
 pub(crate) enum Command {
   Run(String),
   Setup,
+  Install,
   FishCompletionSetup,
   FishCompletion,
   Help,

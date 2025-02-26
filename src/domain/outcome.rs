@@ -13,6 +13,8 @@ pub(crate) enum Outcome {
   },
   /// Atalanta doesn't know how to set up this stack
   NoSetup,
+  /// Atalanta doesn't know how to install this stack
+  NoInstall,
   /// there is no task with the given name
   UnknownTask {
     /// name of the task that we didn't find
@@ -40,6 +42,10 @@ impl Termination for Outcome {
       }
       Outcome::NoSetup => {
         println!("Warning: I don't know how to set up this stack");
+        ExitCode::FAILURE
+      }
+      Outcome::NoInstall => {
+        println!("Warning: I don't know how to install this stack");
         ExitCode::FAILURE
       }
     }
