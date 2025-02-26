@@ -19,6 +19,7 @@ tabwriter = "1.4.1"
 async-trait = "0.1"
 cucumber = "0.21.1"
 futures = "0.3"
+home = "0.5.11"
 itertools = "0.14.0"
 pretty = { package = "pretty_assertions", version = "1.4.1" }
 rand = "0.9.0"
