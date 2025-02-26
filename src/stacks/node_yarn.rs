@@ -22,6 +22,10 @@ impl Stack for NodeYarnStack {
     Some(cmd)
   }
 
+  fn install(&self) -> Option<Command> {
+    self.setup()
+  }
+
   fn tasks(&self) -> &Tasks {
     &self.tasks
   }

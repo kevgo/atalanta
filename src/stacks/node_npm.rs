@@ -25,6 +25,10 @@ impl Stack for NodeNpmStack {
     Some(command)
   }
 
+  fn install(&self) -> Option<Command> {
+    self.setup()
+  }
+
   fn tasks(&self) -> &Tasks {
     &self.tasks
   }

@@ -22,6 +22,10 @@ impl Stack for MakefileStack {
     None
   }
 
+  fn install(&self) -> Option<Command> {
+    None
+  }
+
   fn tasks(&self) -> &Tasks {
     &self.tasks
   }
