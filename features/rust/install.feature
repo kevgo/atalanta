@@ -1,6 +1,5 @@
 Feature: install a Rust application
 
-  @this
   Scenario Outline:
     Given a folder "install-test"
     And executing "cargo init --bin atalanta-install-tester" in the "install-test" folder
