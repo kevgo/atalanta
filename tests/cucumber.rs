@@ -128,7 +128,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     _string = format!("{cmd}.exe");
     cmd = &_string;
   }
-  let mut cmd = Command::new(cmd)
+  let mut cmd = Command::new(world.dir.join(cmd).canonicalize().unwrap())
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -163,7 +163,7 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
     cmd = &_string;
   }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(world.dir.join(cmd).canonicalize().unwrap())
       .args(args)
       .current_dir(&world.dir.join(folder))
       .output()
