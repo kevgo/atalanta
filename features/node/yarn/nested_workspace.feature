@@ -80,7 +80,7 @@ Feature: nested Yarn workspace
     When executing "../../../target/debug/a <COMMAND>" in the "tool" folder
     Then it prints:
       """
-      Warning: I don't know how to install this stack
+      Warning: cannot install this stack
       """
     And the exit code is 1
 

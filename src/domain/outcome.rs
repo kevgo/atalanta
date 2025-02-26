@@ -41,11 +41,11 @@ impl Termination for Outcome {
         ExitCode::FAILURE
       }
       Outcome::NoSetup => {
-        println!("Warning: I don't know how to set up this stack");
+        println!("Warning: cannot set up this stack");
         ExitCode::FAILURE
       }
       Outcome::NoInstall => {
-        println!("Warning: I don't know how to install this stack");
+        println!("Warning: cannot install this stack");
         ExitCode::FAILURE
       }
     }

@@ -8,6 +8,6 @@ Feature: cannot set up Makefiles
     When executing "a -s"
     Then it prints:
       """
-      Warning: I don't know how to set up this stack
+      Warning: cannot set up this stack
       """
     And the exit code is 1
