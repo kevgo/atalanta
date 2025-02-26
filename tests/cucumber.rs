@@ -174,16 +174,17 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
   let mut args = command.split_ascii_whitespace();
   let mut executable = args.next().unwrap();
   let mut _string = String::new();
-  if executable == "a" {
+  if executable.ends_with("/a") {
     if env::consts::OS == "windows" {
       _string = format!("{executable}.exe");
       executable = &_string;
     }
     _string = world
       .dir
+      .join(&folder)
       .join(executable)
       .canonicalize()
-      .unwrap()
+      .expect(&format!("cannot find the '{executable}' executable"))
       .to_string_lossy()
       .to_string();
     executable = &_string;
