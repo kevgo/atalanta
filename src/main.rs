@@ -11,5 +11,6 @@ fn main() -> Outcome {
     Command::Setup => commands::setup(stacks::load()),
     Command::FishCompletionSetup => commands::completions::fish::print(),
     Command::FishCompletion => commands::completions::fish::tasks(stacks::load()),
+    Command::Help => commands::help(),
   }
 }
