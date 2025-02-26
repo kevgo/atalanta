@@ -4,4 +4,5 @@ pub(crate) enum Command {
   Setup,
   FishCompletionSetup,
   FishCompletion,
+  Help,
 }
