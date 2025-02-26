@@ -79,6 +79,12 @@ async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
   fs::create_dir(folder_path).await
 }
 
+#[then(expr = "a globally installed Rust executable {string} exists")]
+async fn global_rust_executable_exists(world: &mut RunWorld, command: String) {
+  let home = std::env::home_dir();
+  assert!(Path::new(""))
+}
+
 #[given("a Makefile with content:")]
 async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
   let content = step.docstring.as_ref().unwrap().trim();

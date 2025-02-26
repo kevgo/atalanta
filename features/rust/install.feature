@@ -7,7 +7,6 @@ Feature: install a Rust application
     When executing "../../../../target/debug/a <FLAG>" in the "install-test/atalanta-install-tester" folder
     Then the exit code is 0
     And a globally installed Rust executable "atalanta-install-tester" exists
-    And I delete the globally installed Rust executable "atalanta-install-tester"
 
     Examples:
       | FLAG      |
