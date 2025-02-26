@@ -80,9 +80,11 @@ async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
 }
 
 #[then(expr = "a globally installed Rust executable {string} exists")]
-async fn global_rust_executable_exists(world: &mut RunWorld, command: String) {
-  let home = std::env::home_dir();
-  assert!(Path::new(""))
+async fn global_rust_executable_exists(_world: &mut RunWorld, name: String) {
+  let executable_path = home::cargo_home().unwrap().join("bin").join(name);
+  let metadata = fs::metadata(&executable_path).await.unwrap();
+  assert!(metadata.is_file());
+  fs::remove_file(executable_path).await.unwrap();
 }
 
 #[given("a Makefile with content:")]
