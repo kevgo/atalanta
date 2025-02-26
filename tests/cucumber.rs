@@ -5,7 +5,6 @@ use rand::Rng;
 use std::borrow::Cow;
 use std::path::{Path, PathBuf};
 use std::process::{Output, Stdio};
-use std::str::SplitAsciiWhitespace;
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, str};
 use tokio::io::AsyncWriteExt;
@@ -89,9 +88,13 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 
 #[when(expr = "executing {string}")]
 async fn executing(world: &mut RunWorld, command: String) {
-  let args = parse_call(&command);
+  let mut args = command.split_ascii_whitespace();
+  let mut cmd = args.next().unwrap();
+  if cmd == "a" {
+    cmd = "../../target/debug/a";
+  }
   world.output = Some(
-    Command::new("../../target/debug/a")
+    Command::new(cmd)
       .args(args)
       .current_dir(&world.dir)
       .output()
@@ -102,8 +105,12 @@ async fn executing(world: &mut RunWorld, command: String) {
 
 #[when(expr = "executing {string} and pressing the keys:")]
 async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
-  let args = parse_call(&command);
-  let mut cmd = Command::new("../../target/debug/a")
+  let mut args = command.split_ascii_whitespace();
+  let mut cmd = args.next().unwrap();
+  if cmd == "a" {
+    cmd = "../../target/debug/a";
+  }
+  let mut cmd = Command::new(cmd)
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -130,9 +137,13 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
 
 #[when(expr = "executing {string} in the {string} folder")]
 async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
-  let args = parse_call(&command);
+  let mut args = command.split_ascii_whitespace();
+  let mut cmd = args.next().unwrap();
+  if cmd == "a" {
+    cmd = "../../../target/debug/a";
+  }
   world.output = Some(
-    Command::new("../../../target/debug/a")
+    Command::new(cmd)
       .args(args)
       .current_dir(&world.dir.join(folder))
       .output()
@@ -200,15 +211,6 @@ fn convert_to_makefile_format(text: &str) -> String {
     }
   }
   result
-}
-
-fn parse_call(call: &str) -> SplitAsciiWhitespace<'_> {
-  let mut argv = call.split_ascii_whitespace();
-  match argv.next() {
-    Some("a") => {}
-    _ => panic!("The end-to-end tests can only run the 'a' command for now"),
-  }
-  argv
 }
 
 #[tokio::main(flavor = "current_thread")]
