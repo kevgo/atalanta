@@ -77,7 +77,7 @@ Feature: nested Yarn workspace
       | --setup |
 
   Scenario Outline: install
-    When executing "a <COMMAND>" in the "tool" folder
+    When executing "../../../target/debug/a <COMMAND>" in the "tool" folder
     Then it prints:
       """
       Warning: I don't know how to install this stack
