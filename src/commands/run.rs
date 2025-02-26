@@ -2,7 +2,7 @@ use crate::cli;
 use crate::domain::{Outcome, Stacks, Task};
 use std::process::Stdio;
 
-pub fn run(stacks: Stacks, name: String) -> Outcome {
+pub(crate) fn run(stacks: Stacks, name: String) -> Outcome {
   let tasks = stacks.tasks_fuzzy_matching_name(&name);
   let task = match tasks.len() {
     0 => {

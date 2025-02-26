@@ -9,7 +9,7 @@ use crate::domain::Stacks;
 use std::env;
 
 /// determines the existing stacks
-pub fn load() -> Stacks {
+pub(crate) fn load() -> Stacks {
   let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
   makefile::scan(&mut result);

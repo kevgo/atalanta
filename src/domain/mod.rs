@@ -5,7 +5,7 @@ mod outcome;
 mod stack;
 mod task;
 
-pub use command::Command;
-pub use outcome::Outcome;
-pub use stack::{Stack, Stacks};
-pub use task::{Task, Tasks};
+pub(crate) use command::Command;
+pub(crate) use outcome::Outcome;
+pub(crate) use stack::{Stack, Stacks};
+pub(crate) use task::{Task, Tasks};
