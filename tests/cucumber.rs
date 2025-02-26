@@ -107,7 +107,7 @@ async fn executing(world: &mut RunWorld, command: String) {
     cmd = &_string;
   }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(world.dir.join(cmd).canonicalize().unwrap())
       .args(args)
       .current_dir(&world.dir)
       .output()
