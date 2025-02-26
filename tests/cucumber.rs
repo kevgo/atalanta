@@ -80,7 +80,10 @@ async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
 }
 
 #[then(expr = "a globally installed Rust executable {string} exists")]
-async fn global_rust_executable_exists(_world: &mut RunWorld, name: String) {
+async fn global_rust_executable_exists(_world: &mut RunWorld, mut name: String) {
+  if env::consts::OS == "windows" {
+    name = format!("{name}.exe");
+  }
   let executable_path = home::cargo_home().unwrap().join("bin").join(name);
   let metadata = fs::metadata(&executable_path).await.unwrap();
   assert!(metadata.is_file());
