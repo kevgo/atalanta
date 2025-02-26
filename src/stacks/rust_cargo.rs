@@ -25,8 +25,7 @@ impl Stack for RustCargoStack {
 }
 
 pub(crate) fn scan(stacks: &mut Stacks) {
-  if !Path::new("Cargo.lock").exists() {
-    // TODO: do we really need to verify that this file exists?
+  if !Path::new("Cargo.toml").exists() {
     return;
   }
   stacks.push(Box::new(RustCargoStack {
