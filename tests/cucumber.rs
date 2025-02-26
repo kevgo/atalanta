@@ -222,7 +222,10 @@ fn exit_code(world: &mut RunWorld, want: i32) {
 
 #[then(expr = "the output contains {string}")]
 fn output_contains(world: &mut RunWorld, text: String) {
-  assert!(world.output().contains(&text));
+  let output = String::from_utf8_lossy(&world.output.as_ref().unwrap().stdout);
+  if !output.contains(&text) {
+    panic!("output does not contain {text}:\n{output}");
+  }
 }
 
 #[then(expr = "the workspace contains a folder {string}")]
