@@ -43,6 +43,9 @@ panic = 'abort'
 opt-level = "z"
 codegen-units = 1
 
+[lints.rust]
+unsafe_code = "forbid"
+
 [lints.clippy]
 pedantic = "warn"
 
