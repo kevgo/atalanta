@@ -129,7 +129,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
 }
 
 #[when(expr = "executing {string} in the {string} folder")]
-async fn executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let args = parse_call(&command);
   world.output = Some(
     Command::new("../../../target/debug/a")
@@ -139,6 +139,11 @@ async fn executing_in_folder(world: &mut RunWorld, command: String, folder: Stri
       .await
       .expect("cannot find the 'a' executable"),
   );
+}
+
+#[given(expr = "executing {string} in the {string} folder")]
+async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
+  when_executing_in_folder(world, command, folder).await
 }
 
 #[then("it prints:")]
@@ -204,10 +209,7 @@ fn convert_to_makefile_format(text: &str) -> String {
 
 fn parse_call(call: &str) -> SplitAsciiWhitespace<'_> {
   let mut argv = call.split_ascii_whitespace();
-  match argv.next() {
-    Some("a") => {}
-    _ => panic!("The end-to-end tests can only run the 'a' command for now"),
-  }
+  argv.next().unwrap();
   argv
 }
 

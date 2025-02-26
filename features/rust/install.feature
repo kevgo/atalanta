@@ -2,8 +2,9 @@ Feature: install a Rust application
 
   @this
   Scenario Outline:
-    Given I ran "cargo init --bin atalanta-install-tester"
-    When executing "a <FLAG>" in the "atalanta-install-tester" folder
+    Given a folder "install_test"
+    And executing "cargo init --bin atalanta-install-tester" in the "install-test" folder
+    When executing "a <FLAG>" in the "install-test/atalanta-install-tester" folder
     Then it prints:
       """
       xxx
