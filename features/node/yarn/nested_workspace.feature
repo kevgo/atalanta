@@ -75,3 +75,16 @@ Feature: nested Yarn workspace
       | COMMAND |
       | -s      |
       | --setup |
+
+  Scenario Outline: install
+    When executing "../../../target/debug/a <COMMAND>" in the "tool" folder
+    Then it prints:
+      """
+      Warning: cannot install this stack
+      """
+    And the exit code is 1
+
+    Examples:
+      | COMMAND   |
+      | -i        |
+      | --install |

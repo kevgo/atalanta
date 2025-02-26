@@ -8,6 +8,8 @@ pub(crate) fn parse(mut args: Args) -> Command {
     Some(cmd) if cmd == "--help" => Command::Help,
     Some(cmd) if cmd == "-s" => Command::Setup,
     Some(cmd) if cmd == "--setup" => Command::Setup,
+    Some(cmd) if cmd == "-i" => Command::Install,
+    Some(cmd) if cmd == "--install" => Command::Install,
     Some(cmd) if cmd == "--fish-completion" => Command::FishCompletion,
     Some(cmd) if cmd == "--setup-fish-completions" => Command::FishCompletionSetup,
     Some(cmd) => Command::Run(cmd),

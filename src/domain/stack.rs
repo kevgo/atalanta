@@ -10,6 +10,9 @@ pub(crate) trait Stack: Display {
   /// provides a Command instance initialized to set up this stack
   fn setup(&self) -> Option<Command>;
 
+  /// provides a Command instance initialized to install the binary of this stack
+  fn install(&self) -> Option<Command>;
+
   /// Provides all executable tasks for the codebase in the current directory.
   /// This only emits read references. The stack instance should own the task data.
   fn tasks(&self) -> &Tasks;
@@ -97,6 +100,9 @@ mod tests {
     }
     impl super::super::Stack for TestStack {
       fn setup(&self) -> Option<std::process::Command> {
+        None
+      }
+      fn install(&self) -> Option<std::process::Command> {
         None
       }
       fn tasks(&self) -> &Tasks {
