@@ -1,4 +1,4 @@
-pub fn exit_status_to_code(code: i32) -> u8 {
+pub(crate) fn exit_status_to_code(code: i32) -> u8 {
   if !(0..=255).contains(&code) {
     return 255;
   }

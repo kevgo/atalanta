@@ -6,7 +6,7 @@ use std::fmt::Display;
 use std::process::Command;
 
 /// a technology stack that Atalanta knows about
-pub trait Stack: Display {
+pub(crate) trait Stack: Display {
   /// provides a Command instance initialized to set up this stack
   fn setup(&self) -> Option<Command>;
 
@@ -16,29 +16,19 @@ pub trait Stack: Display {
 }
 
 #[derive(Default)]
-pub struct Stacks(Vec<Box<dyn Stack>>);
+pub(crate) struct Stacks(Vec<Box<dyn Stack>>);
 
 impl Stacks {
-  pub fn new() -> Self {
+  pub(crate) fn new() -> Self {
     Self(vec![])
   }
 
-  pub fn push(&mut self, stack: Box<dyn Stack>) {
+  pub(crate) fn push(&mut self, stack: Box<dyn Stack>) {
     self.0.push(stack);
   }
 
-  pub fn task_with_name(&self, name: &str) -> Option<&Task> {
-    for stack in &self.0 {
-      let task = stack.tasks().with_name(name);
-      if task.is_some() {
-        return task;
-      }
-    }
-    None
-  }
-
   /// provides all the tasks from all stacks that match the given task name
-  pub fn tasks_fuzzy_matching_name(&self, name: &str) -> Vec<&Task> {
+  pub(crate) fn tasks_fuzzy_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
     let mut search_results = vec![];
     for stack in &self.0 {
