@@ -98,16 +98,24 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 async fn executing(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
   let mut cmd = args.next().unwrap();
+  let mut _string = String::new();
   if cmd == "a" {
     cmd = "../../target/debug/a";
-  }
-  let mut _string = String::new();
-  if env::consts::OS == "windows" {
-    _string = format!("{cmd}.exe");
+    if env::consts::OS == "windows" {
+      _string = format!("{cmd}.exe");
+      cmd = &_string;
+    }
+    _string = world
+      .dir
+      .join(cmd)
+      .canonicalize()
+      .unwrap()
+      .to_string_lossy()
+      .to_string();
     cmd = &_string;
   }
   world.output = Some(
-    Command::new(world.dir.join(cmd).canonicalize().unwrap())
+    Command::new(cmd)
       .args(args)
       .current_dir(&world.dir)
       .output()
@@ -120,15 +128,23 @@ async fn executing(world: &mut RunWorld, command: String) {
 async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
   let mut cmd = args.next().unwrap();
+  let mut _string = String::new();
   if cmd == "a" {
     cmd = "../../target/debug/a";
-  }
-  let mut _string = String::new();
-  if env::consts::OS == "windows" {
-    _string = format!("{cmd}.exe");
+    if env::consts::OS == "windows" {
+      _string = format!("{cmd}.exe");
+      cmd = &_string;
+    }
+    _string = world
+      .dir
+      .join(cmd)
+      .canonicalize()
+      .unwrap()
+      .to_string_lossy()
+      .to_string();
     cmd = &_string;
   }
-  let mut cmd = Command::new(world.dir.join(cmd).canonicalize().unwrap())
+  let mut cmd = Command::new(cmd)
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -158,12 +174,22 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
   let mut args = command.split_ascii_whitespace();
   let mut cmd = args.next().unwrap();
   let mut _string = String::new();
-  if env::consts::OS == "windows" {
-    _string = format!("{cmd}.exe");
+  if cmd == "a" {
+    if env::consts::OS == "windows" {
+      _string = format!("{cmd}.exe");
+      cmd = &_string;
+    }
+    _string = world
+      .dir
+      .join(cmd)
+      .canonicalize()
+      .unwrap()
+      .to_string_lossy()
+      .to_string();
     cmd = &_string;
   }
   world.output = Some(
-    Command::new(world.dir.join(cmd).canonicalize().unwrap())
+    Command::new(cmd)
       .args(args)
       .current_dir(&world.dir.join(folder))
       .output()
