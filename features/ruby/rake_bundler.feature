@@ -3,6 +3,15 @@ Feature: Rakefile with Bundler
   Background:
     Given a file "Rakefile" with content:
       """
+      desc 'Run linter'
+      task 'lint' do
+        sh 'bundle exec rubocop'
+      end
+
+      desc 'Run tests'
+      task 'test' do
+        sh 'bundle exec rubocop'
+      end
       """
     And a file "Gemfile" with content:
       """
