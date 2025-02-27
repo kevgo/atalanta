@@ -39,16 +39,26 @@ pub(crate) struct PackageJson {
   pub(crate) scripts: Option<HashMap<String, String>>,
 }
 
-pub(crate) fn scan(stacks: &mut Stacks) {
-  if !Path::new("package-lock.json").exists() {
+pub(crate) fn scan(stacks: &mut Stacks, mut dir: &Path) {
+  if !Path::new("package.json").exists() {
     return;
   }
   let Some(package_json) = load_package_json() else {
     return;
   };
-  stacks.push(Box::new(NodeNpmStack {
-    tasks: parse_scripts(package_json),
-  }));
+  loop {
+    let lockfile = dir.join("package-lock.json");
+    if lockfile.exists() {
+      stacks.push(Box::new(NodeNpmStack {
+        tasks: parse_scripts(package_json),
+      }));
+      return;
+    }
+    match dir.parent() {
+      Some(parent) => dir = parent,
+      None => return,
+    }
+  }
 }
 
 pub(crate) fn load_package_json() -> Option<PackageJson> {
