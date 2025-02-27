@@ -13,7 +13,7 @@ pub(crate) fn load() -> Stacks {
   let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
   makefile::scan(&mut result);
-  node_npm::scan(&mut result);
+  node_npm::scan(&mut result, &cwd);
   node_yarn::scan(&mut result, &cwd);
   rust_cargo::scan(&mut result);
   result
