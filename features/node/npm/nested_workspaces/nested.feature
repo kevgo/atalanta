@@ -1,4 +1,3 @@
-@this
 Feature: nested npm workspace
 
   Background:
