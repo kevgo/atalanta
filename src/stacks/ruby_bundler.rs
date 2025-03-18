@@ -15,7 +15,9 @@ impl Display for RubyBundlerStack {
 
 impl Stack for RubyBundlerStack {
   fn setup(&self) -> Option<Command> {
-    None
+    let mut command = Command::new("npm");
+    command.arg("install");
+    Some(command)
   }
 
   fn install(&self) -> Option<Command> {
