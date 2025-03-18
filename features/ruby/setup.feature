@@ -1,5 +1,6 @@
 Feature: set up a Node stack
 
+  @this
   Scenario Outline: setup
     Given a file "Rakefile" with content:
       """
