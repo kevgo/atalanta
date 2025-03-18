@@ -1,10 +1,10 @@
+use async_recursion::async_recursion;
 use cucumber::gherkin::Step;
 use cucumber::{World, given, then, when};
 use itertools::Itertools;
 use rand::Rng;
 use std::borrow::Cow;
 use std::path::{Path, PathBuf};
-use std::pin::Pin;
 use std::process::{Output, Stdio};
 use std::time::{SystemTime, UNIX_EPOCH};
 use std::{env, str};
@@ -234,29 +234,25 @@ fn convert_to_makefile_format(text: &str) -> String {
   result
 }
 
-fn copy_dir<'a, S, D>(
-  src: S,
-  dst: D,
-) -> Pin<Box<dyn Future<Output = Result<(), std::io::Error>> + 'a>>
+#[async_recursion(?Send)]
+async fn copy_dir<'a, S, D>(src: S, dst: D) -> Result<(), std::io::Error>
 where
   S: AsRef<Path> + 'a,
   D: AsRef<Path> + 'a,
 {
-  Box::pin(async move {
-    fs::create_dir_all(&dst).await?;
-    let mut entries = fs::read_dir(src).await?;
+  tokio::fs::create_dir_all(&dst).await?;
+  let mut entries = tokio::fs::read_dir(src).await?;
 
-    while let Some(entry) = entries.next_entry().await? {
-      let file_type = entry.file_type().await?;
-      if file_type.is_dir() {
-        copy_dir(entry.path(), dst.as_ref().join(entry.file_name())).await?;
-      } else {
-        fs::copy(entry.path(), dst.as_ref().join(entry.file_name())).await?;
-      }
+  while let Some(entry) = entries.next_entry().await? {
+    let file_type = entry.file_type().await?;
+    if file_type.is_dir() {
+      copy_dir(entry.path(), dst.as_ref().join(entry.file_name())).await?;
+    } else {
+      tokio::fs::copy(entry.path(), dst.as_ref().join(entry.file_name())).await?;
     }
+  }
 
-    Ok(())
-  })
+  Ok(())
 }
 
 #[tokio::main(flavor = "current_thread")]

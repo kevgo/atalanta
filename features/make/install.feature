@@ -1,5 +1,6 @@
 Feature: cannot install Makefiles
 
+  @this
   Scenario Outline:
     Given I work on the "Makefile" project
     When executing "a <FLAG>"
