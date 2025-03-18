@@ -1,17 +1,13 @@
 {
+  "$schema": "https://raw.githubusercontent.com/contest-framework/server/refs/heads/main/documentation/schema.json",
   "actions": [
     {
-      "type": "testAll",
-      "run": "echo test all files"
+      "type": "test-all",
+      "run": "make test"
     },
     {
-      "type": "testFile",
-      "file": "\\.rs$",
-      "run": "echo testing file {{file}}"
-    },
-    {
-      "type": "testFileLine",
-      "file": "\\.feature$",
+      "type": "test-file-line",
+      "files": "**/*.feature",
       "run": "make cukethis"
     }
   ],
