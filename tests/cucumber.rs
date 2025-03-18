@@ -162,6 +162,13 @@ async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder
   when_executing_in_folder(world, command, folder).await
 }
 
+#[given(expr = "I work on the {string} project")]
+async fn instantiate_fixture(world: &mut RunWorld, fixture_name: String) {
+  let src_path = Path::new("fixtures").join(fixture_name);
+  let dst_path = &world.dir;
+  copy_dir(src_path, dst_path).await.unwrap()
+}
+
 #[then("it prints:")]
 fn verify_output(world: &mut RunWorld, step: &Step) {
   let want = step.docstring.as_ref().unwrap().trim();
@@ -224,6 +231,24 @@ fn convert_to_makefile_format(text: &str) -> String {
     }
   }
   result
+}
+
+async fn copy_dir<S, D>(src: S, dst: D) -> Result<(), std::io::Error>
+where
+  S: AsRef<Path> + Send + Sync,
+  D: AsRef<Path> + Send + Sync,
+{
+  tokio::fs::create_dir_all(&dst).await?;
+  let mut entries = tokio::fs::read_dir(src).await?;
+  while let Some(entry) = entries.next_entry().await? {
+    let file_type = entry.file_type().await?;
+    if file_type.is_dir() {
+      copy_dir(entry.path(), dst.as_ref().join(entry.file_name())).await?;
+    } else {
+      tokio::fs::copy(entry.path(), dst.as_ref().join(entry.file_name())).await?;
+    }
+  }
+  Ok(())
 }
 
 #[tokio::main(flavor = "current_thread")]

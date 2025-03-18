@@ -1,10 +1,7 @@
 Feature: cannot install Makefiles
 
   Scenario Outline:
-    Given a Makefile with content:
-      """
-      .SILENT:
-      """
+    Given I work on the "Makefile" project
     When executing "a <FLAG>"
     Then it prints:
       """
