@@ -15,7 +15,9 @@ impl Display for RustCargoStack {
 
 impl Stack for RustCargoStack {
   fn setup(&self) -> Option<Command> {
-    None
+    let mut cmd = Command::new("cargo");
+    cmd.args(vec!["check"]);
+    Some(cmd)
   }
 
   fn install(&self) -> Option<Command> {
