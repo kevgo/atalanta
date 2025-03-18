@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/contest-framework/server/refs/heads/main/documentation/schema.json",
+  "actions": [
+    {
+      "type": "test-all",
+      "run": "make test"
+    },
+    {
+      "type": "test-file-line",
+      "files": "**/*.feature",
+      "run": "make cukethis"
+    }
+  ],
+  "options": {
+    "beforeRun": {
+      "clearScreen": true,
+      "newlines": 0
+    },
+    "afterRun": {
+      "newlines": 1,
+      "indicatorLines": 2,
+      "indicatorBackground": true,
+      "printResult": false
+    }
+  }
+}
