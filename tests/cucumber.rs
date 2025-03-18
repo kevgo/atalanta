@@ -166,7 +166,9 @@ async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder
 #[given(expr = "I work on the {string} project")]
 async fn instantiate_fixture(world: &mut RunWorld, fixture_name: String) {
   let src_path = Path::new("fixtures").join(fixture_name);
+  println!("11111111111111111 {src_path:?}");
   let dst_path = &world.dir;
+  println!("22222222222222222 {dst_path:?}");
   copy_dir(src_path, dst_path).await.unwrap()
 }
 
