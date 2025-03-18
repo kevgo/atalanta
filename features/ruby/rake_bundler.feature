@@ -3,19 +3,22 @@ Feature: Rakefile with Bundler
   Background:
     Given a file "Rakefile" with content:
       """
+      require 'bundler'
+      require 'bundler/gem_tasks'
+      require 'rspec/core/rake_task'
+
+      RSpec::Core::RakeTask.new :spec
+
+      task default: [:lint, :spec]
+
       desc 'Run linter'
       task 'lint' do
-        sh 'echo linting'
-      end
-
-      desc 'Run tests'
-      task 'test' do
-        sh 'echo testing'
+      sh 'bundle exec rubocop'
       end
       """
     And a file "Gemfile"
 
-  Scenario: list available tasks
+  # Scenario: list available tasks
   # run "bundle exec rake --tasks"
 
   Scenario: run a task
