@@ -1,0 +1,30 @@
+{
+  "actions": [
+    {
+      "type": "testAll",
+      "run": "echo test all files"
+    },
+    {
+      "type": "testFile",
+      "file": "\\.rs$",
+      "run": "echo testing file {{file}}"
+    },
+    {
+      "type": "testFileLine",
+      "file": "\\.feature$",
+      "run": "make cukethis"
+    }
+  ],
+  "options": {
+    "beforeRun": {
+      "clearScreen": false,
+      "newlines": 2
+    },
+    "afterRun": {
+      "newlines": 1,
+      "indicatorLines": 2,
+      "indicatorBackground": true,
+      "printResult": true
+    }
+  }
+}
