@@ -23,8 +23,6 @@ fn setup_commands() -> Vec<&'static str> {
   vec![
     // disable completing filenames
     "complete -c a -f",
-    // complete the built-in commands
-    "complete -c a -a '-s' -d 'set up the codebase'",
     // complete the tasks in the current directory
     "complete -c a -a \"(a --fish-completion)\"",
   ]
