@@ -78,7 +78,7 @@ mod tests {
     let give = "\
 rake  build:checksum   # Generate SHA512 checksum of kappamaki-1.0.0.gem into the checksums directory
 rake release[remote]  # Create tag v1.0.0 and build and push kappamaki-1.0.0.gem to rubygems.org
-rake spec             # Run RSpec code examples
+rake spec             # Run RSpec code examples\
 ";
     let have = super::parse_task_list(give);
     let mut want = Tasks::new();
