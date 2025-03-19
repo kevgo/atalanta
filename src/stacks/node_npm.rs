@@ -8,7 +8,7 @@ use std::io::{BufReader, ErrorKind};
 use std::path::Path;
 use std::process::Command;
 
-pub(crate) struct NodeNpmStack {
+struct NodeNpmStack {
   tasks: Tasks,
 }
 

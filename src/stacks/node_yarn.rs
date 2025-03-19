@@ -5,7 +5,7 @@ use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
-pub(crate) struct NodeYarnStack {
+struct NodeYarnStack {
   tasks: Tasks,
 }
 

@@ -3,7 +3,7 @@ use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
-pub(crate) struct RustCargoStack {
+struct RustCargoStack {
   tasks: Tasks,
 }
 
