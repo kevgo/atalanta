@@ -10,11 +10,23 @@ use std::env;
 
 /// determines the existing stacks
 pub(crate) fn load() -> Stacks {
-  let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
-  makefile::scan(&mut result);
-  node_npm::scan(&mut result, &cwd);
-  node_yarn::scan(&mut result, &cwd);
-  rust_cargo::scan(&mut result);
+  let make_stack = makefile::scan();
+  let node_npm_stack = node_npm::scan(&cwd);
+  let node_yarn_stack = node_yarn::scan(&cwd);
+  let rust_stack = rust_cargo::scan();
+  let mut result = Stacks::new();
+  if let Some(stack) = make_stack {
+    result.push(Box::new(stack));
+  }
+  if let Some(stack) = node_npm_stack {
+    result.push(Box::new(stack));
+  }
+  if let Some(stack) = node_yarn_stack {
+    result.push(Box::new(stack));
+  }
+  if let Some(stack) = rust_stack {
+    result.push(Box::new(stack));
+  }
   result
 }

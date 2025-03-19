@@ -1,11 +1,11 @@
 use super::node_npm::{PackageJson, load_package_json};
-use crate::domain::{Stack, Stacks, Task, Tasks};
+use crate::domain::{Stack, Task, Tasks};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
-struct NodeYarnStack {
+pub(crate) struct NodeYarnStack {
   tasks: Tasks,
 }
 
@@ -31,21 +31,18 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub(crate) fn scan(stacks: &mut Stacks, mut dir: &Path) {
-  let Some(package_json) = load_package_json() else {
-    return;
-  };
+pub(crate) fn scan(mut dir: &Path) -> Option<NodeYarnStack> {
+  let package_json = load_package_json()?;
   loop {
     let yarn_lock = dir.join("yarn.lock");
     if yarn_lock.exists() {
-      stacks.push(Box::new(NodeYarnStack {
+      return Some(NodeYarnStack {
         tasks: parse_scripts(package_json),
-      }));
-      return;
+      });
     }
     match dir.parent() {
       Some(parent) => dir = parent,
-      None => return,
+      None => return None,
     }
   }
 }

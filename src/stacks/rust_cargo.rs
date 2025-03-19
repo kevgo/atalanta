@@ -1,9 +1,9 @@
-use crate::domain::{Stack, Stacks, Tasks};
+use crate::domain::{Stack, Tasks};
 use std::fmt::Display;
 use std::path::Path;
 use std::process::Command;
 
-struct RustCargoStack {
+pub(crate) struct RustCargoStack {
   tasks: Tasks,
 }
 
@@ -29,10 +29,11 @@ impl Stack for RustCargoStack {
   }
 }
 
-pub(crate) fn scan(stacks: &mut Stacks) {
+pub(crate) fn scan() -> Option<RustCargoStack> {
   if Path::new("Cargo.toml").exists() {
-    stacks.push(Box::new(RustCargoStack {
+    return Some(RustCargoStack {
       tasks: Tasks::new(),
-    }));
+    });
   }
+  None
 }

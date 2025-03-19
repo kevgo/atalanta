@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Stacks, Task, Tasks};
+use crate::domain::{Stack, Task, Tasks};
 use big_s::S;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -8,7 +8,7 @@ use std::io::{BufReader, ErrorKind};
 use std::path::Path;
 use std::process::Command;
 
-struct NodeNpmStack {
+pub(crate) struct NodeNpmStack {
   tasks: Tasks,
 }
 
@@ -39,24 +39,21 @@ pub(crate) struct PackageJson {
   pub(crate) scripts: Option<HashMap<String, String>>,
 }
 
-pub(crate) fn scan(stacks: &mut Stacks, mut dir: &Path) {
+pub(crate) fn scan(mut dir: &Path) -> Option<NodeNpmStack> {
   if !Path::new("package.json").exists() {
-    return;
+    return None;
   }
-  let Some(package_json) = load_package_json() else {
-    return;
-  };
+  let package_json = load_package_json()?;
   loop {
     let lockfile = dir.join("package-lock.json");
     if lockfile.exists() {
-      stacks.push(Box::new(NodeNpmStack {
+      return Some(NodeNpmStack {
         tasks: parse_scripts(package_json),
-      }));
-      return;
+      });
     }
     match dir.parent() {
       Some(parent) => dir = parent,
-      None => return,
+      None => return None,
     }
   }
 }
