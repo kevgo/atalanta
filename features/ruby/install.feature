@@ -1,4 +1,4 @@
-Feature: cannot install Node apps
+Feature: cannot install Ruby apps
 
   Scenario Outline:
     Given a file "Rakefile" with content:
