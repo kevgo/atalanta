@@ -24,17 +24,6 @@ Feature: nested npm workspace
       """
     And a file "package-lock.json"
 
-  # Scenario: list available tasks
-  #   When executing "a" in the "tool" folder
-  #   Then it prints:
-  #     """
-  #     Node.JS (npm)
-
-  #       failing
-  #       task-1
-  #       task-2
-  #     """
-
   Scenario: run a task
     When executing "../../../target/debug/a task-1" in the "tool" folder
     Then it prints:
