@@ -2,7 +2,7 @@ Feature: cannot install Makefiles
 
   @this
   Scenario Outline:
-    Given I work on the "Makefile" project
+    Given I work on the "make" project
     When executing "a <FLAG>"
     Then it prints:
       """
