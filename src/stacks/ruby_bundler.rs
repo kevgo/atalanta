@@ -1,6 +1,6 @@
-use crate::domain::{Stack, Stacks, Tasks};
+use crate::domain::{Stack, Stacks, Task, Tasks};
+use big_s::S;
 use std::fmt::Display;
-use std::io;
 use std::path::Path;
 use std::process::Command;
 
@@ -46,7 +46,26 @@ fn determine_tasks() -> String {
 }
 
 fn parse_task_list(list: &str) -> Tasks {
-  Tasks::new()
+  let mut result = Tasks::new();
+  for line in list.lines() {
+    if line.is_empty() {
+      continue;
+    }
+    let Some((name, desc)) = line.split_once('#') else {
+      continue;
+    };
+    if !name.starts_with("rake ") {
+      continue;
+    }
+    let name = name[5..].trim();
+    result.push(Task {
+      name: name.to_string(),
+      cmd: S("bundle"),
+      argv: vec![S("exec"), S("rake"), name.to_string()],
+      desc: desc.trim().to_string(),
+    });
+  }
+  result
 }
 
 #[cfg(test)]
