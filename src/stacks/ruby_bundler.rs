@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Stacks, Task, Tasks};
+use crate::domain::{Stack, Task, Tasks};
 use big_s::S;
 use std::fmt::Display;
 use std::path::Path;
@@ -30,12 +30,13 @@ impl Stack for RubyBundlerStack {
   }
 }
 
-pub(crate) fn scan(stacks: &mut Stacks) {
+pub(crate) fn scan() -> Option<Box<dyn Stack>> {
   if Path::new("Gemfile").exists() && Path::new("Rakefile").exists() {
-    stacks.push(Box::new(RubyBundlerStack {
+    return Some(Box::new(RubyBundlerStack {
       tasks: parse_task_list(&load_tasks()),
     }));
   }
+  None
 }
 
 fn load_tasks() -> String {
