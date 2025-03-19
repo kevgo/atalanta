@@ -1,4 +1,4 @@
-use crate::domain::{Stack, Stacks, Task, Tasks};
+use crate::domain::{Stack, Task, Tasks};
 use big_s::S;
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -31,20 +31,20 @@ impl Stack for MakefileStack {
   }
 }
 
-pub(crate) fn scan(stacks: &mut Stacks) {
+pub(crate) fn scan() -> Option<Box<dyn Stack>> {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
     Err(e) => match e.kind() {
-      ErrorKind::NotFound => return,
+      ErrorKind::NotFound => return None,
       e => {
         println!("Warning: Cannot read file \"Makefile\": {e}");
-        return;
+        return None;
       }
     },
   };
-  stacks.push(Box::new(MakefileStack {
+  Some(Box::new(MakefileStack {
     tasks: parse_text(&text),
-  }));
+  }))
 }
 
 /// provides the tasks in the given Makefile content
