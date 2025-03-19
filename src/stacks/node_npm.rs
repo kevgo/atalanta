@@ -39,7 +39,7 @@ pub(crate) struct PackageJson {
   pub(crate) scripts: Option<HashMap<String, String>>,
 }
 
-pub(crate) fn scan(mut dir: &Path) -> Option<NodeNpmStack> {
+pub(crate) fn scan(mut dir: &Path) -> Option<Box<dyn Stack>> {
   if !Path::new("package.json").exists() {
     return None;
   }
@@ -47,9 +47,9 @@ pub(crate) fn scan(mut dir: &Path) -> Option<NodeNpmStack> {
   loop {
     let lockfile = dir.join("package-lock.json");
     if lockfile.exists() {
-      return Some(NodeNpmStack {
+      return Some(Box::new(NodeNpmStack {
         tasks: parse_scripts(package_json),
-      });
+      }));
     }
     match dir.parent() {
       Some(parent) => dir = parent,

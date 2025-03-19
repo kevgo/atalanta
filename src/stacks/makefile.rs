@@ -7,7 +7,7 @@ use std::fs;
 use std::io::ErrorKind;
 use std::process::Command;
 
-pub(crate) struct MakefileStack {
+struct MakefileStack {
   tasks: Tasks,
 }
 
@@ -31,7 +31,7 @@ impl Stack for MakefileStack {
   }
 }
 
-pub(crate) fn scan() -> Option<MakefileStack> {
+pub(crate) fn scan() -> Option<Box<dyn Stack>> {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
     Err(e) => match e.kind() {
@@ -42,9 +42,9 @@ pub(crate) fn scan() -> Option<MakefileStack> {
       }
     },
   };
-  Some(MakefileStack {
+  Some(Box::new(MakefileStack {
     tasks: parse_text(&text),
-  })
+  }))
 }
 
 /// provides the tasks in the given Makefile content

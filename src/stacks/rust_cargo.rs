@@ -29,11 +29,11 @@ impl Stack for RustCargoStack {
   }
 }
 
-pub(crate) fn scan() -> Option<RustCargoStack> {
+pub(crate) fn scan() -> Option<Box<dyn Stack>> {
   if Path::new("Cargo.toml").exists() {
-    return Some(RustCargoStack {
+    return Some(Box::new(RustCargoStack {
       tasks: Tasks::new(),
-    });
+    }));
   }
   None
 }

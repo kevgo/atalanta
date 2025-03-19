@@ -31,14 +31,14 @@ impl Stack for NodeYarnStack {
   }
 }
 
-pub(crate) fn scan(mut dir: &Path) -> Option<NodeYarnStack> {
+pub(crate) fn scan(mut dir: &Path) -> Option<Box<dyn Stack>> {
   let package_json = load_package_json()?;
   loop {
     let yarn_lock = dir.join("yarn.lock");
     if yarn_lock.exists() {
-      return Some(NodeYarnStack {
+      return Some(Box::new(NodeYarnStack {
         tasks: parse_scripts(package_json),
-      });
+      }));
     }
     match dir.parent() {
       Some(parent) => dir = parent,

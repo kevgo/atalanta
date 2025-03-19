@@ -22,14 +22,6 @@ pub(crate) trait Stack: Display {
 pub(crate) struct Stacks(Vec<Box<dyn Stack>>);
 
 impl Stacks {
-  pub(crate) fn new() -> Self {
-    Self(vec![])
-  }
-
-  pub(crate) fn push(&mut self, stack: Box<dyn Stack>) {
-    self.0.push(stack);
-  }
-
   /// provides all the tasks from all stacks that match the given task name
   pub(crate) fn tasks_fuzzy_matching_name(&self, name: &str) -> Vec<&Task> {
     let matcher = SkimMatcherV2::default();
@@ -43,6 +35,12 @@ impl Stacks {
     }
     search_results.sort();
     search_results.into_iter().map(|sr| sr.task).collect()
+  }
+}
+
+impl From<Vec<Box<dyn Stack>>> for Stacks {
+  fn from(value: Vec<Box<dyn Stack>>) -> Self {
+    Stacks(value)
   }
 }
 
