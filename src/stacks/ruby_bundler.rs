@@ -33,12 +33,12 @@ impl Stack for RubyBundlerStack {
 pub(crate) fn scan(stacks: &mut Stacks) {
   if Path::new("Gemfile").exists() && Path::new("Rakefile").exists() {
     stacks.push(Box::new(RubyBundlerStack {
-      tasks: parse_task_list(&determine_tasks()),
+      tasks: parse_task_list(&load_tasks()),
     }));
   }
 }
 
-fn determine_tasks() -> String {
+fn load_tasks() -> String {
   let mut cmd = Command::new("rake");
   cmd.arg("--tasks");
   let output = cmd.output().unwrap();
@@ -57,11 +57,11 @@ fn parse_task_list(list: &str) -> Tasks {
     if !name.starts_with("rake ") {
       continue;
     }
-    let name = name[5..].trim();
+    let name = name[5..].trim().to_string();
     result.push(Task {
-      name: name.to_string(),
+      name: name.clone(),
       cmd: S("bundle"),
-      argv: vec![S("exec"), S("rake"), name.to_string()],
+      argv: vec![S("exec"), S("rake"), name],
       desc: desc.trim().to_string(),
     });
   }
