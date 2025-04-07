@@ -1,11 +1,11 @@
 use crate::domain::{Stack, Task, Tasks};
 use big_s::S;
-use once_cell::sync::Lazy;
 use regex::Regex;
 use std::fmt::Display;
 use std::fs;
 use std::io::ErrorKind;
 use std::process::Command;
+use std::sync::LazyLock;
 
 struct MakefileStack {
   tasks: Tasks,
@@ -73,8 +73,8 @@ fn parse_line(line: &str) -> Option<Task> {
     desc,
   })
 }
-static RE: Lazy<Regex> =
-  Lazy::new(|| Regex::new(r"^([[[:alnum:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?").unwrap());
+static RE: LazyLock<Regex> =
+  LazyLock::new(|| Regex::new(r"^([[[:alnum:]]-]+):([^#]*)?(#[[:blank:]]*(.*))?").unwrap());
 
 #[cfg(test)]
 mod tests {
