@@ -8,17 +8,17 @@ pub(crate) fn install(stacks: Stacks) -> Outcome {
       continue;
     };
     executed = true;
-    let output = match cmd.output() {
-      Ok(output) => output,
+    let status = match cmd.status() {
+      Ok(status) => status,
       Err(e) => return Outcome::CannotFindExecutable { err: e.to_string() },
     };
-    if let Some(exit_code) = output.status.code() {
+    if let Some(exit_code) = status.code() {
       if exit_code != 0 {
         return Outcome::ScriptFailed {
           exit_code: cli::exit_status_to_code(exit_code),
         };
       }
-    };
+    }
   }
   if executed {
     Outcome::Success
