@@ -35,6 +35,7 @@ run:  # runs in the local directory
 	cargo run --quiet
 
 setup:  # install development dependencies on this computer
+	rustup component add clippy
 	rustup toolchain add nightly
 	rustup component add rustfmt --toolchain nightly
 	cargo install cargo-machete --locked
