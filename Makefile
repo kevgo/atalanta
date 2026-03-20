@@ -1,5 +1,5 @@
 # dev tooling and versions
-RUN_THAT_APP_VERSION = 0.11.0
+RUN_THAT_APP_VERSION = 0.30.0
 
 build:  # builds the codebase
 	cargo build
