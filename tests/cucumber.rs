@@ -114,11 +114,11 @@ async fn executing(world: &mut RunWorld, command: String) {
 #[when(expr = "executing {string} and pressing the keys:")]
 async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
-  if cmd == "a" {
-    cmd = "../../target/debug/a";
+  let mut executable = args.next().unwrap();
+  if executable == "a" {
+    executable = "../../target/debug/a";
   }
-  let mut command = Command::new(cmd)
+  let mut command = Command::new(executable)
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -139,7 +139,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     command
       .wait_with_output()
       .await
-      .expect(&format!("cannot find the '{cmd}' executable")),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
