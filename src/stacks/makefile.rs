@@ -34,13 +34,11 @@ impl Stack for MakefileStack {
 pub(crate) fn scan() -> Option<Box<dyn Stack>> {
   let text = match fs::read_to_string("Makefile") {
     Ok(text) => text,
-    Err(e) => match e.kind() {
-      ErrorKind::NotFound => return None,
-      e => {
-        println!("Warning: Cannot read file \"Makefile\": {e}");
-        return None;
-      }
-    },
+    Err(e) if e.kind() == ErrorKind::NotFound => return None,
+    Err(e) => {
+      println!("Warning: Cannot read file \"Makefile\": {e}");
+      return None;
+    }
   };
   Some(Box::new(MakefileStack {
     tasks: parse_text(&text),
