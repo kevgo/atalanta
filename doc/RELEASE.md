@@ -6,6 +6,3 @@
    ```
    git tag v0.0.1 && git push --tags
    ```
-
-3. verify that the release notes match CHANGELOG.md
-4. publish the release
