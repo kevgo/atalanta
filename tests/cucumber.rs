@@ -118,7 +118,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   if cmd == "a" {
     cmd = "../../target/debug/a";
   }
-  let mut cmd = Command::new(cmd)
+  let mut command = Command::new(cmd)
     .args(args)
     .current_dir(&world.dir)
     .stdin(Stdio::piped())
@@ -130,16 +130,16 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
   // This code works with normal subshell commands like "cat", but not with the atalanta executable.
   // The Atalanta executable ignores all input it receives programmatically via STDIN, and always reads the physical keyboard.
   // Maybe Atalanta's terminal library (crossterm) performs low-level API calls to the OS to read keyboard input?
-  if let Some(mut stdin) = cmd.stdin.take() {
+  if let Some(mut stdin) = command.stdin.take() {
     stdin.write_all(b"j\n").await.unwrap();
     stdin.flush().await.unwrap();
     stdin.shutdown().await.unwrap();
   }
   world.output = Some(
-    cmd
+    command
       .wait_with_output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{cmd}' executable")),
   );
 }
 
