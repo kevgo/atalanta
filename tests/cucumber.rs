@@ -112,8 +112,8 @@ async fn executing(world: &mut RunWorld, command: String) {
 }
 
 #[when(expr = "executing {string} and pressing the keys:")]
-async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
-  let mut args = command.split_ascii_whitespace();
+async fn executing_and_pressing_keys(world: &mut RunWorld, expr: String) {
+  let mut args = expr.split_ascii_whitespace();
   let mut executable = args.next().unwrap();
   if executable == "a" {
     executable = "../../target/debug/a";
