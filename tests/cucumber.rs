@@ -40,7 +40,7 @@ impl RunWorld {
   }
 
   /// provides the textual output of the Atlanta run
-  fn output(&self) -> Cow<str> {
+  fn output(&self) -> Cow<'_, str> {
     match &self.output {
       Some(output) => String::from_utf8_lossy(&output.stdout),
       None => Default::default(),

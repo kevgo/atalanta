@@ -3,18 +3,22 @@
 mod makefile;
 mod node_npm;
 mod node_yarn;
+mod ruby_bundler;
 mod rust_cargo;
 
-use crate::domain::Stacks;
+use crate::domain::{Stack, Stacks};
 use std::env;
 
 /// determines the existing stacks
 pub(crate) fn load() -> Stacks {
-  let mut result = Stacks::new();
   let cwd = env::current_dir().unwrap();
-  makefile::scan(&mut result);
-  node_npm::scan(&mut result, &cwd);
-  node_yarn::scan(&mut result, &cwd);
-  rust_cargo::scan(&mut result);
-  result
+  let stacks = vec![
+    makefile::scan(),
+    node_npm::scan(&cwd),
+    node_yarn::scan(&cwd),
+    ruby_bundler::scan(),
+    rust_cargo::scan(),
+  ];
+  let stacks: Vec<Box<dyn Stack>> = stacks.into_iter().flatten().collect();
+  Stacks::from(stacks)
 }

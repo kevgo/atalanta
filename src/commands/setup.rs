@@ -24,7 +24,7 @@ pub(crate) fn setup(stacks: Stacks) -> Outcome {
           exit_code: cli::exit_status_to_code(exit_code),
         };
       }
-    };
+    }
   }
   if executed {
     Outcome::Success
