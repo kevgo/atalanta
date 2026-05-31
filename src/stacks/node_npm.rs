@@ -73,7 +73,7 @@ pub(crate) fn load_package_json() -> Option<PackageJson> {
   match serde_json::from_reader(reader) {
     Ok(content) => Some(content),
     Err(e) => {
-      println!("Warning: file \"package.json\" has an invalid structure: {e}",);
+      println!("Warning: file \"package.json\" has an invalid structure: {e}");
       None
     }
   }
