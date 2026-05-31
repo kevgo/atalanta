@@ -57,7 +57,7 @@ update: ${RTA}  # updates all dependencies
 
 ${RTA}:
 	@rm -f tools/rta*
-	@(cd tools && curl https://raw.githubusercontent.com/kevgo/run-that-app/main/download.sh | sh -s -- --version ${RUN_THAT_APP_VERSION} --name ${RTA})
+	@(cd tools && curl https://raw.githubusercontent.com/kevgo/run-that-app/main/download.sh | sh -s -- --version ${RUN_THAT_APP_VERSION} --name rta@${RUN_THAT_APP_VERSION})
 
 .SILENT:
 .DEFAULT_GOAL := help
