@@ -27,7 +27,7 @@ Currently supported stacks:
 Install [Rust](https://www.rust-lang.org) via [RustUp](https://rustup.rs).
 Then install Atalanta:
 
-```text
+```sh
 cargo install https://github.com/kevgo/atalanta
 ```
 
@@ -37,7 +37,7 @@ Please add it to your `$PATH`.
 To set up the auto-completions for [Fish shell](https://fishshell.com),
 add this to `~/.config/fish/config.fish`:
 
-```text
+```sh
 if test -f ~/.cargo/bin/a
   ~/.cargo/bin/a --print-fish-completions | source
 end
@@ -49,26 +49,26 @@ Use Atalanta inside a directory containing code.
 Running it without any parameters shows all recognized software stacks
 and available tasks for them:
 
-```text
+```sh
 a
 ```
 
 Use the `--setup` or `-s` command to install dependencies for your codebase:
 
-```text
+```sh
 a -s
 ```
 
 If your codebase contains a file `package.json` that defines a `test` script,
 you no longer have to run `npm run test` but can do this now:
 
-```text
+```sh
 a test
 ```
 
 You can abbreviate task names as long as they uniquely match a task.
 To run the test script again:
 
-```text
+```sh
 a t
 ```
