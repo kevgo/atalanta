@@ -2,6 +2,7 @@ RUN_THAT_APP_VERSION = 0.37.0
 
 RTA        = tools/rta@$(RUN_THAT_APP_VERSION)
 ACTIONLINT = $(RTA) actionlint
+RUMDL      = $(RTA) rumdl
 DPRINT     = $(RTA) dprint
 
 build:  # builds the codebase
@@ -20,6 +21,7 @@ fix: ${RTA}  # applies all auto-fixers
 	cargo clippy --fix --allow-dirty
 	cargo +nightly fmt
 	${DPRINT} fmt
+	$(RUMDL) format
 
 help:  # shows all available Make commands
 	cat Makefile | grep '^[^ ]*:' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -30,6 +32,7 @@ install:  # installs the binary on the current machine
 lint: ${RTA}  # finds code smells
 	git diff --check
 	${DPRINT} check
+	$(RUMDL) check
 	cargo clippy --all-targets --all-features -- --deny=warnings
 	${ACTIONLINT}
 	cargo machete
