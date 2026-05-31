@@ -1,11 +1,11 @@
 # Atalanta development guidelines
 
-### set up development machine
+### Set up development machine
 
 To run the end-to-end tests you need the tools that these tests call installed,
 e.g. `node`, `npm`, `cargo`, etc.
 
-### run tests
+### Run tests
 
 Run a single end-to-end test:
 
@@ -15,4 +15,5 @@ Run a single end-to-end test:
   @this
   Scenario: foo
   ```
+
 - run `make cukethis`
