@@ -21,7 +21,7 @@ fix: ${RTA}  # applies all auto-fixers
 	cargo clippy --fix --allow-dirty
 	cargo +nightly fmt
 	${DPRINT} fmt
-	$(RUMDL) format
+	$(RUMDL) fmt
 
 help:  # shows all available Make commands
 	cat Makefile | grep '^[^ ]*:' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
