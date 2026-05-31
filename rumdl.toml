@@ -37,8 +37,9 @@ tables = false # Exclude tables from line length check
 # Proper names that should be capitalized correctly
 [MD044]
 names = [
+
+
   # keep-sorted start
-  "Atalanta",
   # keep-sorted end
 ]
 code-blocks = false
@@ -53,8 +54,7 @@ style = "aligned"
 [MD063]
 style = "sentence-case"
 ignore-words = [
-
-
   # keep-sorted start
+  "Atalanta",
   # keep-sorted end
 ]
