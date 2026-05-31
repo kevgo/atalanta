@@ -20,7 +20,7 @@ fix: ${RTA}  # applies all auto-fixers
 	cargo +nightly fix --allow-dirty
 	cargo clippy --fix --allow-dirty
 	cargo +nightly fmt
-	${DPRINT} fmt
+	$(DPRINT) fmt
 	$(RUMDL) fmt
 
 help:  # shows all available Make commands
@@ -31,10 +31,10 @@ install:  # installs the binary on the current machine
 
 lint: ${RTA}  # finds code smells
 	git diff --check
-	${DPRINT} check
+	$(DPRINT) check
 	$(RUMDL) check
 	cargo clippy --all-targets --all-features -- --deny=warnings
-	${ACTIONLINT}
+	$(ACTIONLINT)
 	cargo machete
 
 run:  # runs in the local directory
@@ -54,14 +54,14 @@ unit:  # runs the unit tests
 update: ${RTA}  # updates all dependencies
 	cargo install cargo-edit
 	cargo upgrade --incompatible
-	${RTA} --update
+	$(RTA) --update
 
 # --- HELPER TARGETS --------------------------------------------------------------------------------------------------------------------------------
 
 ${RTA}:
 	@rm -f tools/rta*
 	@(cd tools && curl https://raw.githubusercontent.com/kevgo/run-that-app/main/download.sh | sh -s -- --version ${RUN_THAT_APP_VERSION} --name rta@${RUN_THAT_APP_VERSION})
-	@ln -s rta@${RUN_THAT_APP_VERSION} tools/rta
+	@ln -s rta@$(RUN_THAT_APP_VERSION) tools/rta
 
 .SILENT:
 .DEFAULT_GOAL := help
