@@ -80,7 +80,10 @@ async fn a_folder(world: &mut RunWorld, name: String) -> io::Result<()> {
 }
 
 #[then(expr = "a globally installed Rust executable {string} exists")]
-async fn global_rust_executable_exists(_world: &mut RunWorld, name: String) {
+async fn global_rust_executable_exists(_world: &mut RunWorld, mut name: String) {
+  if env::consts::OS == "windows" {
+    name = format!("{name}.exe");
+  }
   let executable_path = home::cargo_home().unwrap().join("bin").join(name);
   let metadata = fs::metadata(&executable_path).await.unwrap();
   assert!(metadata.is_file());
@@ -97,26 +100,52 @@ async fn a_makefile(world: &mut RunWorld, step: &Step) -> io::Result<()> {
 #[when(expr = "executing {string}")]
 async fn executing(world: &mut RunWorld, command: String) {
   let mut args = command.split_ascii_whitespace();
-  let mut cmd = args.next().unwrap();
-  if cmd == "a" {
-    cmd = "../../target/debug/a";
+  let mut executable = args.next().unwrap();
+  let mut _string = String::new();
+  if executable == "a" {
+    executable = "../../target/debug/a";
+    if env::consts::OS == "windows" {
+      _string = format!("{executable}.exe");
+      executable = &_string;
+    }
+    _string = world
+      .dir
+      .join(executable)
+      .canonicalize()
+      .unwrap()
+      .to_string_lossy()
+      .to_string();
+    executable = &_string;
   }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(executable)
       .args(args)
       .current_dir(&world.dir)
       .output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
 #[when(expr = "executing {string} and pressing the keys:")]
-async fn executing_and_pressing_keys(world: &mut RunWorld, expr: String) {
-  let mut args = expr.split_ascii_whitespace();
+async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
+  let mut args = command.split_ascii_whitespace();
   let mut executable = args.next().unwrap();
+  let mut _string = String::new();
   if executable == "a" {
     executable = "../../target/debug/a";
+    if env::consts::OS == "windows" {
+      _string = format!("{executable}.exe");
+      executable = &_string;
+    }
+    _string = world
+      .dir
+      .join(executable)
+      .canonicalize()
+      .unwrap()
+      .to_string_lossy()
+      .to_string();
+    executable = &_string;
   }
   let mut command = Command::new(executable)
     .args(args)
@@ -146,14 +175,30 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, expr: String) {
 #[when(expr = "executing {string} in the {string} folder")]
 async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
   let mut args = command.split_ascii_whitespace();
-  let cmd = args.next().unwrap();
+  let mut executable = args.next().unwrap();
+  let mut _string = String::new();
+  if executable.ends_with("/a") {
+    if env::consts::OS == "windows" {
+      _string = format!("{executable}.exe");
+      executable = &_string;
+    }
+    _string = world
+      .dir
+      .join(&folder)
+      .join(executable)
+      .canonicalize()
+      .expect(&format!("cannot find the '{executable}' executable"))
+      .to_string_lossy()
+      .to_string();
+    executable = &_string;
+  }
   world.output = Some(
-    Command::new(cmd)
+    Command::new(executable)
       .args(args)
       .current_dir(&world.dir.join(folder))
       .output()
       .await
-      .expect("cannot find the 'a' executable"),
+      .expect(&format!("cannot find the '{executable}' executable")),
   );
 }
 
