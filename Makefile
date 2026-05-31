@@ -1,5 +1,8 @@
-# dev tooling and versions
-RUN_THAT_APP_VERSION = 0.30.0
+RUN_THAT_APP_VERSION = 0.37.0
+
+RTA        = tools/rta@$(RUN_THAT_APP_VERSION)
+ACTIONLINT = $(RTA) actionlint
+DPRINT     = $(RTA) dprint
 
 build:  # builds the codebase
 	cargo build
@@ -12,11 +15,11 @@ cukethis: build  # runs only end-to-end tests with a @this tag
 	rm -rf tmp
 	cargo test --test cucumber -- -t @this
 
-fix: tools/rta@${RUN_THAT_APP_VERSION}  # applies all auto-fixers
+fix: ${RTA}  # applies all auto-fixers
 	cargo +nightly fix --allow-dirty
 	cargo clippy --fix --allow-dirty
 	cargo +nightly fmt
-	tools/rta dprint fmt
+	${DPRINT} fmt
 
 help:  # shows all available Make commands
 	cat Makefile | grep '^[^ ]*:' | grep -v '.SILENT:' | grep -v help | sed 's/:.*#/#/' | column -s "#" -t
@@ -24,11 +27,11 @@ help:  # shows all available Make commands
 install:  # installs the binary on the current machine
 	cargo install --path .
 
-lint: tools/rta@${RUN_THAT_APP_VERSION}  # finds code smells
+lint: ${RTA}  # finds code smells
 	git diff --check
-	tools/rta dprint check
+	${DPRINT} check
 	cargo clippy --all-targets --all-features -- --deny=warnings
-	tools/rta actionlint
+	${ACTIONLINT}
 	cargo machete
 
 run:  # runs in the local directory
@@ -45,18 +48,17 @@ test: unit cuke lint  # run all tests
 unit:  # runs the unit tests
 	cargo test
 
-update: tools/rta@${RUN_THAT_APP_VERSION}  # updates all dependencies
+update: ${RTA}  # updates all dependencies
 	cargo install cargo-edit
 	cargo upgrade --incompatible
-	tools/rta --update
+	${RTA} --update
 
 # --- HELPER TARGETS --------------------------------------------------------------------------------------------------------------------------------
 
-tools/rta@${RUN_THAT_APP_VERSION}:
-	@rm -f tools/rta* tools/rta
-	@(cd tools && curl https://raw.githubusercontent.com/kevgo/run-that-app/main/download.sh | sh)
-	@mv tools/rta tools/rta@${RUN_THAT_APP_VERSION}
-	@ln -s rta@${RUN_THAT_APP_VERSION} tools/rta
+${RTA}:
+	@rm -f tools/rta*
+	@(cd tools && curl https://raw.githubusercontent.com/kevgo/run-that-app/main/download.sh | sh -s -- --version ${RUN_THAT_APP_VERSION} --name ${RTA}
+	@ln -s ${RTA} tools/rta
 
 .SILENT:
 .DEFAULT_GOAL := help
