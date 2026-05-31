@@ -54,6 +54,8 @@ style = "aligned"
 [MD063]
 style = "sentence-case"
 ignore-words = [
+
+
   # keep-sorted start
   # keep-sorted end
 ]
