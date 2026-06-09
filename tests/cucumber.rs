@@ -182,7 +182,7 @@ fn output_contains(world: &mut RunWorld, text: String) {
 
 #[then(expr = "the workspace contains a folder {string}")]
 fn contains_folder(world: &mut RunWorld, folder: String) {
-  assert!(world.dir.join(folder).is_dir())
+  assert!(world.dir.join(folder).is_dir());
 }
 
 /// creates a temporary directory
@@ -197,7 +197,7 @@ fn tmp_dir() -> PathBuf {
     .map(char::from)
     .collect();
   let cwd = env::current_dir().expect("cannot determine the current directory");
-  let dir = cwd.join("tmp").join(format!("{}-{}", timestamp, rand));
+  let dir = cwd.join("tmp").join(format!("{timestamp}-{rand}"));
   std::fs::create_dir_all(&dir).unwrap();
   dir
 }
