@@ -134,7 +134,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, expr: String) {
     command
       .wait_with_output()
       .await
-      .expect(&format!("cannot find the '{executable}' executable")),
+      .unwrap_or_else(|_| panic!("cannot find the '{executable}' executable")),
   );
 }
 
