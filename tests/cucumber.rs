@@ -154,7 +154,7 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
 
 #[given(expr = "executing {string} in the {string} folder")]
 async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
-  when_executing_in_folder(world, command, folder).await
+  when_executing_in_folder(world, command, folder).await;
 }
 
 #[then("it prints:")]
@@ -171,6 +171,7 @@ fn exit_code(world: &mut RunWorld, want: i32) {
 }
 
 #[then(expr = "the output contains {string}")]
+#[allow(clippy::needless_pass_by_value)]
 fn output_contains(world: &mut RunWorld, text: String) {
   let output = str::from_utf8(&world.output.as_ref().unwrap().stdout).unwrap();
   if !output.contains(&text) {
