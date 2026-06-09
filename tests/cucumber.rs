@@ -211,9 +211,9 @@ async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()
 fn convert_to_makefile_format(text: &str) -> String {
   let mut result = String::new();
   for line in text.lines() {
-    if line.starts_with("  ") {
+    if let Some(stripped) = line.strip_prefix("  ") {
       result.push('\t');
-      result.push_str(&line[2..]);
+      result.push_str(stripped);
       result.push('\n');
     } else {
       result.push_str(line);
