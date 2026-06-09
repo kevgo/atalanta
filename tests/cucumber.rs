@@ -145,7 +145,7 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
   world.output = Some(
     Command::new(cmd)
       .args(args)
-      .current_dir(&world.dir.join(folder))
+      .current_dir(world.dir.join(folder))
       .output()
       .await
       .expect("cannot find the 'a' executable"),
