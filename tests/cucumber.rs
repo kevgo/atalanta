@@ -49,12 +49,7 @@ impl RunWorld {
 
   /// provides the textual output of the Atlanta run with whitespace trimmed from every line
   fn output_trimmed(&self) -> String {
-    self
-      .output()
-      .trim()
-      .lines()
-      .map(|line| line.trim_end())
-      .join("\n")
+    self.output().trim().lines().map(str::trim_end).join("\n")
   }
 }
 
