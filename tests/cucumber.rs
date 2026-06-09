@@ -174,9 +174,10 @@ fn exit_code(world: &mut RunWorld, want: i32) {
 #[allow(clippy::needless_pass_by_value)]
 fn output_contains(world: &mut RunWorld, text: String) {
   let output = str::from_utf8(&world.output.as_ref().unwrap().stdout).unwrap();
-  if !output.contains(&text) {
-    panic!("output does not contain '{text}':\n{output}");
-  }
+  assert!(
+    output.contains(&text),
+    "output does not contain '{text}':\n{output}"
+  );
 }
 
 #[then(expr = "the workspace contains a folder {string}")]
