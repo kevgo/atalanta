@@ -17,13 +17,13 @@ impl Display for JavaMavenStack {
 impl Stack for JavaMavenStack {
   fn setup(&self) -> Option<Command> {
     let mut cmd = Command::new("mvn");
-    cmd.args(vec!["dependency:go-offline"]);
+    cmd.arg("dependency:go-offline");
     Some(cmd)
   }
 
   fn install(&self) -> Option<Command> {
     let mut cmd = Command::new("mvn");
-    cmd.args(vec!["install"]);
+    cmd.arg("install");
     Some(cmd)
   }
 
