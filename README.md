@@ -54,14 +54,7 @@ and available tasks for them:
 a
 ```
 
-Use the `--setup` or `-s` command to install dependencies for your codebase:
-
-```sh
-a -s
-```
-
-If your codebase contains a file `package.json` that defines a `test` script,
-you no longer have to run `npm run test` but can do this now:
+To run a specific task, provide it's name:
 
 ```sh
 a test
@@ -72,4 +65,16 @@ To run the test script again:
 
 ```sh
 a t
+```
+
+Use the `--setup` or `-s` command to install dependencies for your codebase:
+
+```sh
+a -s
+```
+
+Use the `--install` or `-i` command to install the executable of your codebase:
+
+```sh
+a -i
 ```
