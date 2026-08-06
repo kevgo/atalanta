@@ -48,7 +48,6 @@ fn tasks() -> Tasks {
     ("test", "run unit tests"),
     ("package", "bundle into JAR/WAR"),
     ("verify", "run integration tests & checks"),
-    ("install", "put the artifact in your local .m2 repo"),
   ] {
     result.push(Task {
       name: S(name),
@@ -98,12 +97,6 @@ mod tests {
       cmd: S("mvn"),
       argv: vec![S("verify")],
       desc: S("run integration tests & checks"),
-    });
-    want.push(Task {
-      name: S("install"),
-      cmd: S("mvn"),
-      argv: vec![S("install")],
-      desc: S("put the artifact in your local .m2 repo"),
     });
     pretty::assert_eq!(have, want);
   }
