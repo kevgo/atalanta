@@ -1,5 +1,6 @@
 //! This module contains the various technology stacks that Atalanta can run.
 
+mod java_maven;
 mod makefile;
 mod node_npm;
 mod node_yarn;
@@ -13,6 +14,7 @@ use std::env;
 pub(crate) fn load() -> Stacks {
   let cwd = env::current_dir().unwrap();
   let stacks = vec![
+    java_maven::scan(),
     makefile::scan(),
     node_npm::scan(&cwd),
     node_yarn::scan(&cwd),

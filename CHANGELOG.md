@@ -1,5 +1,9 @@
 # Atalanta changelog
 
+## Unreleased
+
+- stacks: Java (Maven)
+
 ## v0.0.1
 
 - stacks: Node.js (npm), Node.js (yarn), Ruby, Rust (Cargo)
