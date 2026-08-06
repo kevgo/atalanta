@@ -1,10 +1,10 @@
 # Atalanta changelog
 
-## Unreleased
+## 0.0.2
 
-- stacks: Java (Maven)
+- stack: Java (Maven)
 
-## v0.0.1
+## 0.0.1
 
 - stacks: Node.js (npm), Node.js (yarn), Ruby, Rust (Cargo)
 - `--install` command to install codebase on the local machine
