@@ -34,6 +34,7 @@ lint: ${RTA}  # finds code smells
 	$(DPRINT) check
 	$(RUMDL) check
 	cargo clippy --all-targets --all-features -- --deny=warnings
+	cargo clippy --test=cucumber --all-features -- --deny=warnings
 	$(ACTIONLINT)
 	cargo machete
 

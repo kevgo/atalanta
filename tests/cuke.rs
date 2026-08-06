@@ -43,18 +43,13 @@ impl RunWorld {
   fn output(&self) -> Cow<'_, str> {
     match &self.output {
       Some(output) => String::from_utf8_lossy(&output.stdout),
-      None => Default::default(),
+      None => Cow::default(),
     }
   }
 
   /// provides the textual output of the Atlanta run with whitespace trimmed from every line
   fn output_trimmed(&self) -> String {
-    self
-      .output()
-      .trim()
-      .lines()
-      .map(|line| line.trim_end())
-      .join("\n")
+    self.output().trim().lines().map(str::trim_end).join("\n")
   }
 }
 
@@ -168,7 +163,7 @@ async fn executing_and_pressing_keys(world: &mut RunWorld, command: String) {
     command
       .wait_with_output()
       .await
-      .expect(&format!("cannot find the '{executable}' executable")),
+      .unwrap_or_else(|_| panic!("cannot find the '{executable}' executable")),
   );
 }
 
@@ -195,7 +190,7 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
   world.output = Some(
     Command::new(executable)
       .args(args)
-      .current_dir(&world.dir.join(folder))
+      .current_dir(world.dir.join(folder))
       .output()
       .await
       .expect(&format!("cannot find the '{executable}' executable")),
@@ -204,7 +199,7 @@ async fn when_executing_in_folder(world: &mut RunWorld, command: String, folder:
 
 #[given(expr = "executing {string} in the {string} folder")]
 async fn given_executing_in_folder(world: &mut RunWorld, command: String, folder: String) {
-  when_executing_in_folder(world, command, folder).await
+  when_executing_in_folder(world, command, folder).await;
 }
 
 #[then("it prints:")]
@@ -221,16 +216,18 @@ fn exit_code(world: &mut RunWorld, want: i32) {
 }
 
 #[then(expr = "the output contains {string}")]
+#[allow(clippy::needless_pass_by_value)]
 fn output_contains(world: &mut RunWorld, text: String) {
   let output = str::from_utf8(&world.output.as_ref().unwrap().stdout).unwrap();
-  if !output.contains(&text) {
-    panic!("output does not contain '{text}':\n{output}");
-  }
+  assert!(
+    output.contains(&text),
+    "output does not contain '{text}':\n{output}"
+  );
 }
 
 #[then(expr = "the workspace contains a folder {string}")]
 fn contains_folder(world: &mut RunWorld, folder: String) {
-  assert!(world.dir.join(folder).is_dir())
+  assert!(world.dir.join(folder).is_dir());
 }
 
 /// creates a temporary directory
@@ -245,7 +242,7 @@ fn tmp_dir() -> PathBuf {
     .map(char::from)
     .collect();
   let cwd = env::current_dir().expect("cannot determine the current directory");
-  let dir = cwd.join("tmp").join(format!("{}-{}", timestamp, rand));
+  let dir = cwd.join("tmp").join(format!("{timestamp}-{rand}"));
   std::fs::create_dir_all(&dir).unwrap();
   dir
 }
@@ -259,9 +256,9 @@ async fn create_file(filename: &str, content: &str, dir: &Path) -> io::Result<()
 fn convert_to_makefile_format(text: &str) -> String {
   let mut result = String::new();
   for line in text.lines() {
-    if line.starts_with("  ") {
+    if let Some(stripped) = line.strip_prefix("  ") {
       result.push('\t');
-      result.push_str(&line[2..]);
+      result.push_str(stripped);
       result.push('\n');
     } else {
       result.push_str(line);
