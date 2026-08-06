@@ -51,8 +51,7 @@ pub(crate) fn scan(mut dir: &Path) -> Option<Box<dyn Stack>> {
         tasks: parse_scripts(package_json),
       }));
     }
-    let parent = dir.parent()?;
-    dir = parent;
+    dir = dir.parent()?;
   }
 }
 
