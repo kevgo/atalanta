@@ -15,6 +15,7 @@ for you.
 
 Currently supported stacks:
 
+- [Java](https://www.java.com) using [Maven](https://maven.apache.org)
 - [Make](https://www.gnu.org/software/make)
 - [Node.js](https://nodejs.org) using [npm](https://github.com/npm/cli)
 - [Node.js](https://nodejs.org) using [yarn](https://yarnpkg.com)
